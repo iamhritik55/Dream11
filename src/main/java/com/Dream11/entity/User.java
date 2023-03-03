@@ -3,6 +3,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "User")
@@ -14,6 +16,6 @@ public class User{
     private int id;
     private String name;
     private int credits;
-    private ArrayList<Integer> chosenPlayerIdList;
+    private List<Integer> chosenPlayerIdList;
     private int teamPoints;
 }
