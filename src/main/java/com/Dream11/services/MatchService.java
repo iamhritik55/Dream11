@@ -1,11 +1,9 @@
 package com.Dream11.services;
 
-import com.Dream11.dto.MatchDetailsDTO;
 import com.Dream11.entity.MatchDetails;
 import com.Dream11.entity.Player;
 import com.Dream11.entity.Team;
-import com.Dream11.repository.MatchDetailsRepository;
-import com.Dream11.repository.TeamRepository;
+import com.Dream11.repo.MatchDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,7 @@ import java.util.List;
 @Service
 public class MatchService {
     @Autowired
-    MatchDetailsRepository matchDetailsRepository;
+    MatchDetailsRepo matchDetailsRepo;
     @Autowired
     TeamService teamService;
 
@@ -24,8 +22,8 @@ public class MatchService {
     public void startMatch(int matchId){
         //So I am fetch team1Id and team2Id from matchDetails
         MatchDetails matchDetails;
-        if(matchDetailsRepository.findById(matchId).isPresent()){
-            matchDetails = matchDetailsRepository.findById(matchId).get();
+        if(matchDetailsRepo.findById(matchId).isPresent()){
+            matchDetails = matchDetailsRepo.findById(matchId).get();
         }
         else{
             System.out.println("MatchID not found!");
