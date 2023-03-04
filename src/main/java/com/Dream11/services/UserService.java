@@ -20,4 +20,13 @@ public class UserService {
     public List<User> getUsers() {
         return userRepo.findAll();
     }
+    public void createUserTeam(int id, List<Integer> playerIds) throws Exception {
+        Optional<User> optionalUser = userRepo.findById(id);
+        if(optionalUser.isEmpty()){
+            throw new Exception("User with this id does not exist.");
+        }
+        User updateUser = optionalUser.get();
+        updateUser.setChosenPlayerIdList(playerIds);
+        userRepo.save(updateUser);
+    }
 }

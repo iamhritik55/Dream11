@@ -1,11 +1,11 @@
 package com.Dream11.controller;
-
 import com.Dream11.entity.User;
 import com.Dream11.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -26,6 +26,16 @@ public class UserAPI {
     @GetMapping("/")
     public ResponseEntity<Object> getUsers(){
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> createUserTeam(@PathVariable int id,@RequestBody List<Integer> playerIds){
+        try{
+            userService.createUserTeam(id, playerIds);
+            return new ResponseEntity<>("User updated",HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
