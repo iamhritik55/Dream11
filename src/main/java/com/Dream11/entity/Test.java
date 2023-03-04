@@ -1,19 +1,16 @@
 package com.Dream11.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-@Document(collection = "MatchDetails")
+
+@Document(collection = "Test")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchDetails {
+public class Test {
     @Id
-    private int matchId;
-    private int team1Id;
-    private int team2Id;
-    private int team1Score;
-    private int team2Score;
+    private int testId;
 }
-
