@@ -1,0 +1,21 @@
+package com.Dream11.utility;
+
+import com.Dream11.entity.PlayerTitle;
+
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class ResultOnBall {
+    SecureRandom secureRandom;
+    public int resultOnBall(PlayerTitle batsmanTitle, PlayerTitle bowlerTitle){
+        List<Integer> batsmanArray = Rating.playerBattingArray(batsmanTitle);
+        List<Integer> bowlerArray = Rating.playerBowlingArray(bowlerTitle);
+
+        List<Integer> combinedArray = Stream.concat(batsmanArray.stream(), bowlerArray.stream()).collect(Collectors.toList());
+
+        return combinedArray.get(secureRandom.nextInt(combinedArray.size()));
+    }
+}
