@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class PlayerService {
     @Autowired
-    PlayerRepo playerRepo;
+    private PlayerRepo playerRepo;
 
     public Player getPlayerFromId(int playerId) {
         if (playerRepo.findById(playerId).isPresent()) {

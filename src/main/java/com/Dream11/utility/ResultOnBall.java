@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ResultOnBall {
-    SecureRandom secureRandom;
-    public int resultOnBall(PlayerTitle batsmanTitle, PlayerTitle bowlerTitle){
+    static SecureRandom secureRandom = new SecureRandom();
+    public static int resultOnBall(PlayerTitle batsmanTitle, PlayerTitle bowlerTitle){
         List<Integer> batsmanArray = Rating.playerBattingArray(batsmanTitle);
         List<Integer> bowlerArray = Rating.playerBowlingArray(bowlerTitle);
 
