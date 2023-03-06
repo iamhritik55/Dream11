@@ -2,11 +2,9 @@ package com.Dream11.services;
 
 import com.Dream11.entity.MatchPlayerStats;
 import com.Dream11.repo.MatchPlayerStatsRepo;
-import com.Dream11.utility.CombinedId;
+import com.Dream11.utility.CombinedMatchPlayerId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MatchPlayerService {
@@ -16,8 +14,8 @@ public class MatchPlayerService {
 //    public List<MatchPlayerStats> getMatchStats(int matchId) {
 //        return matchPlayerStatsRepo.findByMatchId(matchId);
 //    }
-    public MatchPlayerStats getMatchStats(CombinedId combinedId){
+    public MatchPlayerStats getMatchStats(CombinedMatchPlayerId combinedMatchPlayerId){
 
-        return matchPlayerStatsRepo.findById(combinedId).get();
+        return matchPlayerStatsRepo.findById(combinedMatchPlayerId).get();
     }
 }

@@ -1,5 +1,5 @@
 package com.Dream11.entity;
-import com.Dream11.utility.CombinedId;
+import com.Dream11.utility.CombinedMatchPlayerId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class MatchPlayerStats {
     @Id
-    private CombinedId id;
+    private CombinedMatchPlayerId id;
 //    private int matchId;
 //    private int playerId;
     private int battingRuns;

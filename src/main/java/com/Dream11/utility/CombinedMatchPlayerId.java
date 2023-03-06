@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CombinedId implements Serializable {
+public class CombinedMatchPlayerId implements Serializable {
     private int matchId;
     private int playerId;
 }

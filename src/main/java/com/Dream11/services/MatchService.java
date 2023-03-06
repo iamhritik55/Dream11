@@ -14,6 +14,7 @@ public class MatchService {
     public MatchRepo matchRepo;
 
     public MatchDetails addMatch(MatchDetails matchDetails) {
+
         return matchRepo.save(matchDetails);
     }
 
@@ -22,6 +23,7 @@ public class MatchService {
     }
 
     public MatchDetails getMatch(int matchId) {
+
         return matchRepo.findById(matchId).get();
     }
 }
