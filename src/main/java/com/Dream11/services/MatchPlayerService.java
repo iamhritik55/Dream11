@@ -3,6 +3,7 @@ package com.Dream11.services;
 import com.Dream11.entity.MatchPlayerStats;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.MatchPlayerStatsRepo;
+import com.Dream11.utility.CombinedId;
 import com.Dream11.utility.CombinedMatchPlayerId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MatchPlayerService {
     @Autowired
-    MatchPlayerStatsRepo matchPlayerStatsRepo;
+    public MatchPlayerStatsRepo matchPlayerStatsRepo;
+
+
+    //    public List<MatchPlayerStats> getMatchStats(int matchId) {
+    //        return matchPlayerStatsRepo.findByMatchId(matchId);
+    //    }
+    public MatchPlayerStats getMatchStats(CombinedMatchPlayerId combinedId){
+
+        return matchPlayerStatsRepo.findById(combinedId).get();
+    }
     public void updateMatchPlayerStats(Player player, int matchId){
         CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, player.getId());
 
