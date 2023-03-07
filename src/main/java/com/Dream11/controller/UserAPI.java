@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserAPI {
     @Autowired
-    private UserService userService;
+    public UserService userService;
 
     @PostMapping("/")
     public ResponseEntity<Object> addUser(@RequestBody User user){
@@ -19,7 +19,7 @@ public class UserAPI {
             User newUser = userService.addUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
         }
-           catch(IllegalArgumentException e){
+        catch(IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
            }
     }
@@ -31,10 +31,10 @@ public class UserAPI {
     public ResponseEntity<Object> createUserTeam(@PathVariable int id,@RequestBody List<Integer> playerIds){
         try{
             userService.createUserTeam(id, playerIds);
-            return new ResponseEntity<>("User updated",HttpStatus.OK);
+            return new ResponseEntity<>("Team Created Successfully.",HttpStatus.OK);
         }
         catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
