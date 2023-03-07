@@ -4,15 +4,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-@Document(collection = "MatchDetails")
+@Document(collection = "Match")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchDetails {
+public class Match {
     @Id
-    private int matchId;
-    private int team1Id;
-    private int team2Id;
+    private String matchId;
+    private String team1Id;
+    private String team2Id;
     private int team1Score;
     private int team2Score;
 }

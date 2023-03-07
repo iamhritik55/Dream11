@@ -16,7 +16,7 @@ public class MatchAPI {
     @Autowired
     MatchPlayerService matchPlayerService;
     @PostMapping("/start/{matchId}")
-    public void startMatch(@PathVariable (value = "matchId") int matchId){
+    public void startMatch(@PathVariable (value = "matchId") String matchId){
         matchService.startMatch(matchId);
     }
 

@@ -1,15 +1,13 @@
 package com.Dream11.services;
 
-import com.Dream11.entity.MatchDetails;
-import com.Dream11.entity.Player;
+import com.Dream11.entity.Match;
 import com.Dream11.entity.Team;
 import com.Dream11.repo.MatchDetailsRepo;
+import com.Dream11.utility.MatchUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class MatchService {
@@ -18,25 +16,20 @@ public class MatchService {
     @Autowired
     private TeamService teamService;
     @Autowired
-    MatchDetailsService matchDetailsService;
+    private MatchDetailsService matchDetailsService;
     @Autowired
-    InningService inningService;
+    private InningService inningService;
+    @Autowired
+    private MatchUtils matchUtils;
 
     SecureRandom secureRandom = new SecureRandom();
-    public void startMatch(int matchId){
-        //So I am fetch team1Id and team2Id from matchDetails
-        MatchDetails matchDetails;
-        if(matchDetailsRepo.findById(matchId).isPresent()){
-            matchDetails = matchDetailsRepo.findById(matchId).get();
-        }
-        else{
-            System.out.println("MatchID not found!");
-            return;
-        }
+    public void startMatch(String matchId){
+        //Fetching match object from db
+        Match match = matchDetailsService.findMatchDetailsById(matchId);
 
-
-        Team team1 = teamService.getTeamBYId(matchDetails.getTeam1Id());
-        Team team2 = teamService.getTeamBYId(matchDetails.getTeam2Id());
+        //Fetching team objects from db
+        Team team1 = teamService.getTeamBYId(match.getTeam1Id());
+        Team team2 = teamService.getTeamBYId(match.getTeam2Id());
 
         //Toss 0-> team1 wins and bats, 1-> team2 wins and bats
         if(secureRandom.nextInt(2)==0){
@@ -50,20 +43,9 @@ public class MatchService {
             inningService.playInning(team1, team2, false, matchId);
         }
 
-        int team1score = matchDetailsService.getTeamScore(matchId, matchDetails.getTeam1Id());
-        int team2score = matchDetailsService.getTeamScore(matchId, matchDetails.getTeam2Id());
+        int team1score = matchDetailsService.getTeamScore(matchId, match.getTeam1Id());
+        int team2score = matchDetailsService.getTeamScore(matchId, match.getTeam2Id());
 
-        if(team1score>team2score){
-            System.out.println(team1.getName()+" has won the match");
-        }
-        else if(team2score>team1score){
-            System.out.println(team2.getName()+" has won the match");
-        }
-        else {
-            System.out.println("The match is tied!");
-
-        }
+        matchUtils.declareWinner(team1, team2, team1score, team2score);
     }
-
-
 }

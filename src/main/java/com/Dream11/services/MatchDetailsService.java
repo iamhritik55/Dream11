@@ -1,6 +1,6 @@
 package com.Dream11.services;
 
-import com.Dream11.entity.MatchDetails;
+import com.Dream11.entity.Match;
 import com.Dream11.repo.MatchDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,23 +9,36 @@ import org.springframework.stereotype.Service;
 public class MatchDetailsService {
     @Autowired
     MatchDetailsRepo matchDetailsRepo;
-    public void updateTeamScoreMatchDetails(int matchId, int teamId, int teamScore){
-        MatchDetails matchDetails = matchDetailsRepo.findById(matchId).get();
-        if(matchDetails.getTeam1Id()==teamId)
-            matchDetails.setTeam1Score(teamScore);
+    public void updateTeamScoreMatchDetails(String matchId, String teamId, int teamScore){
+        Match match = matchDetailsRepo.findById(matchId).get();
+        if(match.getTeam1Id()==teamId)
+            match.setTeam1Score(teamScore);
         else
-            matchDetails.setTeam2Score(teamScore);
+            match.setTeam2Score(teamScore);
 
-        matchDetailsRepo.save(matchDetails);
+        matchDetailsRepo.save(match);
     }
 
-    public int getTeamScore(int matchId, int teamId){
-        MatchDetails matchDetails = matchDetailsRepo.findById(matchId).get();
+    public Match findMatchDetailsById(String matchId){
+        Match match;
+        if(matchDetailsRepo.findById(matchId).isPresent()){
+            match = matchDetailsRepo.findById(matchId).get();
+            return match;
+        }
+        else{
+            System.out.println("matchId not found!");
+            return null;
+        }
 
-        if(matchDetails.getTeam1Id()==teamId)
-            return matchDetails.getTeam1Score();
+    }
+
+    public int getTeamScore(String matchId, String teamId){
+        Match match = matchDetailsRepo.findById(matchId).get();
+
+        if(match.getTeam1Id()==teamId)
+            return match.getTeam1Score();
         else
-            return matchDetails.getTeam2Score();
+            return match.getTeam2Score();
 
     }
 

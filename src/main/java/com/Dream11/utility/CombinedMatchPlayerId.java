@@ -10,6 +10,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CombinedMatchPlayerId implements Serializable {
-    private int matchId;
-    private int playerId;
+    private String matchId;
+    private String playerId;
 }

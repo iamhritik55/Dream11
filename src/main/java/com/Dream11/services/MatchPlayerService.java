@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class MatchPlayerService {
     @Autowired
     MatchPlayerStatsRepo matchPlayerStatsRepo;
-    public void updateMatchPlayerStats(Player player, int matchId){
+    public void updateMatchPlayerStats(Player player, String matchId){
         CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, player.getId());
 
         if(matchPlayerStatsRepo.findById(combinedMatchPlayerId).isPresent()){

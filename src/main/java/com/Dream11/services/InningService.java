@@ -1,18 +1,19 @@
 package com.Dream11.services;
 
-import com.Dream11.entity.MatchPlayerStats;
 import com.Dream11.entity.Player;
 import com.Dream11.entity.Team;
 import com.Dream11.utility.PlayingOrder;
 import com.Dream11.utility.ResultOnBall;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.Dream11.utility.ApplicationUtils.*;
+
 @Service
 public class InningService {
+
     @Autowired
     MatchDetailsService matchDetailsService;
     @Autowired
@@ -22,16 +23,15 @@ public class InningService {
     @Autowired
     MatchPlayerService matchPlayerService;
 
-    public void playInning(Team battingTeam, Team bowlingTeam, boolean isFirstInning, int matchId){
+    public void playInning(Team battingTeam, Team bowlingTeam, boolean isFirstInning, String matchId){
         //Now I want to fetch List<Players> from List<playerId>
         List<Player> battingPlayerList = new ArrayList<>();
-        for(int playerId: battingTeam.getTeamPlayerIds()){
+        for(String playerId: battingTeam.getTeamPlayerIds()){
             battingPlayerList.add(playerService.getPlayerFromId(playerId));
         }
 
-
         List<Player> bowlingPlayerList = new ArrayList<>();
-        for(int playerId: bowlingTeam.getTeamPlayerIds()){
+        for(String playerId: bowlingTeam.getTeamPlayerIds()){
             bowlingPlayerList.add(playerService.getPlayerFromId(playerId));
         }
 
@@ -49,14 +49,19 @@ public class InningService {
         if(!isFirstInning){
             bowlingTeamRuns = matchDetailsService.getTeamScore(matchId, bowlingTeam.getId());
         }
-        for(int ball=1; ball<=120; ball++){
 
+        //MatchStart
+        loop:
+        for(int ball = 1; ball<= TOTAL_BALLS; ball++){
+
+            //At the start of an over
             if(((ball-1)%6==0)  && ball!=1){
                 //Changing strike
                 Player temp = playerOnStrike;
                 playerOnStrike = playerOffStrike;
                 playerOffStrike = temp;
 
+                System.out.println(battingTeam.getName()+" = "+battingTeam.getTeamRuns()+" - " + (ball-1)/6);
 
                 //Changing bowler
                 bowlerNumber++;
@@ -67,74 +72,64 @@ public class InningService {
 
             int resultOnBall = ResultOnBall.resultOnBall(playerOnStrike.getTitle(), bowler.getTitle());
 
-            if(resultOnBall == 7){
-                //System.out.println(playerOnStrike.getName()+" is out now and has scored "+ playerOnStrike
-                // .getBattingRuns());
-                wickets++;
-                if(wickets==10){
-                    //System.out.println(battingTeam.getName()+" is all out now!"+" and has scored "+ battingTeam
-                    // .getTeamRuns());
+            switch (resultOnBall){
+                case WICKET:
+                    wickets++;
+                    if(wickets==10){
+                        break loop;
+                    }
+                    bowler.addWicket();
+                    bowler.addPoints(FIFTEEN_POINTS);
+                    playerNumber++;
+                    playerOnStrike = battingPlayerList.get(playerNumber);
                     break;
-                }
-                bowler.addWicket();
-                bowler.addPoints(15);
-                playerNumber++;
-                playerOnStrike = battingPlayerList.get(playerNumber);
-            }
-            else if(resultOnBall == 1){
-                //add runs and change strike
-                playerOnStrike.addRuns(1);
-                battingTeam.addRuns(1);
 
-                Player temp = playerOnStrike;
-                playerOnStrike = playerOffStrike;
-                playerOffStrike = temp;
+                case ONE_RUN:
+                case THREE_RUNS:
+                    playerOnStrike.addRuns(resultOnBall);
+                    battingTeam.addRuns(resultOnBall);
 
-                if(!isFirstInning){
-                    if(battingTeam.getTeamRuns()>bowlingTeamRuns){
-//                        System.out.println(battingTeam.getName()+" has won the match!");
-                        break;
+                    Player temp = playerOnStrike;
+                    playerOnStrike = playerOffStrike;
+                    playerOffStrike = temp;
+
+                    if(!isFirstInning){
+                        if(battingTeam.getTeamRuns()>bowlingTeamRuns){
+                            break loop; //see this
+                        }
                     }
-                }
 
-
-            }
-            else{
-                playerOnStrike.addRuns(resultOnBall);
-                battingTeam.addRuns(resultOnBall);
-
-                if(resultOnBall==6){
-                    playerOnStrike.addSix();
-                    playerOnStrike.addPoints(10);
-                }
-                else if (resultOnBall==4) {
+                case FOUR_RUNS:
+                    playerOnStrike.addRuns(resultOnBall);
+                    battingTeam.addRuns(resultOnBall);
                     playerOnStrike.addFour();
-                    playerOnStrike.addPoints(5);
-                }
-
-                if(!isFirstInning){
-                    if(battingTeam.getTeamRuns()>bowlingTeamRuns){
-//                        System.out.println(battingTeam.getName()+" has won the match!");
-                        break;
+                    playerOnStrike.addPoints(FIVE_POINTS);
+                    if(!isFirstInning){
+                        if(battingTeam.getTeamRuns()>bowlingTeamRuns){
+                            break loop;
+                        }
                     }
-                }
-
+                case SIX_RUNS:
+                    playerOnStrike.addRuns(resultOnBall);
+                    battingTeam.addRuns(resultOnBall);
+                    playerOnStrike.addSix();
+                    playerOnStrike.addPoints(TEN_POINTS);
+                    if(!isFirstInning){
+                        if(battingTeam.getTeamRuns()>bowlingTeamRuns){
+                            break loop;
+                        }
+                    }
             }
-
         }
 
         //Storing all the data
         for(Player player: battingPlayerList){
             matchPlayerService.updateMatchPlayerStats(player,matchId);
         }
-        System.out.println(battingPlayerList);
         for(Player player: bowlingPlayerList){
             matchPlayerService.updateMatchPlayerStats(player,matchId);
         }
-        System.out.println(battingTeam.getTeamRuns());
         matchDetailsService.updateTeamScoreMatchDetails(matchId,battingTeam.getId(),battingTeam.getTeamRuns());
 
     }
-
-
 }

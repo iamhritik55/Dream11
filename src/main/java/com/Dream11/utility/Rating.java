@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Rating {
     private static List<Integer> fiveStarBatting=new ArrayList<>(){{
-        add(4);add(4);add(4);add(6);add(6);add(6);add(2);add(2);add(1);add(7);add(4);add(6);add(2);add(1);
+        add(4);add(4);add(4);add(6);add(6);add(6);add(2);add(2);add(1);add(7);add(4);add(6);add(2);add(1);add(6);add(4);
     }};
     private static List<Integer> fourStarBatting=new ArrayList<>(){{
-        add(4);add(4);add(6);add(6);add(2);add(2);add(2);add(1);add(1);add(7);add(4);add(2);add(1);
+        add(4);add(4);add(6);add(6);add(2);add(2);add(2);add(1);add(1);add(7);add(4);add(2);add(1);add(4);
     }};
     private static List<Integer> threeStarBatting=new ArrayList<>(){{
-        add(4);add(6);add(2);add(2);add(2);add(1);add(1);add(1);add(7);add(7);add(2);add(1);
+        add(4);add(6);add(2);add(2);add(2);add(1);add(1);add(1);add(7);add(7);add(2);add(1);add(3);
     }};
 
     private static List<Integer> twoStarBatting=new ArrayList<>(){{

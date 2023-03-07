@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class TeamService {
     @Autowired
     TeamRepo teamRepo;
-    public Team getTeamBYId(int teamId) {
+    public Team getTeamBYId(String teamId) {
         if (teamRepo.findById(teamId).isPresent()) {
             return teamRepo.findById(teamId).get();
         }

@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface MatchPlayerStatsRepo extends MongoRepository<MatchPlayerStats, CombinedMatchPlayerId> {
-    List<MatchPlayerStats> findByIdMatchId(int matchId);
+    List<MatchPlayerStats> findByIdMatchId(String matchId);
 }

@@ -12,7 +12,7 @@ public class PlayerService {
     @Autowired
     private PlayerRepo playerRepo;
 
-    public Player getPlayerFromId(int playerId) {
+    public Player getPlayerFromId(String playerId) {
         if (playerRepo.findById(playerId).isPresent()) {
             return playerRepo.findById(playerId).get();
         } else {

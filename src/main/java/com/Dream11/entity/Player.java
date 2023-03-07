@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class Player {
     @Id
-    private int id;
+    private String id;
     private String name;
     private int battingRating,bowlingRating;
     private PlayerTitle title;

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CombinedMatchUserId {
-    private int matchId;
-    private int userId;
+    private String matchId;
+    private String userId;
 }

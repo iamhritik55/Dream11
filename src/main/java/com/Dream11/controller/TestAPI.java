@@ -1,23 +1,24 @@
 package com.Dream11.controller;
 
-import com.Dream11.entity.Test;
-import com.Dream11.repo.TestRepo;
+import com.Dream11.entity.PlayerTitle;
+import com.Dream11.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/test")
 public class TestAPI {
     @Autowired
-    public TestRepo testRepo;
-    @GetMapping
-    public List<Test> getTests(){
-        return testRepo.findAll();
+    TestService testService;
+
+    @PostMapping
+    public ResponseEntity<Object> test(@RequestParam("batsman")PlayerTitle batsman,
+                                       @RequestParam("bowler") PlayerTitle bowler){
+        return ResponseEntity.accepted().body(testService.test(batsman,bowler));
     }
-    @PostMapping("/")
-    public Test addTest(@RequestBody Test test){
-        return testRepo.save(test);
-    }
+
 }
