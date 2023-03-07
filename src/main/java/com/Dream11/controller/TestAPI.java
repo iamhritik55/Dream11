@@ -16,7 +16,7 @@ public class TestAPI {
     public List<Test> getTests(){
         return testRepo.findAll();
     }
-    @PostMapping("/")
+    @PostMapping
     public Test addTest(@RequestBody Test test){
         return testRepo.save(test);
     }
