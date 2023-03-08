@@ -51,4 +51,18 @@ public class UserService {
         userRepo.save(updateUser);
     }
 
+
+    public void updateUserCredits(int userId, int credits){
+        if(userRepo.findById(userId).isPresent()){
+            User user = userRepo.findById(userId).get();
+            int creditsToUpdate = credits + user.getCredits();
+            user.setCredits(creditsToUpdate);
+            userRepo.save(user);
+        }
+        else{
+            System.out.println("Invalid userId");
+        }
+    }
+
+
 }

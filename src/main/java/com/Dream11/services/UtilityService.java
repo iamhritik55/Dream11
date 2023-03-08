@@ -1,6 +1,7 @@
 package com.Dream11.services;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.PlayerRepo;
+import com.Dream11.utility.ApplicationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
@@ -13,10 +14,10 @@ public class UtilityService {
     private PlayerRepo playerRepo;
     //checking if user creates a team of at least 3 players and maximum 5 players
     public void validateTeamSize(List<Integer> playerIds) throws Exception{
-        if(playerIds.size() < 3){
+        if(playerIds.size() < ApplicationUtils.MIN_SIZE){
             throw new Exception("You have to choose a team of at least 3 players.");
         }
-        if(playerIds.size() > 5){
+        if(playerIds.size() > ApplicationUtils.MAX_SIZE){
             throw new Exception("You can only choose a team of maximum 5 players.");
         }
     }
@@ -52,10 +53,10 @@ public class UtilityService {
         for(Integer playerId : playerIds){
             Player player = playerRepo.findById(playerId).orElse(null);
 
-            if(player.getCreditCost() == 10){
+            if(player.getCreditCost() == ApplicationUtils.STRONG_PLAYER_COST){
                 strongPlayerCount++;
             }
-            else if(player.getCreditCost() == 12){
+            else if(player.getCreditCost() == ApplicationUtils.ALL_ROUNDER_COST){
                 allRounderCount++;
             }
         }

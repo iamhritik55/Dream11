@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class PlayerService {
     @Autowired
-    PlayerRepo playerRepo;
+    private PlayerRepo playerRepo;
 
     public Player getPlayerFromId(int playerId) {
         if (playerRepo.findById(playerId).isPresent()) {
@@ -27,6 +27,16 @@ public class PlayerService {
 
     public List<Player> getPlayers () {
         return playerRepo.findAll();
+    }
+
+    public Player getPlayer(int playerId) {
+        try {
+            return  playerRepo.findById(playerId).get();
+        }
+        catch (Exception e){
+            System.out.println("Player with playerId - "+playerId+" doesn't exist");
+            return null;
+        }
     }
 }
 
