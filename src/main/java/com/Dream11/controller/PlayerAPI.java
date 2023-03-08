@@ -12,17 +12,19 @@ import java.util.List;
 public class PlayerAPI {
     @Autowired
     public PlayerService playerService;
+
     @PostMapping()
-    public Player addPlayer(@RequestBody Player player){
+    public Player addPlayer(@RequestBody Player player) {
         return playerService.addPlayer(player);
     }
 
     @GetMapping
-    public List<Player> getPlayers(){
+    public List<Player> getPlayers() {
         return playerService.getPlayers();
     }
+
     @GetMapping("/{playerId}")
-    public Player getPlayer(@PathVariable int playerId){
+    public Player getPlayer(@PathVariable int playerId) {
         return playerService.getPlayer(playerId);
     }
 }

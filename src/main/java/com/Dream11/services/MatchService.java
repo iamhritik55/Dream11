@@ -7,14 +7,11 @@ import com.Dream11.repo.MatchDetailsRepo;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.MatchRepo;
-import com.Dream11.utility.CombinedMatchUserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MatchService {
@@ -36,39 +33,6 @@ public class MatchService {
     @Autowired
     private PlayerService playerService;
 
-    public MatchUserStats addMatchUserStats (MatchUserStats matchUserStats){
-        return matchUserStatsRepo.save(matchUserStats);
-    }
-    public List<MatchUserStats> getAllStats(){
-        return matchUserStatsRepo.findAll();
-    }
-    public MatchUserStats getUserStats(CombinedMatchUserId combinedMatchUserId) throws Exception {
-        MatchUserStats matchUserStats = new MatchUserStats();
-        //finding matchUserStats by passing matchId and userId
-        Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(combinedMatchUserId);
-        if(optionalStats.isPresent()){
-            MatchUserStats stats = optionalStats.get();
-
-            //making a list to store player names
-            List<String> players = new ArrayList<>();
-
-            //if player present then fetch player names by their ids
-            for(Integer playerId : stats.getChosenPlayerIdList()){
-                Player player = playerRepo.findById(playerId).orElse(null);
-                if(player != null){
-                    players.add(player.getName());
-                }
-            }
-            matchUserStats.setId(stats.getId());
-            matchUserStats.setCreditChange(stats.getCreditChange());
-            matchUserStats.setTeamPoints(stats.getTeamPoints());
-            matchUserStats.setChosenPlayerIdList(stats.getChosenPlayerIdList());
-            matchUserStats.setPlayerName(players);
-            return matchUserStats;
-        }else{
-            throw new Exception("Data not found");
-        }
-    }
     SecureRandom secureRandom = new SecureRandom();
 
     public MatchDetails addMatch(MatchDetails matchDetails) {
@@ -121,4 +85,4 @@ public class MatchService {
         }
     }
 
-    }
+}

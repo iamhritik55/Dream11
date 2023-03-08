@@ -17,20 +17,21 @@ public class MatchPlayerService {
     //    public List<MatchPlayerStats> getMatchStats(int matchId) {
     //        return matchPlayerStatsRepo.findByMatchId(matchId);
     //    }
-    public MatchPlayerStats getMatchStats(CombinedMatchPlayerId combinedId){
+    public MatchPlayerStats getMatchStats(CombinedMatchPlayerId combinedId) {
 
         return matchPlayerStatsRepo.findById(combinedId).get();
     }
-    public void updateMatchPlayerStats(Player player, int matchId){
+
+    public void updateMatchPlayerStats(Player player, int matchId) {
         CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, player.getId());
 
-        if(matchPlayerStatsRepo.findById(combinedMatchPlayerId).isPresent()){
+        if (matchPlayerStatsRepo.findById(combinedMatchPlayerId).isPresent()) {
             MatchPlayerStats playerStats = matchPlayerStatsRepo.findById(combinedMatchPlayerId).get();
-            int foursScored = player.getFoursScored()+ playerStats.getFoursScored();
-            int sixesScored = player.getSixesScored()+playerStats.getSixesScored();
-            int battingRuns = player.getBattingRuns()+ playerStats.getBattingRuns();
-            int bowlingWickets = player.getBowlingWickets()+ playerStats.getBowlingWickets();
-            int playerPoints = player.getPlayerPoints()+ playerStats.getPlayerPoints();
+            int foursScored = player.getFoursScored() + playerStats.getFoursScored();
+            int sixesScored = player.getSixesScored() + playerStats.getSixesScored();
+            int battingRuns = player.getBattingRuns() + playerStats.getBattingRuns();
+            int bowlingWickets = player.getBowlingWickets() + playerStats.getBowlingWickets();
+            int playerPoints = player.getPlayerPoints() + playerStats.getPlayerPoints();
 
             playerStats.setPlayerPoints(playerPoints);
             playerStats.setBattingRuns(battingRuns);
@@ -39,8 +40,7 @@ public class MatchPlayerService {
             playerStats.setFoursScored(foursScored);
 
             matchPlayerStatsRepo.save(playerStats);
-        }
-        else {
+        } else {
             MatchPlayerStats playerStats = new MatchPlayerStats();
             playerStats.setId(combinedMatchPlayerId);
             playerStats.setPlayerPoints(player.getPlayerPoints());
@@ -52,7 +52,7 @@ public class MatchPlayerService {
         }
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         matchPlayerStatsRepo.deleteAll();
     }
 }

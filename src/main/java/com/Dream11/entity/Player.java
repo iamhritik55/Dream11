@@ -1,10 +1,12 @@
 package com.Dream11.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 @Document(collection = "Player")
 @Data
 @AllArgsConstructor
@@ -13,36 +15,43 @@ public class Player {
     @Id
     private int id;
     private String name;
-    private int battingRating,bowlingRating;
+    private int battingRating, bowlingRating;
     private PlayerTitle title;
     private int creditCost;
 
     @Transient
-    private int battingRuns=0;
+    private int battingRuns = 0;
 
-    public void addRuns(int runs){
-        this.battingRuns+=runs;
+    public void addRuns(int runs) {
+        this.battingRuns += runs;
     }
+
     @Transient
-    private int bowlingWickets=0;
-    public void addWicket(){
+    private int bowlingWickets = 0;
+
+    public void addWicket() {
         bowlingWickets++;
     }
+
     @Transient
-    private int foursScored=0;
-    public void addFour(){
+    private int foursScored = 0;
+
+    public void addFour() {
         foursScored++;
     }
+
     @Transient
-    private int sixesScored=0;
-    public void addSix(){
+    private int sixesScored = 0;
+
+    public void addSix() {
         sixesScored++;
     }
+
     @Transient
     private int playerPoints;
 
-    public void addPoints(int playerPoints){
-        this.playerPoints+=playerPoints;
+    public void addPoints(int playerPoints) {
+        this.playerPoints += playerPoints;
     }
 
 //    @Transient

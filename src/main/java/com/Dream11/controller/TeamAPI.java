@@ -12,17 +12,19 @@ import java.util.List;
 public class TeamAPI {
     @Autowired
     public TeamService teamService;
+
     @PostMapping
-    public Team addTeam(@RequestBody Team team){
+    public Team addTeam(@RequestBody Team team) {
         return teamService.addTeam(team);
     }
 
     @GetMapping
-    public List<Team> getTeams(){
+    public List<Team> getTeams() {
         return teamService.getTeams();
     }
+
     @GetMapping("/{teamId}")
-    public Team getTeam(@PathVariable int teamId){
+    public Team getTeam(@PathVariable int teamId) {
         return teamService.getTeam(teamId);
     }
 }

@@ -2,8 +2,7 @@ package com.Dream11.controller;
 
 import com.Dream11.entity.MatchPlayerStats;
 import com.Dream11.entity.MatchUserStats;
-import com.Dream11.services.MatchPlayerService;
-import com.Dream11.services.MatchService;
+import com.Dream11.services.*;
 import com.Dream11.utility.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.Dream11.entity.MatchDetails;
 import com.Dream11.entity.Player;
 import com.Dream11.entity.Team;
-import com.Dream11.services.PlayerService;
-import com.Dream11.services.TeamService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +27,8 @@ public class MatchAPI {
     public PlayerService playerService;//same doubt as above
     @Autowired
     public MatchPlayerService matchPlayerService;
+    @Autowired
+    public MatchUserService matchUserService;
 
     @PostMapping("/start/{matchId}")
     public void startMatch(@PathVariable(value = "matchId") int matchId) {
@@ -50,24 +50,26 @@ public class MatchAPI {
     public List<MatchDetails> getMatches() {
         return matchService.getMatches();
     }
+
     @PostMapping("/")
     public MatchUserStats addMatchUserStats(@RequestBody MatchUserStats matchUserStats) {
-        return matchService.addMatchUserStats(matchUserStats);
+        return matchUserService.addMatchUserStats(matchUserStats);
     }
+
     @GetMapping("/{matchId}/{userId}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable int matchId, @PathVariable int userId){
-        try{
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable int matchId, @PathVariable int userId) {
+        try {
             CombinedMatchUserId combinedMatchUserId = new CombinedMatchUserId(matchId, userId);
-            MatchUserStats matchUserStats = matchService.getUserStats(combinedMatchUserId);
+            MatchUserStats matchUserStats = matchUserService.getUserStats(combinedMatchUserId);
             return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
-        }
-        catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/")
-    public List<MatchUserStats> getMatchStats(){
-        return matchService.getAllStats();
+    public List<MatchUserStats> getMatchStats() {
+        return matchUserService.getAllStats();
     }
 
     @GetMapping("/{matchId}")

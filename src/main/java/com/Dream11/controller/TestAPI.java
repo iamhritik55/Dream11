@@ -12,12 +12,14 @@ import java.util.List;
 public class TestAPI {
     @Autowired
     public TestRepo testRepo;
+
     @GetMapping
-    public List<Test> getTests(){
+    public List<Test> getTests() {
         return testRepo.findAll();
     }
+
     @PostMapping
-    public Test addTest(@RequestBody Test test){
+    public Test addTest(@RequestBody Test test) {
         return testRepo.save(test);
     }
 }
