@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class User{
     @Id
-    private int id;
+    private String id;
     private String name;
     private int credits;
     private ArrayList<Integer> chosenPlayerIdList;

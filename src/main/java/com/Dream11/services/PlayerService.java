@@ -21,7 +21,7 @@ public class PlayerService {
         return playerRepo.findAll();
     }
 
-    public Player getPlayer(int playerId) {
+    public Player getPlayer(String playerId) {
         try {
             return  playerRepo.findById(playerId).get();
         }

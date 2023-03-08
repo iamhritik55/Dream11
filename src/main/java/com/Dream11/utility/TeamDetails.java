@@ -10,9 +10,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DispTeamDetResp {
-    private int team1Id;
-    private int team2Id;
+public class TeamDetails {
+    private String team1Id;
+    private String team2Id;
     private String team1Name;
     private String team2Name;
     private List<Player> team1Players;

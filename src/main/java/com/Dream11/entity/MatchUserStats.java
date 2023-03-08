@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatchUserStats {
-    private int matchId;
-    private int userId;
+    private String matchId;
+    private String userId;
     private ArrayList<Integer> chosenPlayerIdList;
     private int creditChange;
     private int teamPoints;

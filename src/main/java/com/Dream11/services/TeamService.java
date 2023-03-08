@@ -20,7 +20,7 @@ public class TeamService {
         return teamRepo.findAll();
     }
 
-    public Team getTeam(int teamId) {
+    public Team getTeam(String teamId) {
         try {
             return teamRepo.findById(teamId).get();
         }

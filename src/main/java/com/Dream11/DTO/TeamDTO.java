@@ -1,17 +1,14 @@
-package com.Dream11.entity;
+package com.Dream11.DTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-@Document(collection = "Team")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Team {
-    @Id
+public class TeamDTO {
     private String id;
     private String name;
     private ArrayList<String> teamPlayerIds;

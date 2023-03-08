@@ -1,6 +1,7 @@
 package com.Dream11.controller;
 
 import com.Dream11.entity.Player;
+import com.Dream11.repo.PlayerRepo;
 import com.Dream11.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class PlayerAPI {
         return playerService.getPlayers();
     }
     @GetMapping("/{playerId}")
-    public Player getPlayer(@PathVariable int playerId){
+    public Player getPlayer(@PathVariable String playerId){
         return playerService.getPlayer(playerId);
     }
 }

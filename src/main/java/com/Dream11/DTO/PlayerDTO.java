@@ -1,15 +1,14 @@
-package com.Dream11.entity;
+package com.Dream11.DTO;
+
+import com.Dream11.entity.PlayerTitle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-@Document(collection = "Player")
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Player {
-    @Id
+public class PlayerDTO {
     private String id;
     private String name;
     private int battingRating,bowlingRating;
