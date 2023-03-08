@@ -33,28 +33,6 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    //user creates its own team
-//    public void createUserTeam(int id, List<Integer> playerIds) throws Exception {
-//        Optional<User> optionalUser = userRepo.findById(id);
-//        //if user does not present in database throw error
-//        if(optionalUser.isEmpty()){
-//            throw new Exception("User with this id does not exist.");
-//        }
-//
-//        utilityService.validatePlayerIds(playerIds);
-//
-//        utilityService.validateTeamSize(playerIds);
-//
-//        User updateUser = optionalUser.get();
-//        //checks if user have enough credits to buy the team or not
-//        if(utilityService.calculateTeamCost(playerIds) > updateUser.getCredits()){
-//            throw new Exception("You don't have enough credits to select this team.");
-//        }
-//        utilityService.restrictPlayerIds(playerIds);
-//        updateUser.setChosenPlayerIdList(playerIds);
-//        updateUser.setCredits(updateUser.getCredits() - utilityService.calculateTeamCost(playerIds));
-//        userRepo.save(updateUser);
-//    }
     public void subtractUserCredits(int userId, int credits) throws Exception {
         if (userRepo.findById(userId).isPresent()) {
             User user = userRepo.findById(userId).get();

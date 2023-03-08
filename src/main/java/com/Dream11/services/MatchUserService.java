@@ -74,6 +74,8 @@ public class MatchUserService {
         int totalCost = utilityService.calculateTeamCost(playerIds);
 
         utilityService.restrictPlayerIds(playerIds);
+
+        //updating the credits of user
         userService.subtractUserCredits(userId, totalCost);
         updateMatchUserStats.setCreditsSpentByUser(totalCost);
         updateMatchUserStats.setChosenPlayerIdList(playerIds);
