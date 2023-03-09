@@ -1,14 +1,8 @@
 package com.Dream11.controller;
 
 import com.Dream11.DTO.MatchDTO;
-import com.Dream11.entity.Match;
-import com.Dream11.entity.MatchPlayerStats;
-import com.Dream11.entity.Player;
-import com.Dream11.entity.Team;
-import com.Dream11.services.MatchPlayerService;
-import com.Dream11.services.MatchService;
-import com.Dream11.services.PlayerService;
-import com.Dream11.services.TeamService;
+import com.Dream11.entity.*;
+import com.Dream11.services.*;
 import com.Dream11.utility.CombinedMatchPlayerId;
 import com.Dream11.utility.TeamDetails;
 import com.Dream11.utility.MatchPlayerStatsAttributes;
@@ -39,7 +33,8 @@ public class MatchAPI {
     public PlayerService playerService;//same doubt as above
     @Autowired
     public MatchPlayerService matchPlayerService;
-
+    @Autowired
+    public MatchStatsService matchStatsService;
 
     @PostMapping
     // TODO: 06/03/23  take match DTO which will update the necessary fields-done
@@ -58,8 +53,9 @@ public class MatchAPI {
         }
         return matchDTOs;
     }
+
     @GetMapping("/unplayed")
-    public List<MatchDTO> getUnplayedMatches(){
+    public List<MatchDTO> getUnplayedMatches() {
         List<MatchDTO> matchDTOs = new ArrayList<>();
         List<Match> matches = matchService.getUnplayedMatches();
         for (Match match : matches) {
@@ -67,8 +63,9 @@ public class MatchAPI {
         }
         return matchDTOs;
     }
+
     @GetMapping("/played")
-    public List<MatchDTO> getPlayedMatches(){
+    public List<MatchDTO> getPlayedMatches() {
         List<MatchDTO> matchDTOs = new ArrayList<>();
         List<Match> matches = matchService.getPlayedMatches();
         for (Match match : matches) {
@@ -76,6 +73,7 @@ public class MatchAPI {
         }
         return matchDTOs;
     }
+
     @GetMapping("/{matchId}")
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
@@ -90,10 +88,9 @@ public class MatchAPI {
     @GetMapping("/matchStats/{matchId}")
     public ResponseEntity<Object> getMatchStats(@PathVariable String matchId) {
         try {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchService.getMatchStats(matchId));
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchStatsService.findMatchStatsById(matchId));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

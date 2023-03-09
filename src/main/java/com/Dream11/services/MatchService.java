@@ -5,6 +5,7 @@ import com.Dream11.entity.MatchPlayerStats;
 import com.Dream11.entity.Player;
 import com.Dream11.entity.Team;
 import com.Dream11.repo.MatchRepo;
+import com.Dream11.repo.PlayerRepo;
 import com.Dream11.utility.CombinedMatchPlayerId;
 import com.Dream11.utility.MatchPlayerStatsAttributes;
 import com.Dream11.utility.MatchPlayerStatsResp;
@@ -27,6 +28,8 @@ public class MatchService {
     public TeamService teamService;
     @Autowired
     public PlayerService playerService;
+    @Autowired
+    public PlayerRepo playerRepo;
     @Autowired
     public MatchPlayerService matchPlayerService;
     public Match addMatch(Match match) {
@@ -64,59 +67,60 @@ public class MatchService {
         List<String> team2PlayerIds = team2.getTeamPlayerIds();
         List<Player> team1Players = new ArrayList<>();
         List<Player> team2Players = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(team1PlayerIds)) {
-            for (String playerId : team1PlayerIds) {
-                team1Players.add(playerService.getPlayer(playerId));
-            }
-        }
-
-        for (String playerId : team2PlayerIds) {
-            team2Players.add(playerService.getPlayer(playerId));
-        }
+        team1Players=playerRepo.findAllById(team1PlayerIds);
+        team2Players=playerRepo.findAllById(team2PlayerIds);
+//        if (!CollectionUtils.isEmpty(team1PlayerIds)) {
+//            for (String playerId : team1PlayerIds) {
+//                team1Players.add(playerService.getPlayer(playerId));
+//            }
+//        }
+//
+//        for (String playerId : team2PlayerIds) {
+//            team2Players.add(playerService.getPlayer(playerId));
+//        }
         teamDetails.setTeam1Players(team1Players);
         teamDetails.setTeam2Players(team2Players);
         return teamDetails;
     }
 
-    public MatchPlayerStatsResp getMatchStats(String matchId) throws Exception{
-                MatchPlayerStatsResp matchPlayerStatsResp = new MatchPlayerStatsResp();
-                Match match = getMatch(matchId);
-                Team team1 = teamService.getTeam(match.getTeam1Id());
-                Team team2 = teamService.getTeam(match.getTeam2Id());
-                matchPlayerStatsResp.setTeam1Name(team1.getName());
-                matchPlayerStatsResp.setTeam2Name(team2.getName());
-                List<String> team1PlayerIds = team1.getTeamPlayerIds();
-                List<String> team2PlayerIds = team2.getTeamPlayerIds();
-                List<MatchPlayerStatsAttributes> team1Stats = new ArrayList<>();
-                List<MatchPlayerStatsAttributes> team2Stats = new ArrayList<>();
-                for (String playerId : team1PlayerIds) {
-                    CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, playerId);
-                    MatchPlayerStats matchPlayerStats = matchPlayerService.getMatchStats(combinedMatchPlayerId);
-                    MatchPlayerStatsAttributes matchPlayerStatsAttributes = new MatchPlayerStatsAttributes();
-                    matchPlayerStatsAttributes.setPlayerName(playerService.getPlayer(playerId).getName());
-                    matchPlayerStatsAttributes.setBattingRuns(matchPlayerStats.getBattingRuns());
-                    matchPlayerStatsAttributes.setBowlingWickets(matchPlayerStats.getBowlingRuns());
-                    matchPlayerStatsAttributes.setFoursScored(matchPlayerStats.getFoursScored());
-                    matchPlayerStatsAttributes.setSixesScored(matchPlayerStats.getSixesScored());
-                    matchPlayerStatsAttributes.setPlayerPoints(matchPlayerStats.getPlayerPoints());
-                    team1Stats.add(matchPlayerStatsAttributes);
-                }
-                matchPlayerStatsResp.setTeam1Stats(team1Stats);
-                for (String playerId : team2PlayerIds) {
-                    CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, playerId);
-                    MatchPlayerStats matchPlayerStats = matchPlayerService.getMatchStats(combinedMatchPlayerId);
-                    MatchPlayerStatsAttributes matchPlayerStatsAttributes = new MatchPlayerStatsAttributes();
-                    matchPlayerStatsAttributes.setPlayerName(playerService.getPlayer(playerId).getName());
-                    matchPlayerStatsAttributes.setBattingRuns(matchPlayerStats.getBattingRuns());
-                    matchPlayerStatsAttributes.setBowlingWickets(matchPlayerStats.getBowlingRuns());
-                    matchPlayerStatsAttributes.setFoursScored(matchPlayerStats.getFoursScored());
-                    matchPlayerStatsAttributes.setSixesScored(matchPlayerStats.getSixesScored());
-                    matchPlayerStatsAttributes.setPlayerPoints(matchPlayerStats.getPlayerPoints());
-                    team2Stats.add(matchPlayerStatsAttributes);
-                }
-                matchPlayerStatsResp.setTeam2Stats(team2Stats);
-                return matchPlayerStatsResp;
-    }
-
+//    public MatchPlayerStatsResp getMatchStats(String matchId) throws Exception{
+//                MatchPlayerStatsResp matchPlayerStatsResp = new MatchPlayerStatsResp();
+//                Match match = getMatch(matchId);
+//                Team team1 = teamService.getTeam(match.getTeam1Id());
+//                Team team2 = teamService.getTeam(match.getTeam2Id());
+//                matchPlayerStatsResp.setTeam1Name(team1.getName());
+//                matchPlayerStatsResp.setTeam2Name(team2.getName());
+//                List<String> team1PlayerIds = team1.getTeamPlayerIds();
+//                List<String> team2PlayerIds = team2.getTeamPlayerIds();
+//                List<MatchPlayerStatsAttributes> team1Stats = new ArrayList<>();
+//                List<MatchPlayerStatsAttributes> team2Stats = new ArrayList<>();
+//                for (String playerId : team1PlayerIds) {
+//                    CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, playerId);
+//                    MatchPlayerStats matchPlayerStats = matchPlayerService.getMatchStats(combinedMatchPlayerId);
+//                    MatchPlayerStatsAttributes matchPlayerStatsAttributes = new MatchPlayerStatsAttributes();
+//                    matchPlayerStatsAttributes.setPlayerName(playerService.getPlayer(playerId).getName());
+//                    matchPlayerStatsAttributes.setBattingRuns(matchPlayerStats.getBattingRuns());
+//                    matchPlayerStatsAttributes.setBowlingWickets(matchPlayerStats.getBowlingRuns());
+//                    matchPlayerStatsAttributes.setFoursScored(matchPlayerStats.getFoursScored());
+//                    matchPlayerStatsAttributes.setSixesScored(matchPlayerStats.getSixesScored());
+//                    matchPlayerStatsAttributes.setPlayerPoints(matchPlayerStats.getPlayerPoints());
+//                    team1Stats.add(matchPlayerStatsAttributes);
+//                }
+//                matchPlayerStatsResp.setTeam1Stats(team1Stats);
+//                for (String playerId : team2PlayerIds) {
+//                    CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, playerId);
+//                    MatchPlayerStats matchPlayerStats = matchPlayerService.getMatchStats(combinedMatchPlayerId);
+//                    MatchPlayerStatsAttributes matchPlayerStatsAttributes = new MatchPlayerStatsAttributes();
+//                    matchPlayerStatsAttributes.setPlayerName(playerService.getPlayer(playerId).getName());
+//                    matchPlayerStatsAttributes.setBattingRuns(matchPlayerStats.getBattingRuns());
+//                    matchPlayerStatsAttributes.setBowlingWickets(matchPlayerStats.getBowlingRuns());
+//                    matchPlayerStatsAttributes.setFoursScored(matchPlayerStats.getFoursScored());
+//                    matchPlayerStatsAttributes.setSixesScored(matchPlayerStats.getSixesScored());
+//                    matchPlayerStatsAttributes.setPlayerPoints(matchPlayerStats.getPlayerPoints());
+//                    team2Stats.add(matchPlayerStatsAttributes);
+//                }
+//                matchPlayerStatsResp.setTeam2Stats(team2Stats);
+//                return matchPlayerStatsResp;
+//    }
 
 }
