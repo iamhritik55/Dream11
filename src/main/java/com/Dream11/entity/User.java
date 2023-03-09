@@ -16,6 +16,4 @@ public class User{
     private String id;
     private String name;
     private int credits;
-    private List<Integer> chosenPlayerIdList;
-    private int teamPoints;
 }

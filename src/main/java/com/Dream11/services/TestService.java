@@ -7,7 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class TestService {
 
-    public int test(PlayerTitle batsman, PlayerTitle bowler){
-        return ResultOnBall.resultOnBall(batsman,bowler);
-    }
+
 }

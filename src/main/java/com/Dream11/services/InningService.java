@@ -22,8 +22,12 @@ public class InningService {
     PlayingOrder playingOrder;
     @Autowired
     MatchPlayerService matchPlayerService;
+    @Autowired
+    MatchStatsService matchStatsService;
+    @Autowired
+    private MatchUserService matchUserService;
 
-    public void playInning(Team battingTeam, Team bowlingTeam, boolean isFirstInning, String matchId){
+    public void playInning(Team battingTeam, Team bowlingTeam, boolean isFirstInning, String matchId) throws Exception{
         //Now I want to fetch List<Players> from List<playerId>
         List<Player> battingPlayerList = new ArrayList<>();
         for(String playerId: battingTeam.getTeamPlayerIds()){
@@ -61,7 +65,6 @@ public class InningService {
                 playerOnStrike = playerOffStrike;
                 playerOffStrike = temp;
 
-                System.out.println(battingTeam.getName()+" = "+battingTeam.getTeamRuns()+" - " + (ball-1)/6);
 
                 //Changing bowler
                 bowlerNumber++;
@@ -83,7 +86,16 @@ public class InningService {
                     playerNumber++;
                     playerOnStrike = battingPlayerList.get(playerNumber);
                     break;
-
+                case ZERO_RUNS:
+                case TWO_RUNS:
+                    playerOnStrike.addRuns(resultOnBall);
+                    battingTeam.addRuns(resultOnBall);
+                    if(!isFirstInning){
+                        if(battingTeam.getTeamRuns()>bowlingTeamRuns){
+                            break loop;
+                        }
+                    }
+                    break;
                 case ONE_RUN:
                 case THREE_RUNS:
                     playerOnStrike.addRuns(resultOnBall);
@@ -98,7 +110,7 @@ public class InningService {
                             break loop; //see this
                         }
                     }
-
+                    break;
                 case FOUR_RUNS:
                     playerOnStrike.addRuns(resultOnBall);
                     battingTeam.addRuns(resultOnBall);
@@ -109,6 +121,7 @@ public class InningService {
                             break loop;
                         }
                     }
+                    break;
                 case SIX_RUNS:
                     playerOnStrike.addRuns(resultOnBall);
                     battingTeam.addRuns(resultOnBall);
@@ -119,17 +132,16 @@ public class InningService {
                             break loop;
                         }
                     }
+                    break;
             }
+//            System.out.println(battingTeam.getName()+" = "+battingTeam.getTeamRuns()+" - " + wickets+" wickets"+" " +
+//                    "resultOnBall-> "+resultOnBall);
         }
 
         //Storing all the data
-        for(Player player: battingPlayerList){
-            matchPlayerService.updateMatchPlayerStats(player,matchId);
-        }
-        for(Player player: bowlingPlayerList){
-            matchPlayerService.updateMatchPlayerStats(player,matchId);
-        }
+        matchStatsService.updateMatchStats(matchId,battingPlayerList, battingTeam.getId());
+        matchStatsService.updateMatchStats(matchId,bowlingPlayerList, bowlingTeam.getId());
         matchDetailsService.updateTeamScoreMatchDetails(matchId,battingTeam.getId(),battingTeam.getTeamRuns());
-
+        matchUserService.updateMultipleMatchUserStats(matchId, battingPlayerList);
     }
 }

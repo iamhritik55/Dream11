@@ -10,7 +10,7 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public void updateUserCredits(String userId, int credits){
+    public void addUserCredits(String userId, int credits){
         if(userRepo.findById(userId).isPresent()){
             User user = userRepo.findById(userId).get();
             int creditsToUpdate = credits + user.getCredits();

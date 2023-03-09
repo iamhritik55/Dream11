@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "MatchUserStats")
 @Data
@@ -14,8 +15,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class MatchUserStats {
     @Id
-    CombinedMatchUserId id;
-    private List<Integer> chosenPlayerIdList;
+    private String match_userid;
+    private String matchId;
+    private String userId;
+    private List<String> chosenPlayerIdList;
     private int creditChange;
     private int teamPoints;
+    private int creditsSpentByUser;
 }

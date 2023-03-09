@@ -2,7 +2,7 @@ package com.Dream11.services;
 
 import com.Dream11.entity.Match;
 import com.Dream11.entity.Team;
-import com.Dream11.repo.MatchDetailsRepo;
+import com.Dream11.repo.MatchRepo;
 import com.Dream11.utility.MatchUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 @Service
 public class MatchService {
     @Autowired
-    private MatchDetailsRepo matchDetailsRepo;
+    private MatchRepo matchRepo;
     @Autowired
     private TeamService teamService;
     @Autowired
@@ -21,11 +21,17 @@ public class MatchService {
     private InningService inningService;
     @Autowired
     private MatchUtils matchUtils;
+    @Autowired
+    private MatchStatsService matchStatsService;
+
 
     SecureRandom secureRandom = new SecureRandom();
-    public void startMatch(String matchId){
+    public void startMatch(String matchId) throws Exception{
         //Fetching match object from db
         Match match = matchDetailsService.findMatchDetailsById(matchId);
+
+        //Create an object of matchStats and store it in DB
+        matchStatsService.createMatchStats(matchId);
 
         //Fetching team objects from db
         Team team1 = teamService.getTeamBYId(match.getTeam1Id());
@@ -46,6 +52,9 @@ public class MatchService {
         int team1score = matchDetailsService.getTeamScore(matchId, match.getTeam1Id());
         int team2score = matchDetailsService.getTeamScore(matchId, match.getTeam2Id());
 
-        matchUtils.declareWinner(team1, team2, team1score, team2score);
+        String winnerTeamName = matchUtils.declareWinner(team1, team2, team1score, team2score);
+        matchStatsService.declareWinner(matchId,winnerTeamName);
+        matchDetailsService.matchCompleted(matchId);
+
     }
 }
