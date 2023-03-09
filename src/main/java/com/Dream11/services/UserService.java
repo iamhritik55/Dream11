@@ -33,7 +33,7 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void subtractUserCredits(int userId, int credits) throws Exception {
+    public void subtractUserCredits(String userId, int credits) throws Exception {
         if (userRepo.findById(userId).isPresent()) {
             User user = userRepo.findById(userId).get();
             if (credits > user.getCredits()) {
@@ -47,7 +47,7 @@ public class UserService {
         }
     }
 
-    public void updateUserCredits(int userId, int credits) {
+    public void updateUserCredits(String userId, int credits) {
         if (userRepo.findById(userId).isPresent()) {
             User user = userRepo.findById(userId).get();
             int creditsToUpdate = credits + user.getCredits();

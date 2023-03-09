@@ -5,7 +5,7 @@ import com.Dream11.repo.PlayerRepo;
 import com.Dream11.utility.ApplicationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.util.CollectionUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +16,7 @@ public class UtilityService {
     private PlayerRepo playerRepo;
 
     //checking if user creates a team of at least 3 players and maximum 5 players
-    public void validateTeamSize(List<Integer> playerIds) throws Exception {
+    public void validateTeamSize(List<String> playerIds) throws Exception {
         if (playerIds.size() < ApplicationUtils.MIN_SIZE) {
             throw new Exception("You have to choose a team of at least 3 players.");
         }
@@ -24,41 +24,37 @@ public class UtilityService {
             throw new Exception("You can only choose a team of maximum 5 players.");
         }
     }
+    public void validatePlayerIds(List<String> playerIds) throws Exception {
+        List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);
+        if (listOfPlayerIds.size() < playerIds.size()) {
+            throw new Exception("One or more player Ids not found.");
+        }
+        //there should not any duplicate id provided by the user
+        Set<String> playerIdSet = new HashSet<>(playerIds);
+        if (playerIdSet.size() < playerIds.size()) {
+            throw new Exception("Duplicate player Ids found in team.");
+        }
+    }
 
-    public int calculateTeamCost(List<Integer> playerIds) {
+    public int calculateTeamCost(List<String> playerIds) {
         int totalCost = 0;
-        for (Integer playerId : playerIds) {
-            Player player = playerRepo.findById(playerId).orElse(null);
-            if (player != null) {
-                totalCost += player.getCreditCost();
+        List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);
+        if(!CollectionUtils.isEmpty(listOfPlayerIds)){
+            for (Player player : listOfPlayerIds) {
+                    totalCost += player.getCreditCost();
             }
         }
         return totalCost;
     }
 
     //checking the list of player ids providing by the user present in database or not
-    public void validatePlayerIds(List<Integer> playerIds) throws Exception {
-        //there should not any duplicate id provided by the user
-        Set<Integer> playerIdSet = new HashSet<>(playerIds);
-        if (playerIdSet.size() < playerIds.size()) {
-            throw new Exception("Duplicate player Ids found in team.");
-        }
-        for (Integer playerId : playerIds) {
-            Player player = playerRepo.findById(playerId).orElse(null);
-            //if player not present throw error
-            if (player == null) {
-                throw new Exception("Player of id " + playerId + " not found.");
-            }
-        }
-    }
 
     //restrictions on user to choose players of different credits
-    public void restrictPlayerIds(List<Integer> playerIds) throws Exception {
+    public void restrictPlayerIds(List<String> playerIds) throws Exception {
         int strongPlayerCount = 0;
         int allRounderCount = 0;
-        for (Integer playerId : playerIds) {
-            Player player = playerRepo.findById(playerId).orElse(null);
-
+        List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);
+        for (Player player : listOfPlayerIds) {
             if (player.getCreditCost() == ApplicationUtils.STRONG_PLAYER_COST) {
                 strongPlayerCount++;
             } else if (player.getCreditCost() == ApplicationUtils.ALL_ROUNDER_COST) {

@@ -24,7 +24,7 @@ public class PlayerAPI {
     }
 
     @GetMapping("/{playerId}")
-    public Player getPlayer(@PathVariable int playerId) {
+    public Player getPlayer(@PathVariable String playerId) {
         return playerService.getPlayer(playerId);
     }
 }

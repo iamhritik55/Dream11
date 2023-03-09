@@ -33,10 +33,10 @@ public class UserAPI {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
-    @PutMapping("/{matchId}/{userId}")
-    public ResponseEntity<Object> createUserTeam(@PathVariable int matchId, @PathVariable int userId, @RequestBody List<Integer> playerIds) {
+    @PutMapping("/{match_userId}/{userId}")
+    public ResponseEntity<Object> createUserTeam(@PathVariable String match_userId, @PathVariable String userId, @RequestBody List<String> playerIds) {
         try {
-            matchUserService.createUserTeam(matchId, userId, playerIds);
+            matchUserService.createUserTeam(match_userId, userId, playerIds);
             return new ResponseEntity<>("Team Created Successfully.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

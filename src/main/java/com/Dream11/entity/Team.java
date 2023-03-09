@@ -15,9 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Team {
     @Id
-    private int id;
+    private String id;
     private String name;
-    private List<Integer> teamPlayerIds;
+    private List<String> teamPlayerIds;
 
     @Transient
     private int teamRuns = 0;

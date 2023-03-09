@@ -4,9 +4,9 @@ import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.PlayerRepo;
-import com.Dream11.utility.CombinedMatchUserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,8 @@ public class MatchUserService {
     UserService userService;
 
     public MatchUserStats addMatchUserStats(MatchUserStats matchUserStats) {
+        String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();
+        matchUserStats.setMatch_userId(matchUserId);
         return matchUserStatsRepo.save(matchUserStats);
     }
 
@@ -31,10 +33,10 @@ public class MatchUserService {
         return matchUserStatsRepo.findAll();
     }
 
-    public MatchUserStats getUserStats(CombinedMatchUserId combinedMatchUserId) throws Exception {
+    public MatchUserStats getUserStats(String match_userId) throws Exception {
         MatchUserStats matchUserStats = new MatchUserStats();
         //finding matchUserStats by passing matchId and userId
-        Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(combinedMatchUserId);
+        Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(match_userId);
         if (optionalStats.isPresent()) {
             MatchUserStats stats = optionalStats.get();
 
@@ -42,13 +44,15 @@ public class MatchUserService {
             List<String> players = new ArrayList<>();
 
             //if player present then fetch player names by their ids
-            for (Integer playerId : stats.getChosenPlayerIdList()) {
-                Player player = playerRepo.findById(playerId).orElse(null);
-                if (player != null) {
+            List<Player> listOfPlayerIds = playerRepo.findAllById(stats.getChosenPlayerIdList());
+            if(!CollectionUtils.isEmpty(listOfPlayerIds)){
+                for (Player player : listOfPlayerIds) {
                     players.add(player.getName());
                 }
             }
-            matchUserStats.setId(stats.getId());
+            matchUserStats.setMatch_userId(stats.getMatch_userId());
+            matchUserStats.setMatchId(stats.getMatchId());
+            matchUserStats.setUserId(stats.getUserId());
             matchUserStats.setCreditChange(stats.getCreditChange());
             matchUserStats.setTeamPoints(stats.getTeamPoints());
             matchUserStats.setChosenPlayerIdList(stats.getChosenPlayerIdList());
@@ -60,9 +64,8 @@ public class MatchUserService {
         }
     }
 
-    public void createUserTeam(int matchId, int userId, List<Integer> playerIds) throws Exception {
-        CombinedMatchUserId combinedMatchUserId = new CombinedMatchUserId(matchId, userId);
-        Optional<MatchUserStats> optionalMatchUserStats = matchUserStatsRepo.findById(combinedMatchUserId);
+    public void createUserTeam(String match_userId, String userId, List<String> playerIds) throws Exception {
+        Optional<MatchUserStats> optionalMatchUserStats = matchUserStatsRepo.findById(match_userId);
         if (optionalMatchUserStats.isEmpty()) {
             throw new Exception("User with this id does not exist.");
         }

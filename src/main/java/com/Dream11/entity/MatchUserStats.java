@@ -1,6 +1,5 @@
 package com.Dream11.entity;
 
-import com.Dream11.utility.CombinedMatchUserId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +15,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class MatchUserStats {
     @Id
-    CombinedMatchUserId id;
-    private List<Integer> chosenPlayerIdList;
+    private String match_userId;
+    private String matchId;
+    private String userId;
+    private List<String> chosenPlayerIdList;
     private List<String> playerName;
     private int creditChange;
     private int teamPoints;
