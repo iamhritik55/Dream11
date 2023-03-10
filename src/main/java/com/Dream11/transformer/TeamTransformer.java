@@ -1,6 +1,6 @@
 package com.Dream11.transformer;
 
-import com.Dream11.DTO.TeamDTO;
+import com.Dream11.dto.TeamDTO;
 import com.Dream11.entity.Team;
 
 public class TeamTransformer {

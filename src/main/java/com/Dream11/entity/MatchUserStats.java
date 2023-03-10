@@ -20,4 +20,5 @@ public class MatchUserStats {
     private List<String> chosenPlayerIdList;
     private int creditChange;
     private int teamPoints;
+    private int creditsSpentByUser;
 }
