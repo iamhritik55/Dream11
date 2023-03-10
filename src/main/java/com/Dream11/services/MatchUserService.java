@@ -83,13 +83,11 @@ public class MatchUserService {
         for(MatchUserStats matchUserStats: matchUserStatsList){
             if(winnerId==matchUserStats.getMatch_userId()){
                 matchUserStats.setCreditChange(pointsPool-matchUserStats.getCreditsSpentByUser());
-                //userService.addUserCredits(matchUserStats.getUserId(), pointsPool);
+                userService.addUserCredits(matchUserStats.getUserId(), pointsPool);
             }
             else {
                 matchUserStats.setCreditChange(-matchUserStats.getCreditsSpentByUser());
             }
-
-
 
         }
         counter++;
