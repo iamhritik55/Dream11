@@ -23,8 +23,6 @@ public class InningService {
     @Autowired
     PlayingOrder playingOrder;
     @Autowired
-    MatchPlayerService matchPlayerService;
-    @Autowired
     MatchStatsService matchStatsService;
     @Autowired
     private MatchUserService matchUserService;
