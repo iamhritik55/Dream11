@@ -85,7 +85,7 @@ public class MatchAPI {
         }
     }
 
-    @GetMapping("/{match_userId}")
+    @GetMapping("/stats/{match_userId}")
     public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {
         try {
             MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);
