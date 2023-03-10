@@ -1,5 +1,6 @@
 package com.Dream11.utility;
 
+import com.Dream11.DTO.PlayerDTO;
 import com.Dream11.entity.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,6 @@ public class TeamDetails {
     private String team2Id;
     private String team1Name;
     private String team2Name;
-    private List<Player> team1Players;
-    private List<Player> team2Players;
+    private List<PlayerDTO> team1Players;
+    private List<PlayerDTO> team2Players;
 }

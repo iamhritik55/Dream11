@@ -23,10 +23,10 @@ import com.Dream11.services.MatchService;
 public class MatchAPI {
     @Autowired
     public MatchService matchService;
-    @Autowired
-    public TeamService teamService; //doubt- can I use teamService in matchAPI
-    @Autowired
-    public PlayerService playerService;//same doubt as above
+//    @Autowired
+//    public TeamService teamService;
+//    @Autowired
+//    public PlayerService playerService;
     @Autowired
     public MatchStatsService matchStatsService;
     @Autowired
@@ -85,7 +85,7 @@ public class MatchAPI {
         }
     }
 
-    @GetMapping("/{match_userId}")
+    @GetMapping("/stats/{match_userId}")
     public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {
         try {
             MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);

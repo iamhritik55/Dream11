@@ -4,9 +4,12 @@ import com.Dream11.DTO.TeamDTO;
 import com.Dream11.repo.TeamRepo;
 import com.Dream11.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.Dream11.transformer.TeamTransformer.DTOToTeam;
 import static com.Dream11.transformer.TeamTransformer.teamToDTO;
@@ -21,8 +24,13 @@ public class TeamAPI {
     public TeamRepo teamRepo;
 
     @PostMapping
-    public TeamDTO addTeam(@RequestBody TeamDTO teamDTO) {
-        return teamToDTO(teamService.addTeam(DTOToTeam(teamDTO)));
+    public ResponseEntity<Object> addTeam(@RequestBody TeamDTO teamDTO) {
+        try {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(teamService.addTeam(DTOToTeam(teamDTO)));
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping

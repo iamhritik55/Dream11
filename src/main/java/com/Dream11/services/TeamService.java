@@ -29,8 +29,12 @@ public class TeamService {
             throw new Exception("Invalid teamId!");
         }
     }
-    public Team addTeam(Team team) {
-        return teamRepo.save(team);
+    @Autowired
+    TeamValidation teamValidation ;
+    public Team addTeam(Team team) throws Exception{
+
+        if(teamValidation.teamValid(team)) return teamRepo.save(team);
+        else throw new Exception("Invalid playerId found in TeamPlayerIdList");
     }
     public List<TeamDTO> getTeams(){
         List<TeamDTO> teamDTOs=new ArrayList<>();

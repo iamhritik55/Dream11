@@ -1,5 +1,6 @@
 package com.Dream11.services;
 
+import com.Dream11.DTO.PlayerDTO;
 import com.Dream11.entity.*;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.PlayerRepo;
@@ -16,6 +17,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import static com.Dream11.Counter.counter;
+import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
 
 @Service
 public class MatchService {
@@ -108,10 +110,19 @@ public class MatchService {
         teamDetails.setTeam2Name(team2.getName());
         List<String> team1PlayerIds = team1.getTeamPlayerIds();
         List<String> team2PlayerIds = team2.getTeamPlayerIds();
-        List<Player> team1Players = new ArrayList<>();
-        List<Player> team2Players = new ArrayList<>();
-        team1Players=playerRepo.findAllById(team1PlayerIds);
-        team2Players=playerRepo.findAllById(team2PlayerIds);
+        List<PlayerDTO> team1PlayerDTOs = new ArrayList<>();
+        List<PlayerDTO> team2PlayerDTOs = new ArrayList<>();
+        List<Player> team1Players=playerRepo.findAllById(team1PlayerIds);
+        List<Player> team2Players=playerRepo.findAllById(team2PlayerIds);
+        for (Player player:team1Players
+             ) {
+            team1PlayerDTOs.add(playerToDTO(player));
+        }
+        for (Player player:team2Players
+        ) {
+            team2PlayerDTOs.add(playerToDTO(player));
+        }
+
         //        if (!CollectionUtils.isEmpty(team1PlayerIds)) {
         //            for (String playerId : team1PlayerIds) {
         //                team1Players.add(playerService.getPlayer(playerId));
@@ -121,8 +132,8 @@ public class MatchService {
         //        for (String playerId : team2PlayerIds) {
         //            team2Players.add(playerService.getPlayer(playerId));
         //        }
-        teamDetails.setTeam1Players(team1Players);
-        teamDetails.setTeam2Players(team2Players);
+        teamDetails.setTeam1Players(team1PlayerDTOs);
+        teamDetails.setTeam2Players(team2PlayerDTOs);
         return teamDetails;
     }
 
