@@ -4,18 +4,15 @@ import com.Dream11.DTO.PlayerDTO;
 import com.Dream11.entity.*;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.PlayerRepo;
-import com.Dream11.utility.CombinedMatchPlayerId;
 import com.Dream11.utility.MatchUtils;
 import com.Dream11.utility.TeamDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.Dream11.Counter.counter;
 import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
 
@@ -74,8 +71,9 @@ public class MatchService {
         matchStats = matchStatsService.declareWinner(matchId,winnerTeamName);
         matchDetailsService.matchCompleted(matchId);
         //Updating points for user
+
         matchUserService.updateWinnerUserPoints(matchId);
-        return matchUserStatsList;
+        return matchUserService.findByMatchId(matchId);
     }
     public Match addMatch(Match match) {
         return matchRepo.save(match);

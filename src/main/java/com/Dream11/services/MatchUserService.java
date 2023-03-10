@@ -3,22 +3,17 @@ package com.Dream11.services;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.MatchUserStatsRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.Dream11.repo.PlayerRepo;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.Dream11.Counter.counter;
-
-
-import java.util.ArrayList;
-
-import java.util.Optional;
 
 @Service
 public class MatchUserService {
@@ -96,11 +91,12 @@ public class MatchUserService {
     //So MatchUserStats already exist, I want to fetch it from db and update it
     public List<MatchUserStats> updateMultipleMatchUserStats(String matchId, List<Player> combinedPlayerList) throws Exception{
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchId);
+        List<MatchUserStats> matchUserStatsList1 = new ArrayList<>();
         for(MatchUserStats matchUserStats: matchUserStatsList){
-            matchUserStats = updateSingleMatchUserStats(matchUserStats,combinedPlayerList);
+           matchUserStatsList1.add(updateSingleMatchUserStats(matchUserStats,combinedPlayerList));
         }
         counter++;
-        return matchUserStatsRepo.saveAll(matchUserStatsList);
+        return matchUserStatsRepo.saveAll(matchUserStatsList1);
 
     }
 
