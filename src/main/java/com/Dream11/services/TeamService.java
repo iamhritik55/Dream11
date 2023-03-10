@@ -32,7 +32,6 @@ public class TeamService {
     @Autowired
     TeamValidation teamValidation ;
     public Team addTeam(Team team) throws Exception{
-
         if(teamValidation.teamValid(team)) return teamRepo.save(team);
         else throw new Exception("Invalid playerId found in TeamPlayerIdList");
     }

@@ -39,7 +39,7 @@ public class MatchAPI {
         return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));
     }
     @PostMapping("/stats")
-    public MatchUserStats addMatchUserStats(@RequestBody MatchUserStats matchUserStats) {
+    public MatchUserStats addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
         return matchUserService.addMatchUserStats(matchUserStats);
     }
 
@@ -77,7 +77,7 @@ public class MatchAPI {
     @GetMapping("/{matchId}")
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
-    public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) {
+    public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) {//3
         try {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchService.getTeamDetails(matchId));
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class MatchAPI {
         }
     }
 
-    @PostMapping("/start/{matchId}")
+    @PostMapping("/start/{matchId}")//5
     public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) {
         try {
             List<MatchUserStats> matchUserStatsList = matchService.startMatch(matchId);

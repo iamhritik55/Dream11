@@ -19,7 +19,7 @@ public class UserAPI {
     public MatchUserService matchUserService;
 
     @PostMapping("/")
-    public ResponseEntity<Object> addUser(@RequestBody User user) {
+    public ResponseEntity<Object> addUser(@RequestBody User user) { //1
         try {
             User newUser = userService.addUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
@@ -35,7 +35,7 @@ public class UserAPI {
 
     @PutMapping("/{match_userId}/{userId}")
     public ResponseEntity<Object> createUserTeam(@PathVariable String match_userId, @PathVariable String userId, @RequestBody List<String> playerIds) {
-        try {
+        try {//4
             matchUserService.createUserTeam(match_userId, userId, playerIds);
             return new ResponseEntity<>("Team Created Successfully.", HttpStatus.OK);
         } catch (Exception e) {
