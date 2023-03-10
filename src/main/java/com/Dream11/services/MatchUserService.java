@@ -4,11 +4,9 @@ import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.MatchUserStatsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.Dream11.entity.Player;
-import com.Dream11.repo.MatchUserStatsRepo;
+
 import com.Dream11.repo.PlayerRepo;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -16,10 +14,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.Dream11.Counter.counter;
-import org.springframework.util.CollectionUtils;
+
 
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -94,7 +92,7 @@ public class MatchUserService {
         updateMatchUserStats.setChosenPlayerIdList(playerIds);
 
         matchUserStatsRepo.save(updateMatchUserStats);
-
+    }
     //So MatchUserStats already exist, I want to fetch it from db and update it
     public List<MatchUserStats> updateMultipleMatchUserStats(String matchId, List<Player> combinedPlayerList) throws Exception{
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchId);

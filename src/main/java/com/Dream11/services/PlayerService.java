@@ -4,8 +4,13 @@ import com.Dream11.entity.Player;
 import com.Dream11.repo.PlayerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.Dream11.DTO.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
 
 @Service
 public class PlayerService {
@@ -15,7 +20,6 @@ public class PlayerService {
     public Player getPlayerFromId(String playerId) {
         Player playerValue = null;
         Optional<Player> player = playerRepo.findById(playerId);
-        counter++;
         if (player.isPresent()) {
             playerValue = player.get();
         }
@@ -24,7 +28,6 @@ public class PlayerService {
     }
 
     public List<Player> getPlayerListFromIdList(List<String> playerIdList) {
-        counter++;
         return playerRepo.findAllById(playerIdList);
     }
 
@@ -32,7 +35,7 @@ public class PlayerService {
         return playerRepo.save(player);
     }
 
-    public List<PlayerDTO> getPlayers() {
+    public List<com.Dream11.DTO.PlayerDTO> getPlayers() {
         List<PlayerDTO> playerDTOs=new ArrayList<>();
         List<Player> players=playerRepo.findAll();
         for (Player player:players

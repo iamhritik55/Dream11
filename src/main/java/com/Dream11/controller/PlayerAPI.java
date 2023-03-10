@@ -1,11 +1,15 @@
 package com.Dream11.controller;
 
+import com.Dream11.DTO.PlayerDTO;
 import com.Dream11.entity.Player;
 import com.Dream11.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.Dream11.transformer.PlayerTransformer.DTOToPlayer;
+import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
 
 @RestController
 @RequestMapping("/player")

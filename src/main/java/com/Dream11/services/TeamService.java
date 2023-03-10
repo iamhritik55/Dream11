@@ -1,7 +1,6 @@
 package com.Dream11.services;
 
-import com.Dream11.dto.TeamDTO;
-import com.Dream11.controller.TeamAPI;
+import com.Dream11.DTO.TeamDTO;
 import com.Dream11.entity.Team;
 import com.Dream11.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.Dream11.Counter.counter;
-import javax.swing.plaf.LabelUI;
+
 import java.util.ArrayList;
 import java.util.List;
 

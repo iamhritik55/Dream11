@@ -1,7 +1,6 @@
 package com.Dream11.controller;
 
-import com.Dream11.dto.TeamDTO;
-import com.Dream11.entity.Team;
+import com.Dream11.DTO.TeamDTO;
 import com.Dream11.repo.TeamRepo;
 import com.Dream11.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
