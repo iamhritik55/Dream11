@@ -1,5 +1,13 @@
 package com.Dream11.controller;
 
+import com.Dream11.entity.MatchUserStats;
+import com.Dream11.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import com.Dream11.DTO.MatchDTO;
 import com.Dream11.entity.*;
 import com.Dream11.services.*;
@@ -20,7 +28,6 @@ import com.Dream11.services.MatchService;
 @RestController
 @RequestMapping("/match")
 public class MatchAPI {
-
     @Autowired
     public MatchService matchService;
     @Autowired
@@ -29,12 +36,18 @@ public class MatchAPI {
     public PlayerService playerService;//same doubt as above
     @Autowired
     public MatchStatsService matchStatsService;
+    @Autowired
+    public MatchUserService matchUserService;
 
     @PostMapping
     // TODO: 06/03/23  take match DTO which will update the necessary fields-done
     // TODO: 06/03/23  Give in response whatever fields are required.-done
     public MatchDTO addMatch(@RequestBody MatchDTO matchDTO) {
         return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));
+
+    @PostMapping("/stats")
+    public MatchUserStats addMatchUserStats(@RequestBody MatchUserStats matchUserStats) {
+        return matchUserService.addMatchUserStats(matchUserStats);
     }
 
     // TODO: 06/03/23 Add a new API to get the live matches.-done
@@ -72,6 +85,9 @@ public class MatchAPI {
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
     public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) {
+
+    @GetMapping("/{match_userId}")
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {
         try {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchService.getTeamDetails(matchId));
         } catch (Exception e) {
@@ -93,11 +109,19 @@ public class MatchAPI {
         try {
             List<MatchUserStats> matchUserStatsList = matchService.startMatch(matchId);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchUserStatsList);
+            MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);
+            return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
+    @GetMapping("/stats")
+    public List<MatchUserStats> getMatchUserStats() {
+        return matchUserService.getAllStats();
     }
 
 }

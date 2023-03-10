@@ -12,7 +12,7 @@ import java.util.List;
 public class PlayingOrder {
     private List<Player> playerOrder;
 
-    public List<Player> battingOrder(List<Player> playerList){
+    public List<Player> battingOrder(List<Player> playerList) {
         playerOrder = new ArrayList<>();
         addToList(PlayerTitle.STRONG_BATSMAN, playerList);
         addToList(PlayerTitle.ALL_ROUNDER, playerList);
@@ -22,7 +22,7 @@ public class PlayingOrder {
         return playerOrder;
     }
 
-    public List<Player> bowlingOrder(List<Player> playerList){
+    public List<Player> bowlingOrder(List<Player> playerList) {
         playerOrder = new ArrayList<>();
         addToList(PlayerTitle.STRONG_BOWLER, playerList);
         addToList(PlayerTitle.ALL_ROUNDER, playerList);
@@ -30,9 +30,9 @@ public class PlayingOrder {
         return playerOrder;
     }
 
-    private void addToList(PlayerTitle playerTitle, List<Player> playerList){
-        for(Player player: playerList){
-            if(player.getTitle()==playerTitle){
+    private void addToList(PlayerTitle playerTitle, List<Player> playerList) {
+        for (Player player : playerList) {
+            if (player.getTitle() == playerTitle) {
                 playerOrder.add(player);
             }
         }

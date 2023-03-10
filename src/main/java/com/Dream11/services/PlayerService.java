@@ -1,22 +1,14 @@
 package com.Dream11.services;
 
-import com.Dream11.DTO.PlayerDTO;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.PlayerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static com.Dream11.Counter.counter;
-
-import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
 
 @Service
 public class PlayerService {
-
     @Autowired
     private PlayerRepo playerRepo;
 
@@ -58,3 +50,4 @@ public class PlayerService {
         }
     }
 }
+

@@ -1,4 +1,5 @@
 package com.Dream11.entity;
+
 public enum PlayerTitle {
     STRONG_BATSMAN,
     STRONG_BOWLER,

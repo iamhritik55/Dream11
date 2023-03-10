@@ -13,7 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class User{
     @Id
-    private String id;
+    private int id;
     private String name;
     private int credits;
+
 }
