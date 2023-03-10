@@ -72,8 +72,9 @@ public class MatchService {
         matchStats = matchStatsService.declareWinner(matchId,winnerTeamName);
         matchDetailsService.matchCompleted(matchId);
         //Updating points for user
+
         matchUserService.updateWinnerUserPoints(matchId);
-        return matchUserStatsList;
+        return matchUserService.findByMatchId(matchId);
     }
     public Match addMatch(Match match) {
         return matchRepo.save(match);

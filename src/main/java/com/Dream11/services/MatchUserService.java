@@ -96,11 +96,12 @@ public class MatchUserService {
     //So MatchUserStats already exist, I want to fetch it from db and update it
     public List<MatchUserStats> updateMultipleMatchUserStats(String matchId, List<Player> combinedPlayerList) throws Exception{
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchId);
+        List<MatchUserStats> matchUserStatsList1 = new ArrayList<>();
         for(MatchUserStats matchUserStats: matchUserStatsList){
-            matchUserStats = updateSingleMatchUserStats(matchUserStats,combinedPlayerList);
+           matchUserStatsList1.add(updateSingleMatchUserStats(matchUserStats,combinedPlayerList));
         }
         counter++;
-        return matchUserStatsRepo.saveAll(matchUserStatsList);
+        return matchUserStatsRepo.saveAll(matchUserStatsList1);
 
     }
 
