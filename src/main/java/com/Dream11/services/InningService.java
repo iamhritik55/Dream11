@@ -1,5 +1,7 @@
 package com.Dream11.services;
 
+import com.Dream11.entity.MatchStats;
+import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
 import com.Dream11.entity.Team;
 import com.Dream11.utility.PlayingOrder;
@@ -27,17 +29,12 @@ public class InningService {
     @Autowired
     private MatchUserService matchUserService;
 
-    public void playInning(Team battingTeam, Team bowlingTeam, boolean isFirstInning, String matchId) throws Exception{
+    public List<MatchUserStats> playInning(Team battingTeam, Team bowlingTeam, boolean isFirstInning,
+    String matchId) throws Exception{
+        MatchStats matchStats;
         //Now I want to fetch List<Players> from List<playerId>
-        List<Player> battingPlayerList = new ArrayList<>();
-        for(String playerId: battingTeam.getTeamPlayerIds()){
-            battingPlayerList.add(playerService.getPlayerFromId(playerId));
-        }
-
-        List<Player> bowlingPlayerList = new ArrayList<>();
-        for(String playerId: bowlingTeam.getTeamPlayerIds()){
-            bowlingPlayerList.add(playerService.getPlayerFromId(playerId));
-        }
+        List<Player> battingPlayerList = playerService.getPlayerListFromIdList(battingTeam.getTeamPlayerIds());
+        List<Player> bowlingPlayerList = playerService.getPlayerListFromIdList(bowlingTeam.getTeamPlayerIds());
 
         battingPlayerList = playingOrder.battingOrder(battingPlayerList);
         bowlingPlayerList = playingOrder.battingOrder(bowlingPlayerList);
@@ -139,9 +136,11 @@ public class InningService {
         }
 
         //Storing all the data
-        matchStatsService.updateMatchStats(matchId,battingPlayerList, battingTeam.getId());
-        matchStatsService.updateMatchStats(matchId,bowlingPlayerList, bowlingTeam.getId());
+        matchStats = matchStatsService.updateMatchStats(matchId,battingPlayerList, battingTeam.getId());
+        matchStats = matchStatsService.updateMatchStats(matchId,bowlingPlayerList, bowlingTeam.getId());
         matchDetailsService.updateTeamScoreMatchDetails(matchId,battingTeam.getId(),battingTeam.getTeamRuns());
-        matchUserService.updateMultipleMatchUserStats(matchId, battingPlayerList);
+        battingPlayerList.addAll(bowlingPlayerList);
+        //Updating teamPoints in MatchUserStats and storing it
+        return matchUserService.updateMultipleMatchUserStats(matchId, battingPlayerList);
     }
 }

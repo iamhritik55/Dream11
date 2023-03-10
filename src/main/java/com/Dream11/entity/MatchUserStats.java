@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class MatchUserStats {
     @Id
-    private String match_userid;
+    private String match_userId;
     private String matchId;
     private String userId;
     private List<String> chosenPlayerIdList;

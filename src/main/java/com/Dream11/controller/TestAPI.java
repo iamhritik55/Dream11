@@ -1,8 +1,10 @@
 package com.Dream11.controller;
 
 import com.Dream11.entity.MatchStats;
+import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.PlayerTitle;
 import com.Dream11.services.MatchStatsService;
+import com.Dream11.services.MatchUserService;
 import com.Dream11.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,12 @@ import java.util.Objects;
 public class TestAPI {
     @Autowired
     MatchStatsService matchStatsService;
+    @Autowired
+    MatchUserService matchUserService;
 
+    @PostMapping("/create/user")
+    public MatchUserStats createMatchUser(@RequestBody MatchUserStats matchUserStats){
+        return matchUserService.createMatchUserStat(matchUserStats);
+    }
 
 }

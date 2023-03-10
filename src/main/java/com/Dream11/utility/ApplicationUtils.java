@@ -11,7 +11,6 @@ public class ApplicationUtils {
     public final static int FIFTEEN_POINTS = 15;
     public final static int TEN_POINTS = 10;
     public final static int FIVE_POINTS = 5;
-
     public final static int ZERO_RUNS = 5;
 
 

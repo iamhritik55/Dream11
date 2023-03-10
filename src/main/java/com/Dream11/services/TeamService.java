@@ -5,17 +5,22 @@ import com.Dream11.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+import static com.Dream11.Counter.counter;
+
 @Service
 public class TeamService {
     @Autowired
     TeamRepo teamRepo;
-    public Team getTeamBYId(String teamId) {
-        if (teamRepo.findById(teamId).isPresent()) {
-            return teamRepo.findById(teamId).get();
+    public Team getTeamBYId(String teamId) throws Exception{
+        Optional<Team> teamOptional = teamRepo.findById(teamId);
+        if (teamOptional.isPresent()) {
+            counter++;
+            return teamOptional.get();
         }
         else {
-            System.out.println("TeamID invalid!");
-            return null;
+            throw new Exception("Invalid teamId!");
         }
 
     }

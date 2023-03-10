@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.Dream11.Counter.counter;
+
 @Service
 public class PlayerService {
     @Autowired
@@ -17,6 +19,7 @@ public class PlayerService {
     public Player getPlayerFromId(String playerId) {
         Player playerValue = null;
         Optional<Player> player = playerRepo.findById(playerId);
+        counter++;
         if (player.isPresent()) {
             playerValue = player.get();
         }
@@ -25,18 +28,17 @@ public class PlayerService {
     }
 
     public List<Player> getPlayerListFromIdList(List<String> playerIdList) {
-        List<Player> playerList = new ArrayList<>();
-        for (String playerId : playerIdList) {
-            playerList.add(getPlayerFromId(playerId));
-        }
-        return playerList;
+        counter++;
+        return playerRepo.findAllById(playerIdList);
     }
 
     public Player addPlayer(Player player) {
+        counter++;
         return playerRepo.save(player);
     }
 
     public List<Player> getPlayers() {
+        counter++;
         return playerRepo.findAll();
     }
 }

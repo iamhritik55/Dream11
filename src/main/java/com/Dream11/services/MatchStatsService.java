@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static com.Dream11.Counter.counter;
+
 @Service
 public class MatchStatsService {
     @Autowired
@@ -28,7 +30,7 @@ public class MatchStatsService {
         }
     }
 
-    public void createMatchStats(String matchId){
+    public void createMatchStats(String matchId) throws Exception{
 
         Match match = matchDetailsService.findMatchDetailsById(matchId);
 
@@ -45,9 +47,10 @@ public class MatchStatsService {
         matchStats.setTeam1PlayerStats(playerStatsService.convertPlayerIdListToPlayerStat(team1.getTeamPlayerIds()));
         matchStats.setTeam2PlayerStats(playerStatsService.convertPlayerIdListToPlayerStat(team2.getTeamPlayerIds()));
         matchStatsRepo.save(matchStats);
+        counter++;
     }
 
-    public void updateMatchStats(String matchId, List<Player> playerList, String teamId) throws Exception{
+    public MatchStats updateMatchStats(String matchId, List<Player> playerList, String teamId) throws Exception{
         MatchStats matchStats = findMatchStatsById(matchId);
         List<PlayerStats> playerStatsList=null;
         boolean team1=false;
@@ -58,7 +61,6 @@ public class MatchStatsService {
         else if(Objects.equals(matchStats.getTeam2Name(), teamService.getTeamBYId(teamId).getName())){
             playerStatsList = matchStats.getTeam2PlayerStats();
         }
-
 
         //Now I want to update matchStats ->
         for(Player player: playerList){
@@ -72,8 +74,9 @@ public class MatchStatsService {
         else {
             matchStats.setTeam2PlayerStats(playerStatsList);
         }
+        counter++;
+        return matchStatsRepo.save(matchStats);
 
-        matchStatsRepo.save(matchStats);
     }
 
     public List<PlayerStats> updatePlayerStatListForPlayer(List<PlayerStats> playerStatsList, Player player){
@@ -98,6 +101,8 @@ public class MatchStatsService {
 
     public MatchStats findMatchStatsById(String id) throws Exception{
         if(matchStatsRepo.findById(id).isPresent()){
+            counter++;
+            counter++;
             return matchStatsRepo.findById(id).get();
         }
         else {
@@ -105,9 +110,11 @@ public class MatchStatsService {
         }
     }
 
-    public void declareWinner(String id, String winnerTeamName) throws Exception{
+    public MatchStats declareWinner(String id, String winnerTeamName) throws Exception{
         MatchStats matchStats = findMatchStatsById(id);
         matchStats.setWinnerTeamName(winnerTeamName);
-        matchStatsRepo.save(matchStats);
+        counter++;
+        return matchStatsRepo.save(matchStats);
+
     }
 }
