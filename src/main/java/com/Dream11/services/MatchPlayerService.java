@@ -10,6 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MatchPlayerService {
     @Autowired
+    public MatchPlayerStatsRepo matchPlayerStatsRepo;
+
+//    public List<MatchPlayerStats> getMatchStats(int matchId) {
+//        return matchPlayerStatsRepo.findByMatchId(matchId);
+//    }
+    public MatchPlayerStats getMatchStats(CombinedMatchPlayerId combinedMatchPlayerId){
+
+        return matchPlayerStatsRepo.findById(combinedMatchPlayerId).get();
     MatchPlayerStatsRepo matchPlayerStatsRepo;
     public void updateMatchPlayerStats(Player player, String matchId){
         CombinedMatchPlayerId combinedMatchPlayerId = new CombinedMatchPlayerId(matchId, player.getId());

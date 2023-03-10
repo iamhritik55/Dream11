@@ -1,28 +1,23 @@
 package com.Dream11.controller;
 
-import com.Dream11.entity.MatchStats;
-import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.PlayerTitle;
-import com.Dream11.services.MatchStatsService;
-import com.Dream11.services.MatchUserService;
-import com.Dream11.services.TestService;
+import com.Dream11.entity.Test;
+import com.Dream11.repo.TestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
+@RequestMapping("/test")
 public class TestAPI {
     @Autowired
-    MatchStatsService matchStatsService;
-    @Autowired
-    MatchUserService matchUserService;
-
-    @PostMapping("/create/user")
-    public MatchUserStats createMatchUser(@RequestBody MatchUserStats matchUserStats){
-        return matchUserService.createMatchUserStat(matchUserStats);
+    public TestRepo testRepo;
+    @GetMapping
+    public List<Test> getTests(){
+        return testRepo.findAll();
     }
-
+    @PostMapping("/")
+    public Test addTest(@RequestBody Test test){
+        return testRepo.save(test);
+    }
 }

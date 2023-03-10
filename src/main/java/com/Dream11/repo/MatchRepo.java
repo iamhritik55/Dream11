@@ -2,6 +2,11 @@ package com.Dream11.repo;
 
 import com.Dream11.entity.Match;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
-public interface MatchRepo extends MongoRepository<Match, String> {
+import java.util.List;
+
+public interface MatchRepo extends MongoRepository<Match,String> {
+    @Query("{completed: ?0}")
+    List<Match> findMatchesByStatus(boolean completed);
 }
