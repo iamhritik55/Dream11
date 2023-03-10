@@ -63,7 +63,6 @@ public class UserService {
     }
     public void addUserCredits(String userId, int credits) throws Exception{
         Optional<User> userOptional= userRepo.findById(userId);
-        System.out.println("yes");
         if(userOptional.isPresent()){
             User user = userOptional.get();
             int creditsToUpdate = credits + user.getCredits();
