@@ -21,20 +21,19 @@ public class PlayerService {
         }
     }
 
-    public Player addPlayer (Player player){
+    public Player addPlayer(Player player) {
         return playerRepo.save(player);
     }
 
-    public List<Player> getPlayers () {
+    public List<Player> getPlayers() {
         return playerRepo.findAll();
     }
 
     public Player getPlayer(String playerId) {
         try {
-            return  playerRepo.findById(playerId).get();
-        }
-        catch (Exception e){
-            System.out.println("Player with playerId - "+playerId+" doesn't exist");
+            return playerRepo.findById(playerId).get();
+        } catch (Exception e) {
+            System.out.println("Player with playerId - " + playerId + " doesn't exist");
             return null;
         }
     }

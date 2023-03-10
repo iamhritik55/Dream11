@@ -6,6 +6,7 @@ import com.Dream11.utility.ApplicationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,8 +25,10 @@ public class UtilityService {
             throw new Exception("You can only choose a team of maximum 5 players.");
         }
     }
+
     public void validatePlayerIds(List<String> playerIds) throws Exception {
-        List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);
+
+        List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);    //.contains
         if (listOfPlayerIds.size() < playerIds.size()) {
             throw new Exception("One or more player Ids not found.");
         }
@@ -39,15 +42,13 @@ public class UtilityService {
     public int calculateTeamCost(List<String> playerIds) {
         int totalCost = 0;
         List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);
-        if(!CollectionUtils.isEmpty(listOfPlayerIds)){
+        if (!CollectionUtils.isEmpty(listOfPlayerIds)) {
             for (Player player : listOfPlayerIds) {
-                    totalCost += player.getCreditCost();
+                totalCost += player.getCreditCost();
             }
         }
         return totalCost;
     }
-
-    //checking the list of player ids providing by the user present in database or not
 
     //restrictions on user to choose players of different credits
     public void restrictPlayerIds(List<String> playerIds) throws Exception {

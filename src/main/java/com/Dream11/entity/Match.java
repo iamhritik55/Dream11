@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchDetails {
+public class Match {
     @Id
     private String matchId;
     private String team1Id;
