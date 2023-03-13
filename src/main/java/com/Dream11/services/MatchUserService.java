@@ -3,9 +3,11 @@ package com.Dream11.services;
 import com.Dream11.entity.Match;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
+import com.Dream11.entity.User;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.PlayerRepo;
+import com.Dream11.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +29,8 @@ public class MatchUserService {
     @Autowired
     MatchRepo matchRepo;
     @Autowired
+    UserRepo userRepo;
+    @Autowired
     UtilityService utilityService;
     @Autowired
     UserService userService;
@@ -34,15 +38,20 @@ public class MatchUserService {
     public MatchUserStats addMatchUserStats(MatchUserStats matchUserStats) throws Exception{
         String matchId = matchUserStats.getMatchId();
         Optional<Match> optionalMatch = matchRepo.findById(matchId);
-        if(optionalMatch.isPresent()){
+        String userId = matchUserStats.getUserId();
+        Optional<User> optionalUser = userRepo.findById(userId);
+        if(optionalMatch.isPresent() && optionalUser.isPresent()){
             Match matchObj = optionalMatch.get();
             if(matchObj.isCompleted()){
                 throw new Exception("This match is already played please choose another one.");
             }
+            String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();
+            matchUserStats.setMatch_userId(matchUserId);
+            return matchUserStatsRepo.save(matchUserStats);
         }
-        String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();
-        matchUserStats.setMatch_userId(matchUserId);
-        return matchUserStatsRepo.save(matchUserStats);
+        else{
+            throw new Exception("IDs not found.");
+        }
     }
 
     public List<MatchUserStats> getAllStats() {
@@ -83,7 +92,7 @@ public class MatchUserService {
     public void createUserTeam(String match_userId, List<String> playerIds) throws Exception {
         Optional<MatchUserStats> optionalMatchUserStats = matchUserStatsRepo.findById(match_userId);
         if (optionalMatchUserStats.isEmpty()) {
-            throw new Exception("User with this id does not exist.");
+            throw new Exception("ID not found.");
         }
         utilityService.validatePlayerIds(playerIds);
 

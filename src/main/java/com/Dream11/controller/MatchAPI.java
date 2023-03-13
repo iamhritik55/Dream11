@@ -119,7 +119,7 @@ public class MatchAPI {
     }
 
     @GetMapping("/stats")
-    public List<MatchUserStats> getMatchUserStats() {
+    public List<MatchUserStats> getAllStats() {
         return matchUserService.getAllStats();
     }
 
