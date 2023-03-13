@@ -39,8 +39,13 @@ public class MatchAPI {
         return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));
     }
     @PostMapping("/stats")
-    public MatchUserStats addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
-        return matchUserService.addMatchUserStats(matchUserStats);
+    public ResponseEntity<Object> addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
+        try {
+            matchUserService.addMatchUserStats(matchUserStats);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // TODO: 06/03/23 Add a new API to get the live matches.-done

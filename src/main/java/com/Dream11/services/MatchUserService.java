@@ -1,13 +1,16 @@
 package com.Dream11.services;
 
+import com.Dream11.entity.Match;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
+import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.PlayerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,11 +25,21 @@ public class MatchUserService {
     @Autowired
     MatchUserStatsRepo matchUserStatsRepo;
     @Autowired
+    MatchRepo matchRepo;
+    @Autowired
     UtilityService utilityService;
     @Autowired
     UserService userService;
 
-    public MatchUserStats addMatchUserStats(MatchUserStats matchUserStats) {
+    public MatchUserStats addMatchUserStats(MatchUserStats matchUserStats) throws Exception{
+        String matchId = matchUserStats.getMatchId();
+        Optional<Match> optionalMatch = matchRepo.findById(matchId);
+        if(optionalMatch.isPresent()){
+            Match matchObj = optionalMatch.get();
+            if(matchObj.isCompleted()){
+                throw new Exception("This match is already played please choose another one.");
+            }
+        }
         String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();
         matchUserStats.setMatch_userId(matchUserId);
         return matchUserStatsRepo.save(matchUserStats);
@@ -67,7 +80,7 @@ public class MatchUserService {
         }
     }
 
-    public void createUserTeam(String match_userId, String userId, List<String> playerIds) throws Exception {
+    public void createUserTeam(String match_userId, List<String> playerIds) throws Exception {
         Optional<MatchUserStats> optionalMatchUserStats = matchUserStatsRepo.findById(match_userId);
         if (optionalMatchUserStats.isEmpty()) {
             throw new Exception("User with this id does not exist.");
@@ -76,7 +89,8 @@ public class MatchUserService {
 
         utilityService.validateTeamSize(playerIds);
         MatchUserStats updateMatchUserStats = optionalMatchUserStats.get();
-
+        String userId = updateMatchUserStats.getUserId();
+        System.out.println(userId);
         int totalCost = utilityService.calculateTeamCost(playerIds);
 
         utilityService.restrictPlayerIds(playerIds);
