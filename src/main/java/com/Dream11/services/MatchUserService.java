@@ -10,15 +10,9 @@ import com.Dream11.repo.PlayerRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.Dream11.Counter.counter;
-
-
-import java.util.ArrayList;
-
-import java.util.Optional;
 
 @Service
 public class MatchUserService {
@@ -100,26 +94,26 @@ public class MatchUserService {
         for(MatchUserStats matchUserStats: matchUserStatsList){
            matchUserStatsList1.add(updateSingleMatchUserStats(matchUserStats,combinedPlayerList));
         }
-        counter++;
         return matchUserStatsRepo.saveAll(matchUserStatsList1);
-
     }
 
-    public MatchUserStats updateSingleMatchUserStats(MatchUserStats matchUserStats, List<Player> playerList){
-        List<String> chosenList = matchUserStats.getChosenPlayerIdList();
-            Collections.sort(chosenList);
+    public MatchUserStats updateSingleMatchUserStats(MatchUserStats matchUserStats2, List<Player> playerList){
+        List<String> chosenList = matchUserStats2.getChosenPlayerIdList();
+        Collections.sort(chosenList);
+
 
         for(int chosenListNumber=0; chosenListNumber<chosenList.size(); chosenListNumber++){
             for(Player player: playerList){
-                if(chosenList.get(chosenListNumber) == player.getId()){
-                    int teamPoints = matchUserStats.getTeamPoints();
+                if(Objects.equals(chosenList.get(chosenListNumber), player.getId())){
+                    int teamPoints = matchUserStats2.getTeamPoints();
                     teamPoints+=player.getPlayerPoints();
-                    matchUserStats.setTeamPoints(teamPoints);
+                    matchUserStats2.setTeamPoints(teamPoints);
                     break;
                 }
             }
         }
-        return matchUserStats;
+
+        return matchUserStats2;
     }
 
     public List<MatchUserStats> findByMatchId(String matchId) throws Exception{
@@ -143,19 +137,17 @@ public class MatchUserService {
         String winnerId="";
         int teamPoints = 0;
         int pointsPool = 0;
-//        boolean equal = false;
         for(MatchUserStats matchUserStats: matchUserStatsList){
             pointsPool+=matchUserStats.getCreditsSpentByUser();
             if(matchUserStats.getTeamPoints()>teamPoints){
                 winnerId = matchUserStats.getMatch_userId();
                 teamPoints = matchUserStats.getTeamPoints();
-//                equal = false;
             }
 
         }
 
         for(MatchUserStats matchUserStats: matchUserStatsList){
-            if(winnerId==matchUserStats.getMatch_userId()){
+            if(Objects.equals(winnerId, matchUserStats.getMatch_userId())){
                 matchUserStats.setCreditChange(pointsPool-matchUserStats.getCreditsSpentByUser());
                 userService.addUserCredits(matchUserStats.getUserId(), pointsPool);
             }
