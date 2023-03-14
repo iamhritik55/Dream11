@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.Dream11.Counter.counter;
 
@@ -129,7 +126,7 @@ public class MatchUserService {
 
         for(int chosenListNumber=0; chosenListNumber<chosenList.size(); chosenListNumber++){
             for(Player player: playerList){
-                if(chosenList.get(chosenListNumber) == player.getId()){
+                if(Objects.equals(chosenList.get(chosenListNumber), player.getId())){
                     int teamPoints = matchUserStats.getTeamPoints();
                     teamPoints+=player.getPlayerPoints();
                     matchUserStats.setTeamPoints(teamPoints);
@@ -173,7 +170,7 @@ public class MatchUserService {
         }
 
         for(MatchUserStats matchUserStats: matchUserStatsList){
-            if(winnerId==matchUserStats.getMatch_userId()){
+            if(Objects.equals(winnerId, matchUserStats.getMatch_userId())){
                 matchUserStats.setCreditChange(pointsPool-matchUserStats.getCreditsSpentByUser());
                 userService.addUserCredits(matchUserStats.getUserId(), pointsPool);
             }
