@@ -122,7 +122,7 @@ public class MatchUserService {
 
     public MatchUserStats updateSingleMatchUserStats(MatchUserStats matchUserStats, List<Player> playerList){
         List<String> chosenList = matchUserStats.getChosenPlayerIdList();
-            Collections.sort(chosenList);
+        Collections.sort(chosenList);
 
         for(int chosenListNumber=0; chosenListNumber<chosenList.size(); chosenListNumber++){
             for(Player player: playerList){
