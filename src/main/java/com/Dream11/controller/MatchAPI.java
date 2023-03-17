@@ -82,7 +82,7 @@ public class MatchAPI {
         return matchDTOs;
     }
 
-    @GetMapping("/{matchId}")// give meaningfull url
+    @GetMapping("/{matchId}")//todo give meaningfull url
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
     public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) {//3

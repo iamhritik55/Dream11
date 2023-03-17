@@ -16,7 +16,8 @@ public class Player {
     private String id;
     private String name;
     private int battingRating, bowlingRating;
-    private PlayerTitle title;
+    private PlayerTitle title;//strong , avg , allrounder
+    private String playerType;//batsman or bowler or allrounder
     private int creditCost;
 
     @Transient
