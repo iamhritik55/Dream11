@@ -4,9 +4,9 @@ import com.Dream11.DTO.MatchDTO;
 import com.Dream11.entity.Match;
 
 public class MatchTransformer {
-    public static MatchDTO matchToDTO(Match match){
+    public static MatchDTO matchToDTO(Match match){// add null checks
         MatchDTO matchDTO=new MatchDTO();
-        matchDTO.setMatchId(match.getMatchId());
+        matchDTO.setMatchId(match.getMatchId()); // remove matchid
         matchDTO.setTeam1Id(match.getTeam1Id());
         matchDTO.setTeam2Id(match.getTeam2Id());
         matchDTO.setTeam1Score(match.getTeam1Score());

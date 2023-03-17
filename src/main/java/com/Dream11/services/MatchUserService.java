@@ -19,6 +19,7 @@ import static com.Dream11.Counter.counter;
 
 @Service
 public class MatchUserService {
+
     @Autowired
     PlayerRepo playerRepo;
     @Autowired
@@ -32,21 +33,20 @@ public class MatchUserService {
     @Autowired
     UserService userService;
 
-    public MatchUserStats addMatchUserStats(MatchUserStats matchUserStats) throws Exception{
+    public MatchUserStats addMatchUserStats(MatchUserStats matchUserStats) throws Exception {
         String matchId = matchUserStats.getMatchId();
         Optional<Match> optionalMatch = matchRepo.findById(matchId);
         String userId = matchUserStats.getUserId();
         Optional<User> optionalUser = userRepo.findById(userId);
-        if(optionalMatch.isPresent() && optionalUser.isPresent()){
+        if (optionalMatch.isPresent() && optionalUser.isPresent()) {
             Match matchObj = optionalMatch.get();
-            if(matchObj.isCompleted()){
+            if (matchObj.isCompleted()) {
                 throw new Exception("This match is already played please choose another one.");
             }
             String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();
             matchUserStats.setMatch_userId(matchUserId);
             return matchUserStatsRepo.save(matchUserStats);
-        }
-        else{
+        } else {
             throw new Exception("IDs not found.");
         }
     }
@@ -72,7 +72,7 @@ public class MatchUserService {
                     players.add(player.getName());
                 }
             }
-            matchUserStats.setMatch_userId(stats.getMatch_userId());
+            matchUserStats.setMatch_userId(stats.getMatch_userId()); // TODO: 16/03/23 creaete a transformer
             matchUserStats.setMatchId(stats.getMatchId());
             matchUserStats.setUserId(stats.getUserId());
             matchUserStats.setCreditChange(stats.getCreditChange());
@@ -108,27 +108,29 @@ public class MatchUserService {
 
         matchUserStatsRepo.save(updateMatchUserStats);
     }
+
     //So MatchUserStats already exist, I want to fetch it from db and update it
-    public List<MatchUserStats> updateMultipleMatchUserStats(String matchId, List<Player> combinedPlayerList) throws Exception{
+    public List<MatchUserStats> updateMultipleMatchUserStats(String matchId, List<Player> combinedPlayerList)
+            throws Exception {
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchId);
         List<MatchUserStats> matchUserStatsList1 = new ArrayList<>();
-        for(MatchUserStats matchUserStats: matchUserStatsList){
-           matchUserStatsList1.add(updateSingleMatchUserStats(matchUserStats,combinedPlayerList));
+        for (MatchUserStats matchUserStats : matchUserStatsList) {
+            matchUserStatsList1.add(updateSingleMatchUserStats(matchUserStats, combinedPlayerList));
         }
         counter++;
         return matchUserStatsRepo.saveAll(matchUserStatsList1);
 
     }
 
-    public MatchUserStats updateSingleMatchUserStats(MatchUserStats matchUserStats, List<Player> playerList){
+    public MatchUserStats updateSingleMatchUserStats(MatchUserStats matchUserStats, List<Player> playerList) {
         List<String> chosenList = matchUserStats.getChosenPlayerIdList();
         Collections.sort(chosenList);
 
-        for(int chosenListNumber=0; chosenListNumber<chosenList.size(); chosenListNumber++){
-            for(Player player: playerList){
-                if(Objects.equals(chosenList.get(chosenListNumber), player.getId())){
+        for (int chosenListNumber = 0; chosenListNumber < chosenList.size(); chosenListNumber++) {
+            for (Player player : playerList) {
+                if (Objects.equals(chosenList.get(chosenListNumber), player.getId())) {
                     int teamPoints = matchUserStats.getTeamPoints();
-                    teamPoints+=player.getPlayerPoints();
+                    teamPoints += player.getPlayerPoints();
                     matchUserStats.setTeamPoints(teamPoints);
                     break;
                 }
@@ -137,44 +139,44 @@ public class MatchUserService {
         return matchUserStats;
     }
 
-    public List<MatchUserStats> findByMatchId(String matchId) throws Exception{
-        List<MatchUserStats> matchUserStats= matchUserStatsRepo.findByMatchId(matchId);
+    public List<MatchUserStats> findByMatchId(String matchId) throws Exception {
+        List<MatchUserStats> matchUserStats = matchUserStatsRepo.findByMatchId(matchId);
         counter++;
-        if(!CollectionUtils.isEmpty(matchUserStats))
+        if (!CollectionUtils.isEmpty(matchUserStats)) {
             return matchUserStats;
-        else
+        } else {
             throw new Exception("No record found with corresponding matchId");
+        }
 
     }
 
-    public MatchUserStats createMatchUserStat(MatchUserStats matchUserStats){
+    public MatchUserStats createMatchUserStat(MatchUserStats matchUserStats) {
         counter++;
         return matchUserStatsRepo.save(matchUserStats);
 
     }
 
-    public void updateWinnerUserPoints(String matchId) throws Exception{
+    public void updateWinnerUserPoints(String matchId) throws Exception {
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchId);
-        String winnerId="";
+        String winnerId = "";
         int teamPoints = 0;
         int pointsPool = 0;
-//        boolean equal = false;
-        for(MatchUserStats matchUserStats: matchUserStatsList){
-            pointsPool+=matchUserStats.getCreditsSpentByUser();
-            if(matchUserStats.getTeamPoints()>teamPoints){
+        //        boolean equal = false;
+        for (MatchUserStats matchUserStats : matchUserStatsList) {
+            pointsPool += matchUserStats.getCreditsSpentByUser();
+            if (matchUserStats.getTeamPoints() > teamPoints) {
                 winnerId = matchUserStats.getMatch_userId();
                 teamPoints = matchUserStats.getTeamPoints();
-//                equal = false;
+                //                equal = false;
             }
 
         }
 
-        for(MatchUserStats matchUserStats: matchUserStatsList){
-            if(Objects.equals(winnerId, matchUserStats.getMatch_userId())){
-                matchUserStats.setCreditChange(pointsPool-matchUserStats.getCreditsSpentByUser());
+        for (MatchUserStats matchUserStats : matchUserStatsList) {
+            if (Objects.equals(winnerId, matchUserStats.getMatch_userId())) {
+                matchUserStats.setCreditChange(pointsPool - matchUserStats.getCreditsSpentByUser());
                 userService.addUserCredits(matchUserStats.getUserId(), pointsPool);
-            }
-            else {
+            } else {
                 matchUserStats.setCreditChange(-matchUserStats.getCreditsSpentByUser());
             }
 

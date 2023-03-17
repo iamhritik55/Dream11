@@ -45,7 +45,7 @@ public class TeamService {
         return teamDTOs;
     }
 
-    public Team getTeam(String teamId) throws Exception{
+    public Team getTeam(String teamId) throws Exception{ // TODO: 16/03/23 make one repo call
         if(teamRepo.findById(teamId).isPresent()) return teamRepo.findById(teamId).get();
         else throw new Exception("team with teamId - "+teamId+"doesn't exist");
     }

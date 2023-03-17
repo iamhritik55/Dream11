@@ -12,6 +12,7 @@ import static com.Dream11.Counter.counter;
 
 @Service
 public class MatchStatsService {
+
     @Autowired
     MatchStatsRepo matchStatsRepo;
     @Autowired
@@ -20,17 +21,17 @@ public class MatchStatsService {
     TeamService teamService;
     @Autowired
     MatchDetailsService matchDetailsService;
-    public void createListPlayerStats(List<Player> playerList, String  matchId){
 
-        if(matchStatsRepo.findById(matchId).isPresent()){
+    public void createListPlayerStats(List<Player> playerList, String matchId) {
 
-        }
-        else {
+        if (matchStatsRepo.findById(matchId).isPresent()) {
+
+        } else {
 
         }
     }
 
-    public void createMatchStats(String matchId) throws Exception{
+    public void createMatchStats(String matchId) throws Exception {
 
         Match match = matchDetailsService.findMatchDetailsById(matchId);
 
@@ -50,28 +51,26 @@ public class MatchStatsService {
         counter++;
     }
 
-    public MatchStats updateMatchStats(String matchId, List<Player> playerList, String teamId) throws Exception{
+    public MatchStats updateMatchStats(String matchId, List<Player> playerList, String teamId) throws Exception {
         MatchStats matchStats = findMatchStatsById(matchId);
-        List<PlayerStats> playerStatsList=null;
-        boolean team1=false;
-        if(Objects.equals(matchStats.getTeam1Name(), teamService.getTeamBYId(teamId).getName())){
+        List<PlayerStats> playerStatsList = null;
+        boolean team1 = false;
+        if (Objects.equals(matchStats.getTeam1Name(), teamService.getTeamBYId(teamId).getName())) {
             playerStatsList = matchStats.getTeam1PlayerStats();
             team1 = true;
-        }
-        else if(Objects.equals(matchStats.getTeam2Name(), teamService.getTeamBYId(teamId).getName())){
+        } else if (Objects.equals(matchStats.getTeam2Name(), teamService.getTeamBYId(teamId).getName())) {
             playerStatsList = matchStats.getTeam2PlayerStats();
         }
 
         //Now I want to update matchStats ->
-        for(Player player: playerList){
+        for (Player player : playerList) {
             //A method where I sent playerStatsList, it returns me updatedPlayerStatsList
             playerStatsList = updatePlayerStatListForPlayer(playerStatsList, player);
         }
 
-        if(team1){
+        if (team1) {
             matchStats.setTeam1PlayerStats(playerStatsList);
-        }
-        else {
+        } else {
             matchStats.setTeam2PlayerStats(playerStatsList);
         }
         counter++;
@@ -79,14 +78,14 @@ public class MatchStatsService {
 
     }
 
-    public List<PlayerStats> updatePlayerStatListForPlayer(List<PlayerStats> playerStatsList, Player player){
-        for(PlayerStats playerStats: playerStatsList){
-            if(Objects.equals(playerStats.getPlayerId(), player.getId())){
-                int foursScored = player.getFoursScored()+ playerStats.getFoursScored();
-                int sixesScored = player.getSixesScored()+playerStats.getSixesScored();
-                int battingRuns = player.getBattingRuns()+ playerStats.getBattingRuns();
-                int bowlingWickets = player.getBowlingWickets()+ playerStats.getBowlingWickets();
-                int playerPoints = player.getPlayerPoints()+ playerStats.getPlayerPoints();
+    public List<PlayerStats> updatePlayerStatListForPlayer(List<PlayerStats> playerStatsList, Player player) {
+        for (PlayerStats playerStats : playerStatsList) {
+            if (Objects.equals(playerStats.getPlayerId(), player.getId())) {
+                int foursScored = player.getFoursScored() + playerStats.getFoursScored();
+                int sixesScored = player.getSixesScored() + playerStats.getSixesScored();
+                int battingRuns = player.getBattingRuns() + playerStats.getBattingRuns();
+                int bowlingWickets = player.getBowlingWickets() + playerStats.getBowlingWickets();
+                int playerPoints = player.getPlayerPoints() + playerStats.getPlayerPoints();
 
                 playerStats.setPlayerPoints(playerPoints);
                 playerStats.setBattingRuns(battingRuns);
@@ -99,18 +98,17 @@ public class MatchStatsService {
         return playerStatsList;
     }
 
-    public MatchStats findMatchStatsById(String id) throws Exception{
-        if(matchStatsRepo.findById(id).isPresent()){
+    public MatchStats findMatchStatsById(String id) throws Exception {
+        if (matchStatsRepo.findById(id).isPresent()) {
             counter++;
             counter++;
-            return matchStatsRepo.findById(id).get();
-        }
-        else {
+            return matchStatsRepo.findById(id).get(); // TODO: 16/03/23  make 1 repo call
+        } else {
             throw new Exception("MatchStats id not found!");
         }
     }
 
-    public MatchStats declareWinner(String id, String winnerTeamName) throws Exception{
+    public MatchStats declareWinner(String id, String winnerTeamName) throws Exception {
         MatchStats matchStats = findMatchStatsById(id);
         matchStats.setWinnerTeamName(winnerTeamName);
         counter++;

@@ -5,6 +5,7 @@ import com.Dream11.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +36,14 @@ public class MatchAPI {
     @PostMapping
     // TODO: 06/03/23  take match DTO which will update the necessary fields-done
     // TODO: 06/03/23  Give in response whatever fields are required.-done
-    public MatchDTO addMatch(@RequestBody MatchDTO matchDTO) {
-        return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));
+    public MatchDTO addMatch(@RequestBody @Validated MatchDTO matchDTO) {
+        //add response Dto
+        return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));// add transformer in service
     }
     @PostMapping("/stats")
     public ResponseEntity<Object> addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
-        try {
+        try {// TODO: 16/03/23 add matchUserStats DTO
+            // TODO: 16/03/23 add dto validation 
             matchUserService.addMatchUserStats(matchUserStats);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -79,7 +82,7 @@ public class MatchAPI {
         return matchDTOs;
     }
 
-    @GetMapping("/{matchId}")
+    @GetMapping("/{matchId}")// give meaningfull url
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
     public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) {//3
@@ -91,12 +94,12 @@ public class MatchAPI {
     }
 
     @GetMapping("/stats/{match_userId}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {// TODO: 16/03/23 take a genric name
         try {
             MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);
             return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // TODO: 16/03/23  add try catch in service
         }
     }
     @GetMapping("/matchStats/{matchId}")

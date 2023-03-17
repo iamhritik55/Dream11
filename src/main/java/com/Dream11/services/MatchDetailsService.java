@@ -5,6 +5,8 @@ import com.Dream11.repo.MatchRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 import static com.Dream11.Counter.counter;
 
 @Service
@@ -14,7 +16,7 @@ public class MatchDetailsService {
     public void updateTeamScoreMatchDetails(String matchId, String teamId, int teamScore){
         Match match = matchRepo.findById(matchId).get();
         counter++;
-        if(match.getTeam1Id()==teamId)
+        if(Objects.equals(match.getTeam1Id(), teamId))
             match.setTeam1Score(teamScore);
         else
             match.setTeam2Score(teamScore);

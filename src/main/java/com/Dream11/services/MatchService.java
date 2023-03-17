@@ -37,16 +37,20 @@ public class MatchService {
     @Autowired
     public PlayerRepo playerRepo;
     SecureRandom secureRandom = new SecureRandom();
+
+    //validation and create context
+    //TODO create a MatchController service
     public List<MatchUserStats> startMatch(String matchId) throws Exception{
         counter=0;
         //Fetching match object from db
+        // TODO: 16/03/23 create a context ,first fetch all the data then start the logic
         Match match = matchDetailsService.findMatchDetailsById(matchId);
         if(match.isCompleted()){
             throw new Exception("Match has already happened!");
         }
         //Create an object of matchStats and store it in DB
         matchStatsService.createMatchStats(matchId);
-
+        // TODO: 16/03/23
         //Fetching team objects from db
         Team team1 = teamService.getTeamBYId(match.getTeam1Id());
         Team team2 = teamService.getTeamBYId(match.getTeam2Id());
@@ -62,7 +66,7 @@ public class MatchService {
             System.out.println(team2.getName()+" has won the toss and chosen to bat!");
             matchUserStatsList=inningService.playInning(team2, team1, true, matchId);
             matchUserStatsList=inningService.playInning(team1, team2, false, matchId);
-        }
+        }// TODO- create a toss method in separate file
 
         int team1score = matchDetailsService.getTeamScore(matchId, match.getTeam1Id());
         int team2score = matchDetailsService.getTeamScore(matchId, match.getTeam2Id());
@@ -83,7 +87,7 @@ public class MatchService {
         return matchRepo.findAll();
     }
 
-    public Match getMatch(String matchId) throws Exception {
+    public Match getMatch(String matchId) throws Exception {// TODO: 16/03/23 make only one repo call
         if (matchRepo.findById(matchId).isPresent()) {
             return matchRepo.findById(matchId).get();
         } else {
@@ -98,20 +102,20 @@ public class MatchService {
     }
     public TeamDetails getTeamDetails(String matchId) throws Exception {
         Match match;
-        match = getMatch(matchId);
+        match =getMatch(matchId);
         TeamDetails teamDetails = new TeamDetails();
         teamDetails.setTeam1Id(match.getTeam1Id());
         teamDetails.setTeam2Id(match.getTeam2Id());
         Team team1 = teamService.getTeam(match.getTeam1Id());
-        Team team2 = teamService.getTeam(match.getTeam2Id());
+        Team team2 = teamService.getTeam(match.getTeam2Id());// TODO: 16/03/23 one repo call should be there
         teamDetails.setTeam1Name(team1.getName());
         teamDetails.setTeam2Name(team2.getName());
         List<String> team1PlayerIds = team1.getTeamPlayerIds();
         List<String> team2PlayerIds = team2.getTeamPlayerIds();
         List<PlayerDTO> team1PlayerDTOs = new ArrayList<>();
         List<PlayerDTO> team2PlayerDTOs = new ArrayList<>();
-        List<Player> team1Players=playerRepo.findAllById(team1PlayerIds);
-        List<Player> team2Players=playerRepo.findAllById(team2PlayerIds);
+        List<Player> team1Players=playerRepo.findAllById(team1PlayerIds);//make code cleaner
+        List<Player> team2Players=playerRepo.findAllById(team2PlayerIds);// TODO: 16/03/23 only one repo call should be there
         for (Player player:team1Players
              ) {
             team1PlayerDTOs.add(playerToDTO(player));
@@ -119,7 +123,7 @@ public class MatchService {
         for (Player player:team2Players
         ) {
             team2PlayerDTOs.add(playerToDTO(player));
-        }
+        } // TODO: 16/03/23 make a separate method for these
 
         //        if (!CollectionUtils.isEmpty(team1PlayerIds)) {
         //            for (String playerId : team1PlayerIds) {
