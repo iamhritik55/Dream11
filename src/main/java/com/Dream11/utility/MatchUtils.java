@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class MatchUtils {
     @Autowired
     MatchStatsService matchStatsService;
-    public String declareWinner(Team team1, Team team2, int team1Score, int team2Score){
+    public String declareWinner(Team team1, Team team2, long team1Score, long team2Score){
         if(team1Score>team2Score){
             System.out.println(team1.getName()+" has won the match");
             return team1.getName();

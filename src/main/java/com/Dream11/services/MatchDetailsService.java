@@ -1,6 +1,7 @@
 package com.Dream11.services;
 
 import com.Dream11.entity.Match;
+import com.Dream11.entity.MatchStatus;
 import com.Dream11.repo.MatchRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class MatchDetailsService {
 
     }
 
-    public int getTeamScore(String matchId, String teamId){
+    public long getTeamScore(String matchId, String teamId){
         Match match = matchRepo.findById(matchId).get();
         counter++;
         if(match.getTeam1Id()==teamId)
@@ -52,7 +53,7 @@ public class MatchDetailsService {
 
     public void matchCompleted(String matchId){
         Match match = matchRepo.findById(matchId).get();
-        match.setCompleted(true);
+        match.setCompleted(MatchStatus.PLAYED);
         matchRepo.save(match);
         counter++;
         counter++;

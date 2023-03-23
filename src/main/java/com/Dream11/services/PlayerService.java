@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
+import static com.Dream11.transformer.PlayerTransformer.*;
 
 @Service
 public class PlayerService {
+
     @Autowired
     private PlayerRepo playerRepo;
 
@@ -31,25 +32,26 @@ public class PlayerService {
         return playerRepo.findAllById(playerIdList);
     }
 
-    public Player addPlayer(Player player) {
-        return playerRepo.save(player);
+    public PlayerResponseDTO addPlayer(PlayerRequestDTO playerRequestDTO) {
+        Player player = requestDtoToPlayer(playerRequestDTO);
+        return playerToResponseDto(playerRepo.save(player));
     }
 
-    public List<com.Dream11.DTO.PlayerDTO> getPlayers() {
-        List<PlayerDTO> playerDTOs=new ArrayList<>();
-        List<Player> players=playerRepo.findAll();
-        for (Player player:players
-             ) {
-            playerDTOs.add(playerToDTO(player));
+    public List<PlayerResponseDTO> getPlayers() {
+        List<PlayerResponseDTO> playerResponseDTOS = new ArrayList<>();
+        List<Player> players = playerRepo.findAll();
+        for (Player player : players) {
+            playerResponseDTOS.add(playerToResponseDto(player));
         }
-        return playerDTOs;
+        return playerResponseDTOS;
     }
 
-    public Player getPlayer(String playerId) throws Exception{
-        if(playerRepo.findById(playerId).isPresent())
-            return playerRepo.findById(playerId).get();
-        else{
-            throw new Exception("Player with playerID - "+playerId+"doesn't exist");
+    public PlayerResponseDTO getPlayer(String playerId) throws Exception {
+        Optional<Player> player = playerRepo.findById(playerId);
+        if (player.isPresent()) {
+            return playerToResponseDto(player.get());
+        } else {
+            throw new Exception("Player with playerID - " + playerId + "doesn't exist");
         }
     }
 }

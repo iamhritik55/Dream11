@@ -1,5 +1,7 @@
 package com.Dream11.services;
 
+import com.Dream11.DTO.MatchResponseDTO;
+import com.Dream11.entity.Match;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.utility.ApplicationUtils;
@@ -7,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.Dream11.transformer.MatchTransformer.MatchToResponseDto;
 
 @Service
 public class UtilityService {
@@ -70,5 +75,12 @@ public class UtilityService {
         else if (strongPlayerCount > 1 && allRounderCount >= 1) {
             throw new Exception("Team can have at most 1 All-rounder with 1 strong player, or 2 strong players with no all rounders.");
         }
+    }
+    public List<MatchResponseDTO> createListOfMatchResponse(List<Match> matches){
+        List<MatchResponseDTO> matchResponseDTOS = new ArrayList<>();
+        for (Match match : matches) {
+            matchResponseDTOS.add(MatchToResponseDto(match));
+        }
+        return matchResponseDTOS;
     }
 }

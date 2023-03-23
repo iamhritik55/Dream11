@@ -45,7 +45,7 @@ public class InningService {// TODO: 16/03/23  make it interface and change the 
         int wickets = 0;
         int playerNumber = 1;
         int bowlerNumber = 0;
-        int bowlingTeamRuns = 0;
+        long bowlingTeamRuns = 0;
         if (!isFirstInning) {
             bowlingTeamRuns = matchDetailsService.getTeamScore(matchId, bowlingTeam.getId());
         }

@@ -16,13 +16,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Match {
 
     @Id
-    @Field("_id")
+//    @Field("_id")
     private String matchId;// make it Id
     private String team1Id;
     private String team2Id;
     @Indexed
-    private boolean completed; // TODO: 16/03/23  make it enum
-    private int team1Score;
-    private int team2Score;
+    private MatchStatus completed; // TODO: 16/03/23  make it enum-done
+    private long team1Score;
+    private long team2Score;
 }
 

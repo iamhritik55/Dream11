@@ -1,6 +1,8 @@
 package com.Dream11.controller;
 
 import com.Dream11.DTO.TeamDTO;
+import com.Dream11.DTO.TeamRequestDTO;
+import com.Dream11.DTO.TeamResponseDTO;
 import com.Dream11.repo.TeamRepo;
 import com.Dream11.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +26,17 @@ public class TeamAPI {
     public TeamRepo teamRepo;
 
     @PostMapping
-    public ResponseEntity<Object> addTeam(@RequestBody TeamDTO teamDTO) {
-        try {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(teamService.addTeam(DTOToTeam(teamDTO)));
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<TeamResponseDTO> addTeam(@RequestBody TeamRequestDTO teamRequestDTO) throws Exception {
+        return ResponseEntity.ok(teamService.addTeam(teamRequestDTO));
     }
 
     @GetMapping
-    public List<TeamDTO> getTeams() {
-        return teamService.getTeams();
+    public ResponseEntity<List<TeamResponseDTO>> getTeams() {
+        return ResponseEntity.ok(teamService.getTeams());
     }
 
     @GetMapping("/{teamId}")
-    public TeamDTO getTeam(@PathVariable String teamId) {
-        try {
-            return teamToDTO(teamService.getTeam(teamId));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+    public ResponseEntity<TeamResponseDTO> getTeam(@PathVariable String teamId) throws Exception {
+        return ResponseEntity.ok(teamService.getTeam(teamId));
     }
 }

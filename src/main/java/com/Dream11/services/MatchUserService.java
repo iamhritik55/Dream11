@@ -1,9 +1,6 @@
 package com.Dream11.services;
 
-import com.Dream11.entity.Match;
-import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.Player;
-import com.Dream11.entity.User;
+import com.Dream11.entity.*;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.PlayerRepo;
@@ -40,7 +37,7 @@ public class MatchUserService {
         Optional<User> optionalUser = userRepo.findById(userId);
         if (optionalMatch.isPresent() && optionalUser.isPresent()) {
             Match matchObj = optionalMatch.get();
-            if (matchObj.isCompleted()) {
+            if (matchObj.getCompleted() == MatchStatus.PLAYED) {
                 throw new Exception("This match is already played please choose another one.");
             }
             String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();

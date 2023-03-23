@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.Dream11.Counter.counter;
 
@@ -99,10 +100,9 @@ public class MatchStatsService {
     }
 
     public MatchStats findMatchStatsById(String id) throws Exception {
-        if (matchStatsRepo.findById(id).isPresent()) {
-            counter++;
-            counter++;
-            return matchStatsRepo.findById(id).get(); // TODO: 16/03/23  make 1 repo call
+        Optional<MatchStats> matchStats=matchStatsRepo.findById(id);
+        if (matchStats.isPresent()) {
+            return matchStats.get(); // TODO: 16/03/23  make 1 repo call-done
         } else {
             throw new Exception("MatchStats id not found!");
         }

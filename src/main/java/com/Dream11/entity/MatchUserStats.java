@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MatchUserStats {
     @Id
     private String id;
-//    private String match_userId;
+    private String match_userId;
 
     private String matchId;//
     private String userId;// TODO: 17/03/23 make these nonNull
