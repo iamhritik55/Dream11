@@ -18,7 +18,6 @@ public class Team {
     private String id;
     private String name;
     private List<String> teamPlayerIds;
-
     @Transient
     private int teamRuns = 0;
 

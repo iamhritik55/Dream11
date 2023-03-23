@@ -16,12 +16,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MatchUserStats {
     @Id
     private String id;
-//    private String match_userId;
+    private String match_userId;
 
     private String matchId;//
     private String userId;// TODO: 17/03/23 make these nonNull
     private List<String> chosenPlayerIdList;
-    private List<String> playerName;// TODO: 17/03/23  add this to response DTO
+//    private List<String> playerName;// TODO: 17/03/23  add this to response DTO
     private int creditChange;
     private int teamPoints;
     private int creditsSpentByUser;

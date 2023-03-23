@@ -112,14 +112,14 @@ public class MatchAPI {
     }
 
     @PostMapping("/start/{matchId}")//5
-    public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) {
-        try {
-            List<MatchUserStats> matchUserStatsList = matchService.startMatch(matchId);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchUserStatsList);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
+//    public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) {
+//        try {
+//            List<MatchUserStats> matchUserStatsList = matchService.startMatch(matchId);
+//            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchUserStatsList);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @GetMapping("/stats")
     public List<MatchUserStats> getAllStats() {

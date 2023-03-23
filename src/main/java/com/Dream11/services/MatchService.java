@@ -25,8 +25,6 @@ public class MatchService {
     @Autowired
     private MatchDetailsService matchDetailsService;
     @Autowired
-    private InningService inningService;
-    @Autowired
     private MatchUtils matchUtils;
     @Autowired
     private MatchStatsService matchStatsService;
@@ -40,45 +38,44 @@ public class MatchService {
 
     //validation and create context
     //TODO create a MatchController service
-    public List<MatchUserStats> startMatch(String matchId) throws Exception{
-        counter=0;
-        //Fetching match object from db
-        // TODO: 16/03/23 create a context ,first fetch all the data then start the logic
-        Match match = matchDetailsService.findMatchDetailsById(matchId);
-        if(match.isCompleted()){
-            throw new Exception("Match has already happened!");
-        }
-        //Create an object of matchStats and store it in DB
-        matchStatsService.createMatchStats(matchId);
-        // TODO: 16/03/23
-        //Fetching team objects from db
-        Team team1 = teamService.getTeamBYId(match.getTeam1Id());
-        Team team2 = teamService.getTeamBYId(match.getTeam2Id());
-        MatchStats matchStats;
-        List<MatchUserStats> matchUserStatsList;
-        //Toss 0-> team1 wins and bats, 1-> team2 wins and bats
-        if(secureRandom.nextInt(2)==0){
-            System.out.println(team1.getName()+" has won the toss and chosen to bat!");
-            matchUserStatsList = inningService.playInning(team1, team2, true, matchId);
-            matchUserStatsList = inningService.playInning(team2, team1, false, matchId);
-        }
-        else {
-            System.out.println(team2.getName()+" has won the toss and chosen to bat!");
-            matchUserStatsList=inningService.playInning(team2, team1, true, matchId);
-            matchUserStatsList=inningService.playInning(team1, team2, false, matchId);
-        }// TODO- create a toss method in separate file
-
-        int team1score = matchDetailsService.getTeamScore(matchId, match.getTeam1Id());
-        int team2score = matchDetailsService.getTeamScore(matchId, match.getTeam2Id());
-
-        String winnerTeamName = matchUtils.declareWinner(team1, team2, team1score, team2score);
-        matchStats = matchStatsService.declareWinner(matchId,winnerTeamName);
-        matchDetailsService.matchCompleted(matchId);
-        //Updating points for user
-
-        matchUserService.updateWinnerUserPoints(matchId);
-        return matchUserService.findByMatchId(matchId);
-    }
+//    public List<MatchUserStats> startMatch(String matchId) throws Exception{
+//        //Fetching match object from db
+//        // TODO: 16/03/23 create a context ,first fetch all the data then start the logic
+//        Match match = matchDetailsService.findMatchDetailsById(matchId);
+//        if(match.isCompleted()){
+//            throw new Exception("Match has already happened!");
+//        }
+//        //Create an object of matchStats and store it in DB
+//        matchStatsService.createMatchStats(matchId);
+//        // TODO: 16/03/23
+//        //Fetching team objects from db
+//        Team team1 = teamService.getTeamBYId(match.getTeam1Id());
+//        Team team2 = teamService.getTeamBYId(match.getTeam2Id());
+//        MatchStats matchStats;
+//        List<MatchUserStats> matchUserStatsList;
+//        //Toss 0-> team1 wins and bats, 1-> team2 wins and bats
+//        if(secureRandom.nextInt(2)==0){
+//            System.out.println(team1.getName()+" has won the toss and chosen to bat!");
+//            matchUserStatsList = inningService.playInning(team1, team2, true, matchId);
+//            matchUserStatsList = inningService.playInning(team2, team1, false, matchId);
+//        }
+//        else {
+//            System.out.println(team2.getName()+" has won the toss and chosen to bat!");
+//            matchUserStatsList=inningService.playInning(team2, team1, true, matchId);
+//            matchUserStatsList=inningService.playInning(team1, team2, false, matchId);
+//        }// TODO- create a toss method in separate file
+//
+//        int team1score = matchDetailsService.getTeamScore(matchId, match.getTeam1Id());
+//        int team2score = matchDetailsService.getTeamScore(matchId, match.getTeam2Id());
+//
+//        String winnerTeamName = matchUtils.declareWinner(team1, team2, team1score, team2score);
+//        matchStats = matchStatsService.declareWinner(matchId,winnerTeamName);
+//        matchDetailsService.matchCompleted(matchId);
+//        //Updating points for user
+//
+//        matchUserService.updateWinnerUserPoints(matchId);
+//        return matchUserService.findByMatchId(matchId);
+//    }
     public Match addMatch(Match match) {
         return matchRepo.save(match);
     }
