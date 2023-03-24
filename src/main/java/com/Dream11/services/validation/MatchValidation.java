@@ -2,6 +2,7 @@ package com.Dream11.services.validation;
 
 import com.Dream11.DTO.MatchRequestDTO;
 import com.Dream11.entity.Match;
+import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class MatchValidation {
 
     @Autowired
     public TeamRepo teamRepo;
+    @Autowired
+    public MatchRepo matchRepo;
 
     public void validateMatch(MatchRequestDTO match) throws Exception {
         Optional<String> team1Id = Optional.ofNullable(match.getTeam1Id());
@@ -33,4 +36,5 @@ public class MatchValidation {
             throw new Exception("Both teamIDs can't be same");
         }
     }
+
 }

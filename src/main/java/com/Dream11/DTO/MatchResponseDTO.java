@@ -10,6 +10,8 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class MatchResponseDTO {
     @NonNull
+    private String id;
+    @NonNull
     private String team1Id;
     @NonNull
     private String team2Id;

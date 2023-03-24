@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeamResponseDTO {
+    private String id;
     private String name;
     private List<String> teamPlayerIds;
 }

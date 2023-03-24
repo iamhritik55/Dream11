@@ -1,20 +1,14 @@
 package com.Dream11.controller;
 
-import com.Dream11.DTO.TeamDTO;
 import com.Dream11.DTO.TeamRequestDTO;
 import com.Dream11.DTO.TeamResponseDTO;
 import com.Dream11.repo.TeamRepo;
 import com.Dream11.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-
-import static com.Dream11.transformer.TeamTransformer.DTOToTeam;
-import static com.Dream11.transformer.TeamTransformer.teamToDTO;
 
 @RestController
 @RequestMapping("/team")

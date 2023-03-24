@@ -1,9 +1,7 @@
 package com.Dream11.controller;
 
-import com.Dream11.DTO.MatchDTO;
 import com.Dream11.DTO.MatchRequestDTO;
 import com.Dream11.DTO.MatchResponseDTO;
-import com.Dream11.entity.Match;
 import com.Dream11.entity.MatchStats;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.services.MatchService;
@@ -11,13 +9,11 @@ import com.Dream11.services.MatchStatsService;
 import com.Dream11.services.MatchUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

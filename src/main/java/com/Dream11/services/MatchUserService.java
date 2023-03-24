@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static com.Dream11.Counter.counter;
@@ -37,7 +36,7 @@ public class MatchUserService {
         Optional<User> optionalUser = userRepo.findById(userId);
         if (optionalMatch.isPresent() && optionalUser.isPresent()) {
             Match matchObj = optionalMatch.get();
-            if (matchObj.getCompleted() == MatchStatus.PLAYED) {
+            if (matchObj.getStatus() == MatchStatus.PLAYED) {
                 throw new Exception("This match is already played please choose another one.");
             }
             String matchUserId = matchUserStats.getMatchId() + "_" + matchUserStats.getUserId();

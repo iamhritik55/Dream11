@@ -16,21 +16,17 @@ public class MatchDetailsService {
     MatchRepo matchRepo;
     public void updateTeamScoreMatchDetails(String matchId, String teamId, int teamScore){
         Match match = matchRepo.findById(matchId).get();
-        counter++;
         if(Objects.equals(match.getTeam1Id(), teamId))
             match.setTeam1Score(teamScore);
         else
             match.setTeam2Score(teamScore);
 
         matchRepo.save(match);
-        counter++;
     }
 
     public Match findMatchDetailsById(String matchId){
         Match match;
         if(matchRepo.findById(matchId).isPresent()){
-            counter++;
-            counter++;
             match = matchRepo.findById(matchId).get();
             return match;
         }
@@ -43,7 +39,6 @@ public class MatchDetailsService {
 
     public long getTeamScore(String matchId, String teamId){
         Match match = matchRepo.findById(matchId).get();
-        counter++;
         if(match.getTeam1Id()==teamId)
             return match.getTeam1Score();
         else
@@ -53,10 +48,8 @@ public class MatchDetailsService {
 
     public void matchCompleted(String matchId){
         Match match = matchRepo.findById(matchId).get();
-        match.setCompleted(MatchStatus.PLAYED);
+        match.setStatus(MatchStatus.PLAYED);
         matchRepo.save(match);
-        counter++;
-        counter++;
     }
 
 }

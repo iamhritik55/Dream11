@@ -37,8 +37,8 @@ public class MatchStatsService {
         Match match = matchDetailsService.findMatchDetailsById(matchId);
 
         //Fetching team objects from db
-        Team team1 = teamService.getTeamBYId(match.getTeam1Id());
-        Team team2 = teamService.getTeamBYId(match.getTeam2Id());
+        Team team1 = teamService.getTeamById(match.getTeam1Id());
+        Team team2 = teamService.getTeamById(match.getTeam2Id());
         MatchStats matchStats = new MatchStats();
         matchStats.setId(matchId);
 
@@ -56,10 +56,10 @@ public class MatchStatsService {
         MatchStats matchStats = findMatchStatsById(matchId);
         List<PlayerStats> playerStatsList = null;
         boolean team1 = false;
-        if (Objects.equals(matchStats.getTeam1Name(), teamService.getTeamBYId(teamId).getName())) {
+        if (Objects.equals(matchStats.getTeam1Name(), teamService.getTeamById(teamId).getName())) {
             playerStatsList = matchStats.getTeam1PlayerStats();
             team1 = true;
-        } else if (Objects.equals(matchStats.getTeam2Name(), teamService.getTeamBYId(teamId).getName())) {
+        } else if (Objects.equals(matchStats.getTeam2Name(), teamService.getTeamById(teamId).getName())) {
             playerStatsList = matchStats.getTeam2PlayerStats();
         }
 

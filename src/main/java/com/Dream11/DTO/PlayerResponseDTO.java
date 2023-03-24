@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlayerResponseDTO {
+    private String id;
     private String name;
     private int battingRating,bowlingRating;
     private PlayerTitle title;

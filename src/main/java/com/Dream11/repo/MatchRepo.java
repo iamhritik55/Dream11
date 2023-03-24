@@ -8,6 +8,6 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface MatchRepo extends MongoRepository<Match,String> {
-    @Query("{completed: ?0}")
-    List<Match> findMatchesByStatus(MatchStatus completed);
+    @Query("{status: ?0}")
+    List<Match> findMatchesByStatus(MatchStatus status);
 }

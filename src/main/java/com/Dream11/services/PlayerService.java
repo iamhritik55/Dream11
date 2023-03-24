@@ -17,7 +17,8 @@ public class PlayerService {
 
     @Autowired
     private PlayerRepo playerRepo;
-
+    @Autowired
+    private UtilityService utilityService;
     public Player getPlayerFromId(String playerId) {
         Player playerValue = null;
         Optional<Player> player = playerRepo.findById(playerId);
@@ -38,11 +39,8 @@ public class PlayerService {
     }
 
     public List<PlayerResponseDTO> getPlayers() {
-        List<PlayerResponseDTO> playerResponseDTOS = new ArrayList<>();
         List<Player> players = playerRepo.findAll();
-        for (Player player : players) {
-            playerResponseDTOS.add(playerToResponseDto(player));
-        }
+        List<PlayerResponseDTO> playerResponseDTOS = utilityService.createListOfPlayerResponseDTO(players);
         return playerResponseDTOS;
     }
 
