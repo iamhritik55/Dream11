@@ -1,4 +1,4 @@
-package com.Dream11.helperClasses;
+package com.Dream11.enums;
 
 public enum MatchStatus {
     PLAYED,

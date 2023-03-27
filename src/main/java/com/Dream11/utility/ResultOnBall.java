@@ -1,6 +1,6 @@
 package com.Dream11.utility;
 
-import com.Dream11.helperClasses.PlayerTitle;
+import com.Dream11.enums.PlayerTitle;
 
 import java.security.SecureRandom;
 import java.util.List;

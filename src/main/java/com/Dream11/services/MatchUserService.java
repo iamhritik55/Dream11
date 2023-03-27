@@ -3,7 +3,7 @@ package com.Dream11.services;
 import com.Dream11.context.CricketInningContext;
 import com.Dream11.context.CricketMatchContext;
 import com.Dream11.entity.*;
-import com.Dream11.helperClasses.MatchStatus;
+import com.Dream11.enums.MatchStatus;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.PlayerRepo;
@@ -12,11 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.sql.SQLOutput;
 import java.util.*;
-
-import static com.Dream11.utility.ApplicationUtils.FIFTEEN_POINTS;
-import static com.Dream11.utility.ApplicationUtils.WICKET;
 
 @Service
 public class MatchUserService {

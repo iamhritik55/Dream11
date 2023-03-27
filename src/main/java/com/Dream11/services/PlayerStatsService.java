@@ -1,7 +1,7 @@
 package com.Dream11.services;
 
 import com.Dream11.entity.Player;
-import com.Dream11.helperClasses.PlayerStats;
+import com.Dream11.entity.PlayerStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
