@@ -102,4 +102,14 @@ public class UserService {
         userRepo.saveAll(userList);
     }
 
+    public String findUserNameById(String userId) throws Exception{
+        Optional<User> optional = userRepo.findById(userId);
+        if (optional.isPresent()){
+            return optional.get().getName();
+        }
+        else {
+            throw new Exception("userId not found!");
+        }
+    }
+
 }

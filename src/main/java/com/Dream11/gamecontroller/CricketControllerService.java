@@ -1,4 +1,5 @@
 package com.Dream11.gamecontroller;
+import com.Dream11.DTO.response.LeaderboardResponseDTO;
 import com.Dream11.context.CricketInningContext;
 import com.Dream11.context.CricketMatchContext;
 import com.Dream11.entity.MatchStats;
@@ -31,7 +32,7 @@ public class CricketControllerService implements GameControllerService {
     @Autowired
     private MatchUserService matchUserService;
     @Override
-    public List<MatchUserStats> startMatch(String matchId) throws Exception {
+    public List<LeaderboardResponseDTO> startMatch(String matchId) throws Exception {
 
         //Fetching matchContext and validating and toss
         matchContext = matchContext.fetchCricketContext(matchId);

@@ -5,6 +5,7 @@ import com.Dream11.entity.Match;
 import com.Dream11.entity.Team;
 import com.Dream11.gamecontroller.CricketUtility;
 import com.Dream11.services.MatchDetailsService;
+import com.Dream11.services.MatchService;
 import com.Dream11.services.TeamService;
 import com.Dream11.validation.CricketMatchValidation;
 import lombok.Data;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CricketMatchContext {
     @Autowired
-    MatchDetailsService matchDetailsService;
+    MatchService matchService;
     @Autowired
     CricketMatchValidation matchValidation;
     @Autowired
@@ -27,7 +28,7 @@ public class CricketMatchContext {
     private boolean secondInning;
 
     public CricketMatchContext fetchCricketContext(String matchId) throws Exception{
-        this.match = matchDetailsService.findMatchDetailsById(matchId);
+        this.match = matchService.getMatch(matchId);
         matchValidation.matchCompletedValidation(match);
         this.team1 = teamService.getTeamById(match.getTeam1Id());
         this.team2 = teamService.getTeamById(match.getTeam2Id());

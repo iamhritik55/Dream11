@@ -1,5 +1,6 @@
 package com.Dream11.services;
 
+import com.Dream11.DTO.response.LeaderboardResponseDTO;
 import com.Dream11.context.CricketInningContext;
 import com.Dream11.context.CricketMatchContext;
 import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
@@ -11,6 +12,7 @@ import com.Dream11.repo.MatchUserStatsRepo;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.repo.UserRepo;
 import com.Dream11.services.validation.MatchUserValidation;
+import com.Dream11.transformer.LeaderboardTransformer;
 import com.Dream11.transformer.MatchUserStatsTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ public class MatchUserService {
     UserService userService;
     @Autowired
     MatchUserValidation matchUserValidation;
+    @Autowired
+    LeaderboardTransformer leaderboardTransformer;
 
     public List<MatchUserStats> getAllStats() {
         return matchUserStatsRepo.findAll();
@@ -90,8 +94,8 @@ public class MatchUserService {
 
     }
 
-    public List<MatchUserStats> updateMatchUserStats(CricketMatchContext matchContext,
-                                                     CricketInningContext inningContext) throws Exception {
+    public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext,
+                                                             CricketInningContext inningContext) throws Exception {
 
         //first fetch matchUser from db, if it does not exist throw and exception.
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchContext.getMatch().getMatchId());
@@ -110,7 +114,10 @@ public class MatchUserService {
         matchUserStatsList1 = distributeCredits(matchUserStatsList1);
 
         //save the data
-        return matchUserStatsRepo.saveAll(matchUserStatsList1);
+        matchUserStatsRepo.saveAll(matchUserStatsList1);
+
+        //returning the leaderboard list
+        return  leaderboardTransformer.matchUserListToLeaderboardList(matchUserStatsList1);
 
     }
 

@@ -8,6 +8,7 @@ import com.Dream11.services.validation.PlayerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,15 @@ public class PlayerService {
         } else {
             throw new Exception("Player with playerID - " + playerId + "doesn't exist");
         }
+    }
+
+    public List<String> playerIdListToNameList(List<String> playerIdList){
+        List<Player> playerList=playerRepo.findAllById(playerIdList);
+        List<String> playerNameList = new ArrayList<>();
+        for(Player player: playerList){
+            playerNameList.add(player.getName());
+        }
+        return playerNameList;
     }
 }
 

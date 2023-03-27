@@ -12,19 +12,6 @@ public class MatchDetailsService {
     @Autowired
     MatchRepo matchRepo;
 
-    public Match findMatchDetailsById(String matchId){
-        Match match;
-        if(matchRepo.findById(matchId).isPresent()){
-            match = matchRepo.findById(matchId).get();
-            return match;
-        }
-        else{
-            System.out.println("matchId not found!");
-            return null;
-        }
-
-    }
-
     public void matchCompleted(String matchId){
         Match match = matchRepo.findById(matchId).get();
         match.setStatus(MatchStatus.PLAYED);
