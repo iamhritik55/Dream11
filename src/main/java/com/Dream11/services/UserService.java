@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -74,10 +75,17 @@ public class UserService {
             userIdList.add(matchUserStats.getUserId());
         }
         List<User> userList = findUserListByIdList(userIdList);
-        for(int userNumber = 0; userNumber<matchUserStatsList.size(); userNumber++){
-            int credits = userList.get(userNumber).getCredits();
-            credits+=matchUserStatsList.get(userNumber).getCreditChange();
-            userList.get(userNumber).setCredits(credits);
+        int userNumber = 0;
+        for(String userId: userIdList){
+            for(User user: userList){
+                if(Objects.equals(user.getId(), userId)){
+                    int credits = user.getCredits();
+                    credits+=matchUserStatsList.get(userNumber).getCreditChange();
+                    user.setCredits(credits);
+                    userNumber++;
+                    break;
+                }
+            }
         }
 
         userRepo.saveAll(userList);

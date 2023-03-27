@@ -80,18 +80,26 @@ class UserServiceTest {
         List<MatchUserStats> matchUserStatsList = new ArrayList<>();
         MatchUserStats matchUserStats1 = new MatchUserStats();
         matchUserStats1.setUserId("1");
-        matchUserStats1.setCreditChange(10);
+        matchUserStats1.setCreditChange(20);
         MatchUserStats matchUserStats2 = new MatchUserStats();
         matchUserStats2.setUserId("2");
-        matchUserStats2.setCreditChange(20);
+        matchUserStats2.setCreditChange(-15);
+        MatchUserStats matchUserStats3 = new MatchUserStats();
+        matchUserStats3.setUserId("3");
+        matchUserStats3.setCreditChange(-10);
         matchUserStatsList.add(matchUserStats1);
         matchUserStatsList.add(matchUserStats2);
+        matchUserStatsList.add(matchUserStats3);
+
+
 
         User user1 = new User("1","user1",10);
         User user2 = new User("2","user2",12);
+        User user3 = new User("3","user3",22);
         List<User> userList = new ArrayList<>();
-        userList.add(user1);
         userList.add(user2);
+        userList.add(user1);
+        userList.add(user3);
 
         //mock dependencies
         when(userRepo.findAllById(anyList())).thenReturn(userList);
@@ -103,8 +111,11 @@ class UserServiceTest {
         // verify that the userRepo was called with the expected data
         verify(userRepo).saveAll(userList);
 
+
         // verify that the credits were updated correctly
-        assertEquals(20, user1.getCredits());
-        assertEquals(32, user2.getCredits());
+        assertEquals(30, user1.getCredits());
+        assertEquals(-3, user2.getCredits());
+        assertEquals(12, user3.getCredits());
     }
+
 }
