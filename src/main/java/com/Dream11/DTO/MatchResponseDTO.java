@@ -12,6 +12,4 @@ public class MatchResponseDTO {
     private String id;
     private String team1Id;
     private String team2Id;
-    private long team1Score;// consider long
-    private long team2Score;
 }

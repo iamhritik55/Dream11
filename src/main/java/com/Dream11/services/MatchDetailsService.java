@@ -8,19 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+
+
 @Service
 public class MatchDetailsService {
     @Autowired
     MatchRepo matchRepo;
-    public void updateTeamScoreMatchDetails(String matchId, String teamId, int teamScore){
-        Match match = matchRepo.findById(matchId).get();
-        if(Objects.equals(match.getTeam1Id(), teamId))
-            match.setTeam1Score(teamScore);
-        else
-            match.setTeam2Score(teamScore);
-
-        matchRepo.save(match);
-    }
 
     public Match findMatchDetailsById(String matchId){
         Match match;
@@ -32,15 +25,6 @@ public class MatchDetailsService {
             System.out.println("matchId not found!");
             return null;
         }
-
-    }
-
-    public long getTeamScore(String matchId, String teamId){
-        Match match = matchRepo.findById(matchId).get();
-        if(match.getTeam1Id()==teamId)
-            return match.getTeam1Score();
-        else
-            return match.getTeam2Score();
 
     }
 

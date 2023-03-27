@@ -21,7 +21,7 @@ public class MatchUserStats {
     private String matchId;//
     private String userId;// TODO: 17/03/23 make these nonNull
     private List<String> chosenPlayerIdList;
-    private List<String> playerName;// TODO: 17/03/23  add this to response DTO
+//    private List<String> playerName;// TODO: 17/03/23  add this to response DTO
     private int creditChange;
     private int teamPoints;
     private int creditsSpentByUser;

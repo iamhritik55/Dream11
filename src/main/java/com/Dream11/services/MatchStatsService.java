@@ -1,16 +1,18 @@
 package com.Dream11.services;
 
+import com.Dream11.context.CricketInningContext;
+import com.Dream11.context.CricketMatchContext;
 import com.Dream11.entity.*;
 import com.Dream11.helperClasses.PlayerStats;
 import com.Dream11.repo.MatchStatsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.Dream11.Counter.counter;
 
 @Service
 public class MatchStatsService {
@@ -24,60 +26,12 @@ public class MatchStatsService {
     @Autowired
     MatchDetailsService matchDetailsService;
 
-    public void createListPlayerStats(List<Player> playerList, String matchId) {
-
-        if (matchStatsRepo.findById(matchId).isPresent()) {
-
-        } else {
-
+    private List<PlayerStats> createPlayerStatsList(List<Player> playerList){
+        List<PlayerStats> playerStatsList = new ArrayList<>();
+        for(Player player: playerList){
+            playerStatsList.add(createPlayerStatsFromPlayer(player));
         }
-    }
-
-    public void createMatchStats(String matchId) throws Exception {
-
-        Match match = matchDetailsService.findMatchDetailsById(matchId);
-
-        //Fetching team objects from db
-        Team team1 = teamService.getTeamById(match.getTeam1Id());
-        Team team2 = teamService.getTeamById(match.getTeam2Id());
-        MatchStats matchStats = new MatchStats();
-        matchStats.setId(matchId);
-
-        matchStats.setTeam1Name(team1.getName());
-        matchStats.setTeam2Name(team2.getName());
-
-        //now I want to call a method that gives me a List<PlayerStats>
-        matchStats.setTeam1PlayerStats(playerStatsService.convertPlayerIdListToPlayerStat(team1.getTeamPlayerIds()));
-        matchStats.setTeam2PlayerStats(playerStatsService.convertPlayerIdListToPlayerStat(team2.getTeamPlayerIds()));
-        matchStatsRepo.save(matchStats);
-        counter++;
-    }
-
-    public MatchStats updateMatchStats(String matchId, List<Player> playerList, String teamId) throws Exception {
-        MatchStats matchStats = findMatchStatsById(matchId);
-        List<PlayerStats> playerStatsList = null;
-        boolean team1 = false;
-        if (Objects.equals(matchStats.getTeam1Name(), teamService.getTeamById(teamId).getName())) {
-            playerStatsList = matchStats.getTeam1PlayerStats();
-            team1 = true;
-        } else if (Objects.equals(matchStats.getTeam2Name(), teamService.getTeamById(teamId).getName())) {
-            playerStatsList = matchStats.getTeam2PlayerStats();
-        }
-
-        //Now I want to update matchStats ->
-        for (Player player : playerList) {
-            //A method where I sent playerStatsList, it returns me updatedPlayerStatsList
-            playerStatsList = updatePlayerStatListForPlayer(playerStatsList, player);
-        }
-
-        if (team1) {
-            matchStats.setTeam1PlayerStats(playerStatsList);
-        } else {
-            matchStats.setTeam2PlayerStats(playerStatsList);
-        }
-        counter++;
-        return matchStatsRepo.save(matchStats);
-
+        return playerStatsList;
     }
 
     public List<PlayerStats> updatePlayerStatListForPlayer(List<PlayerStats> playerStatsList, Player player) {
@@ -99,6 +53,56 @@ public class MatchStatsService {
 
         return playerStatsList;
     }
+    private PlayerStats createPlayerStatsFromPlayer(Player player){
+        PlayerStats playerStats= new PlayerStats();
+        playerStats.setPlayerId(player.getId());
+        playerStats.setPlayerName(player.getName());
+        playerStats.setPlayerPoints(player.getPlayerPoints());
+        playerStats.setFoursScored(player.getFoursScored());
+        playerStats.setBowlingWickets(player.getBowlingWickets());
+        playerStats.setSixesScored(player.getSixesScored());
+        playerStats.setBattingRuns(player.getBattingRuns());
+        return playerStats;
+    }
+    private String getWinnerTeamName(CricketMatchContext matchContext){
+        int team1Runs = matchContext.getTeam1().getTeamRuns();
+        int team2Runs = matchContext.getTeam2().getTeamRuns();
+
+        if(team1Runs>team2Runs){
+            return matchContext.getTeam1().getName();
+        }
+        else if(team1Runs<team2Runs){
+            return matchContext.getTeam2().getName();
+        }
+        else {
+            return "Tied";
+        }
+
+    }
+    public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext){
+        MatchStats matchStats = new MatchStats();
+
+        matchStats.setId(matchContext.getMatch().getMatchId());
+
+        matchStats.setTeam1Name(matchContext.getTeam1().getName());
+        matchStats.setTeam2Name(matchContext.getTeam2().getName());
+
+        matchStats.setTeam1Score(matchContext.getTeam1().getTeamRuns());
+        matchStats.setTeam2Score(matchContext.getTeam2().getTeamRuns());
+
+        if(Objects.equals(matchContext.getTeam1().getId(), inningContext.getBattingTeamId())){
+            matchStats.setTeam1PlayerStats(createPlayerStatsList(inningContext.getBattingPlayerList()));
+            matchStats.setTeam2PlayerStats(createPlayerStatsList(inningContext.getBowlingPlayerList()));
+        }
+        else {
+            matchStats.setTeam1PlayerStats(createPlayerStatsList(inningContext.getBowlingPlayerList()));
+            matchStats.setTeam2PlayerStats(createPlayerStatsList(inningContext.getBattingPlayerList()));
+        }
+        matchStats.setWinnerTeamName(getWinnerTeamName(matchContext));
+        matchStatsRepo.save(matchStats);
+        return matchStats;
+    }
+
 
     public MatchStats findMatchStatsById(String id) throws Exception {
         Optional<MatchStats> matchStats=matchStatsRepo.findById(id);
@@ -109,11 +113,4 @@ public class MatchStatsService {
         }
     }
 
-    public MatchStats declareWinner(String id, String winnerTeamName) throws Exception {
-        MatchStats matchStats = findMatchStatsById(id);
-        matchStats.setWinnerTeamName(winnerTeamName);
-        counter++;
-        return matchStatsRepo.save(matchStats);
-
-    }
 }

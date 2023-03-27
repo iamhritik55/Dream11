@@ -8,6 +8,8 @@ import com.Dream11.services.MatchService;
 import com.Dream11.services.MatchStatsService;
 import com.Dream11.services.MatchUserService;
 import lombok.extern.slf4j.Slf4j;
+import com.Dream11.gamecontroller.CricketControllerService;
+import com.Dream11.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,9 @@ public class MatchAPI {
 
     @Autowired
     public MatchService matchService;
+
+    @Autowired
+    CricketControllerService cricketControllerService;
     @Autowired
     public MatchStatsService matchStatsService;
     @Autowired
@@ -46,6 +51,7 @@ public class MatchAPI {
         }
     }
 
+    // TODO: 06/03/23 Add a new API to get the live matches.-done
     @GetMapping
     public List<MatchResponseDTO> getAllMatches() {
         return matchService.getMatches();
@@ -85,13 +91,8 @@ public class MatchAPI {
     }
 
     @PostMapping("/start/{matchId}")//5
-    public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) {
-        try {
-            List<MatchUserStats> matchUserStatsList = matchService.startMatch(matchId);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchUserStatsList);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) throws Exception {
+        return  ResponseEntity.accepted().body(cricketControllerService.startMatch(matchId));
     }
 
     @GetMapping("/stats")

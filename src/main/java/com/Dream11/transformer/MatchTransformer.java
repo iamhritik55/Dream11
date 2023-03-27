@@ -18,16 +18,13 @@ public class MatchTransformer {
         matchResponseDTO.setId(match.getMatchId());
         matchResponseDTO.setTeam1Id(match.getTeam1Id());
         matchResponseDTO.setTeam2Id(match.getTeam2Id());
-        matchResponseDTO.setTeam1Score(match.getTeam1Score());
-        matchResponseDTO.setTeam2Score(match.getTeam2Score());
+
         return matchResponseDTO;
     }
     public static MatchDAO matchToDao(Match match){
         MatchDAO matchDAO=new MatchDAO();
         matchDAO.setTeam1Id(match.getTeam1Id());
         matchDAO.setTeam2Id(match.getTeam2Id());
-        matchDAO.setTeam1Score(match.getTeam1Score());
-        matchDAO.setTeam2Score(match.getTeam2Score());
         return matchDAO;
     }
 }

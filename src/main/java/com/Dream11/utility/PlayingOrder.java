@@ -26,6 +26,8 @@ public class PlayingOrder {
         addToList(PlayerTitle.STRONG_BOWLER, playerList);
         addToList(PlayerTitle.ALL_ROUNDER, playerList);
         addToList(PlayerTitle.AVERAGE_BOWLER, playerList);
+        addToList(PlayerTitle.AVERAGE_BATSMAN, playerList);
+        addToList(PlayerTitle.STRONG_BATSMAN, playerList);
         return playerOrder;
     }
 

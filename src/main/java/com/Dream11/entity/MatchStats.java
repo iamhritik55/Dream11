@@ -17,8 +17,11 @@ public class MatchStats {
     @Id
     private String id; //Equals matchId
     private String team1Name;
-    private String team2Name;
+    private int team1Score;
     private List<PlayerStats> team1PlayerStats;
+    private String team2Name;
+    private int team2Score;
     private List<PlayerStats> team2PlayerStats;
     private String winnerTeamName;
+
 }
