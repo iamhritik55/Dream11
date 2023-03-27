@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.Dream11.Counter.counter;
 
 @Service
 public class MatchStatsService {

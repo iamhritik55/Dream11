@@ -13,7 +13,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.Dream11.Counter.counter;
 import static com.Dream11.transformer.PlayerTransformer.playerToDTO;
 
 @Service
@@ -29,53 +28,12 @@ public class MatchService {
     @Autowired
     private MatchStatsService matchStatsService;
     @Autowired
-            private MatchUserService matchUserService;
+    private MatchUserService matchUserService;
     @Autowired
     public PlayerService playerService;
     @Autowired
     public PlayerRepo playerRepo;
     SecureRandom secureRandom = new SecureRandom();
-
-    //validation and create context
-    //TODO create a MatchController service
-//    public List<MatchUserStats> startMatch(String matchId) throws Exception{
-//        //Fetching match object from db
-//        // TODO: 16/03/23 create a context ,first fetch all the data then start the logic
-//        Match match = matchDetailsService.findMatchDetailsById(matchId);
-//        if(match.isCompleted()){
-//            throw new Exception("Match has already happened!");
-//        }
-//        //Create an object of matchStats and store it in DB
-//        matchStatsService.createMatchStats(matchId);
-//        // TODO: 16/03/23
-//        //Fetching team objects from db
-//        Team team1 = teamService.getTeamBYId(match.getTeam1Id());
-//        Team team2 = teamService.getTeamBYId(match.getTeam2Id());
-//        MatchStats matchStats;
-//        List<MatchUserStats> matchUserStatsList;
-//        //Toss 0-> team1 wins and bats, 1-> team2 wins and bats
-//        if(secureRandom.nextInt(2)==0){
-//            System.out.println(team1.getName()+" has won the toss and chosen to bat!");
-//            matchUserStatsList = inningService.playInning(team1, team2, true, matchId);
-//            matchUserStatsList = inningService.playInning(team2, team1, false, matchId);
-//        }
-//        else {
-//            System.out.println(team2.getName()+" has won the toss and chosen to bat!");
-//            matchUserStatsList=inningService.playInning(team2, team1, true, matchId);
-//            matchUserStatsList=inningService.playInning(team1, team2, false, matchId);
-//        }// TODO- create a toss method in separate file
-//
-//        int team1score = matchDetailsService.getTeamScore(matchId, match.getTeam1Id());
-//        int team2score = matchDetailsService.getTeamScore(matchId, match.getTeam2Id());
-//
-//        String winnerTeamName = matchUtils.declareWinner(team1, team2, team1score, team2score);
-//        matchStats = matchStatsService.declareWinner(matchId,winnerTeamName);
-//        matchDetailsService.matchCompleted(matchId);
-//        //Updating points for user
-//
-//        matchUserService.updateWinnerUserPoints(matchId);
-//        return matchUserService.findByMatchId(matchId);
-//    }
     public Match addMatch(Match match) {
         return matchRepo.save(match);
     }
@@ -92,10 +50,10 @@ public class MatchService {
         }
     }
     public List<Match> getUnplayedMatches(){
-        return matchRepo.findMatchesByStatus(false);
+        return matchRepo.findMatchesByStatus(MatchStatus.UNPLAYED);
     }
     public List<Match> getPlayedMatches() {
-        return matchRepo.findMatchesByStatus(true);
+        return matchRepo.findMatchesByStatus(MatchStatus.PLAYED);
     }
     public TeamDetails getTeamDetails(String matchId) throws Exception {
         Match match;
@@ -122,15 +80,6 @@ public class MatchService {
             team2PlayerDTOs.add(playerToDTO(player));
         } // TODO: 16/03/23 make a separate method for these
 
-        //        if (!CollectionUtils.isEmpty(team1PlayerIds)) {
-        //            for (String playerId : team1PlayerIds) {
-        //                team1Players.add(playerService.getPlayer(playerId));
-        //            }
-        //        }
-        //
-        //        for (String playerId : team2PlayerIds) {
-        //            team2Players.add(playerService.getPlayer(playerId));
-        //        }
         teamDetails.setTeam1Players(team1PlayerDTOs);
         teamDetails.setTeam2Players(team2PlayerDTOs);
         return teamDetails;

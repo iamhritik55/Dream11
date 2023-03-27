@@ -1,6 +1,7 @@
 package com.Dream11.controller;
 
 import com.Dream11.entity.MatchUserStats;
+import com.Dream11.gamecontroller.CricketControllerService;
 import com.Dream11.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,9 @@ import com.Dream11.services.MatchService;
 public class MatchAPI {
     @Autowired
     public MatchService matchService;
-//    @Autowired
-//    public TeamService teamService;
-//    @Autowired
-//    public PlayerService playerService;
+
+    @Autowired
+    CricketControllerService cricketControllerService;
     @Autowired
     public MatchStatsService matchStatsService;
     @Autowired
@@ -112,14 +112,9 @@ public class MatchAPI {
     }
 
     @PostMapping("/start/{matchId}")//5
-//    public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) {
-//        try {
-//            List<MatchUserStats> matchUserStatsList = matchService.startMatch(matchId);
-//            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchUserStatsList);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
-//    }
+    public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) throws Exception {
+        return  ResponseEntity.accepted().body(cricketControllerService.startMatch(matchId));
+    }
 
     @GetMapping("/stats")
     public List<MatchUserStats> getAllStats() {

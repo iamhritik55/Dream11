@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.Dream11.Counter.counter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class TeamService {
     public Team getTeamBYId(String teamId) throws Exception{
         Optional<Team> teamOptional = teamRepo.findById(teamId);
         if (teamOptional.isPresent()) {
-            counter++;
             return teamOptional.get();
         }
         else {

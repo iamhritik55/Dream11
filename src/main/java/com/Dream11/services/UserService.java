@@ -1,15 +1,15 @@
 package com.Dream11.services;
 
+import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.User;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.Dream11.Counter.counter;
 
 @Service
 public class UserService {
@@ -50,8 +50,9 @@ public class UserService {
     }
 
     public void updateUserCredits(String userId, int credits) {
-        if (userRepo.findById(userId).isPresent()) {
-            User user = userRepo.findById(userId).get();
+        Optional<User> optional = userRepo.findById(userId);
+        if (optional.isPresent()) {
+            User user = optional.get();
             int creditsToUpdate = credits + user.getCredits();
             user.setCredits(creditsToUpdate);
             userRepo.save(user);
@@ -59,19 +60,27 @@ public class UserService {
             System.out.println("Invalid userId");
         }
     }
-    public void addUserCredits(String userId, int credits) throws Exception{
-        Optional<User> userOptional= userRepo.findById(userId);
-        if(userOptional.isPresent()){
-            User user = userOptional.get();
-            int creditsToUpdate = credits + user.getCredits();
-            user.setCredits(creditsToUpdate);
-            userRepo.save(user);
-            counter+=2;
+    public List<User> findUserListByIdList(List<String> userIdList) throws Exception{
+        List<User> userList = userRepo.findAllById(userIdList);
+        if(userList.isEmpty()){
+            throw new Exception("No users found!");
         }
-        else{
+        return userList;
+    }
 
-            throw new Exception("Invalid userId");
+    public void addCreditsUsingMatchUserStats(List<MatchUserStats> matchUserStatsList) throws Exception{
+        List<String> userIdList = new ArrayList<>();
+        for (MatchUserStats matchUserStats: matchUserStatsList){
+            userIdList.add(matchUserStats.getUserId());
         }
+        List<User> userList = findUserListByIdList(userIdList);
+        for(int userNumber = 0; userNumber<matchUserStatsList.size(); userNumber++){
+            int credits = userList.get(userNumber).getCredits();
+            credits+=matchUserStatsList.get(userNumber).getCreditChange();
+            userList.get(userNumber).setCredits(credits);
+        }
+
+        userRepo.saveAll(userList);
     }
 
 }

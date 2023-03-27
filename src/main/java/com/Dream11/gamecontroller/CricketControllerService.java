@@ -35,12 +35,17 @@ public class CricketControllerService implements GameControllerService {
 
         //Fetching matchContext and validating and toss
         matchContext = matchContext.fetchCricketContext(matchId);
+
+        //playing 2 innings
         playInning();
         playInning();
+
         //Update match completed status
         matchDetailsService.matchCompleted(matchId);
+
         //Store match data in DB
         matchStatsService.storeAllMatchData(matchContext,inningContext);
+
         //Update MatchUserStats (credits, team points etc.)
         return matchUserService.updateMatchUserStats(matchContext,inningContext);
 
