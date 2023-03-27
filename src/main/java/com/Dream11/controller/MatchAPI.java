@@ -42,16 +42,6 @@ public class MatchAPI {
         //add response Dto
         return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));// add transformer in service
     }
-//    @PostMapping("/stats")
-//    public ResponseEntity<Object> addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
-//        try {// TODO: 16/03/23 add matchUserStats DTO
-//            // TODO: 16/03/23 add dto validation
-//            matchUserService.addMatchUserStats(matchUserStats);
-//            return new ResponseEntity<>(HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//    }
 
     // TODO: 06/03/23 Add a new API to get the live matches.-done
     @GetMapping

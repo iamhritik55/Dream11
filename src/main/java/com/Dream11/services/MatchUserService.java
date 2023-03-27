@@ -44,9 +44,9 @@ public class MatchUserService {
         return matchUserStatsRepo.findAll();
     }
 
-    public MatchUserStatsResponseDTO getUserStats(String match_userId) throws Exception {
+    public MatchUserStatsResponseDTO getUserStats(String id) throws Exception {
         try {
-            Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(match_userId);
+            Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(id);
             MatchUserStats stats = new MatchUserStats();
             //making a list to store player names
             List<String> players = new ArrayList<>();
