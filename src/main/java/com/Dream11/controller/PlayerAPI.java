@@ -1,7 +1,7 @@
 package com.Dream11.controller;
 
-import com.Dream11.DTO.PlayerRequestDTO;
-import com.Dream11.DTO.PlayerResponseDTO;
+import com.Dream11.DTO.request.PlayerRequestDTO;
+import com.Dream11.DTO.response.PlayerResponseDTO;
 import com.Dream11.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

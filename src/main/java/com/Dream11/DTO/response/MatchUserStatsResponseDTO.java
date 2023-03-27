@@ -1,4 +1,4 @@
-package com.Dream11.DTO;
+package com.Dream11.DTO.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

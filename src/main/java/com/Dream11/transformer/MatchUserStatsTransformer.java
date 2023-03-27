@@ -1,9 +1,7 @@
 package com.Dream11.transformer;
 
-import com.Dream11.DTO.MatchUserStatsResponseDTO;
-import com.Dream11.DTO.UserResponseDTO;
+import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
 import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.User;
 
 import java.util.List;
 

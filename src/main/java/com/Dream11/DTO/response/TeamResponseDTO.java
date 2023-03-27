@@ -1,15 +1,16 @@
-package com.Dream11.DTO;
+package com.Dream11.DTO.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchResponseDTO {
+public class TeamResponseDTO {
     private String id;
-    private String team1Id;
-    private String team2Id;
+    private String name;
+    private List<String> teamPlayerIds;
 }

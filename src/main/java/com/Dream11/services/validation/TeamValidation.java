@@ -1,6 +1,6 @@
 package com.Dream11.services.validation;
 
-import com.Dream11.DTO.TeamRequestDTO;
+import com.Dream11.DTO.request.TeamRequestDTO;
 import com.Dream11.entity.Player;
 import com.Dream11.repo.PlayerRepo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.Dream11.DTO;
+package com.Dream11.DTO.response;
 
 import com.Dream11.enums.PlayerTitle;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 package com.Dream11.transformer;
 
 import com.Dream11.DAO.MatchDAO;
-import com.Dream11.DTO.MatchRequestDTO;
-import com.Dream11.DTO.MatchResponseDTO;
+import com.Dream11.DTO.request.MatchRequestDTO;
+import com.Dream11.DTO.response.MatchResponseDTO;
 import com.Dream11.entity.Match;
 
 public class MatchTransformer {

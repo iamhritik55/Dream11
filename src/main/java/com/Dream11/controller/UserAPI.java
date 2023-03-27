@@ -1,11 +1,9 @@
 package com.Dream11.controller;
 
-import com.Dream11.DTO.UserResponseDTO;
-import com.Dream11.DTO.UserRequestDTO;
-import com.Dream11.entity.User;
+import com.Dream11.DTO.response.UserResponseDTO;
+import com.Dream11.DTO.request.UserRequestDTO;
 import com.Dream11.services.MatchUserService;
 import com.Dream11.services.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

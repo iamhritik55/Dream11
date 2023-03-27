@@ -1,7 +1,7 @@
 package com.Dream11.services;
 
-import com.Dream11.DTO.TeamRequestDTO;
-import com.Dream11.DTO.TeamResponseDTO;
+import com.Dream11.DTO.request.TeamRequestDTO;
+import com.Dream11.DTO.response.TeamResponseDTO;
 import com.Dream11.entity.Team;
 import com.Dream11.repo.TeamRepo;
 import com.Dream11.services.validation.TeamValidation;

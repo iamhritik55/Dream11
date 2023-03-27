@@ -2,6 +2,7 @@ package com.Dream11.services.validation;
 
 import com.Dream11.entity.Match;
 import com.Dream11.entity.User;
+import com.Dream11.enums.MatchStatus;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class MatchUserValidation {
         Optional<User> optionalUser = userRepo.findById(userId);
         if(optionalMatch.isPresent() && optionalUser.isPresent()){
             Match matchObj = optionalMatch.get();
-            if (matchObj.isCompleted()) {
+            if (matchObj.getStatus() == MatchStatus.PLAYED) {
                 throw new Exception("This match is already played please choose another one.");
             }
         }

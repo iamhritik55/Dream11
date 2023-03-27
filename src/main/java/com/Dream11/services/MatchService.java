@@ -1,14 +1,15 @@
 package com.Dream11.services;
 
 import com.Dream11.DAO.MatchDAO;
-import com.Dream11.DTO.*;
+import com.Dream11.DTO.request.MatchRequestDTO;
+import com.Dream11.DTO.response.MatchResponseDTO;
 import com.Dream11.entity.*;
 import com.Dream11.enums.MatchStatus;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.services.validation.MatchValidation;
 import com.Dream11.utility.MatchUtils;
-import com.Dream11.utility.TeamDetails;
+import com.Dream11.DTO.response.TeamDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class MatchService {
     public MatchResponseDTO addMatch(MatchRequestDTO matchRequestDTO) throws Exception {
         matchValidation.validateMatch(matchRequestDTO);
         Match match = requestDtoToMatch(matchRequestDTO);
+        match.setStatus(MatchStatus.UNPLAYED);
         return MatchToResponseDto(matchRepo.save(match));
     }
     public List<MatchResponseDTO> getMatches() {
@@ -81,9 +83,9 @@ public class MatchService {
         return matchResponseDTOS;
     }
 
-    public TeamDetails getTeamDetails(String matchId) throws Exception {
+    public TeamDetailsResponse getTeamDetails(String matchId) throws Exception {
         MatchDAO match = matchToDao(getMatch(matchId)); // TODO: 17/03/23 add matchDAO  instead of using match-done
-        TeamDetails teamDetails = utilityService.createTeamDetails(match);
+        TeamDetailsResponse teamDetails = utilityService.createTeamDetails(match);
         return teamDetails;
     }
 

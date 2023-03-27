@@ -1,7 +1,7 @@
 package com.Dream11.transformer;
 
-import com.Dream11.DTO.PlayerRequestDTO;
-import com.Dream11.DTO.PlayerResponseDTO;
+import com.Dream11.DTO.request.PlayerRequestDTO;
+import com.Dream11.DTO.response.PlayerResponseDTO;
 import com.Dream11.entity.Player;
 
 public class PlayerTransformer {

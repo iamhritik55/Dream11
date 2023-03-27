@@ -1,7 +1,6 @@
 package com.Dream11.services.validation;
 
-import com.Dream11.DTO.MatchRequestDTO;
-import com.Dream11.entity.Match;
+import com.Dream11.DTO.request.MatchRequestDTO;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;

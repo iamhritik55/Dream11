@@ -1,6 +1,5 @@
-package com.Dream11.utility;
+package com.Dream11.DTO.response;
 
-import com.Dream11.DTO.PlayerResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamDetails {
+public class TeamDetailsResponse {
     private String team1Id;
     private String team2Id;
     private String team1Name;

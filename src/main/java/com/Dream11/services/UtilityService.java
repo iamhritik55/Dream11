@@ -1,17 +1,16 @@
 package com.Dream11.services;
 
 import com.Dream11.DAO.MatchDAO;
-import com.Dream11.DTO.MatchResponseDTO;
-import com.Dream11.DTO.PlayerResponseDTO;
-import com.Dream11.DTO.TeamRequestDTO;
-import com.Dream11.DTO.TeamResponseDTO;
+import com.Dream11.DTO.response.MatchResponseDTO;
+import com.Dream11.DTO.response.PlayerResponseDTO;
+import com.Dream11.DTO.response.TeamResponseDTO;
 import com.Dream11.entity.Match;
 import com.Dream11.entity.Player;
 import com.Dream11.entity.Team;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.repo.TeamRepo;
 import com.Dream11.utility.ApplicationUtils;
-import com.Dream11.utility.TeamDetails;
+import com.Dream11.DTO.response.TeamDetailsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -92,8 +91,8 @@ public class UtilityService {
         }
         return matchResponseDTOS;
     }
-    public TeamDetails createTeamDetails(MatchDAO match) throws Exception{
-        TeamDetails teamDetails=new TeamDetails();
+    public TeamDetailsResponse createTeamDetails(MatchDAO match) throws Exception{
+        TeamDetailsResponse teamDetails=new TeamDetailsResponse();
         List<String> teamIds=new ArrayList<>();
         teamIds.add(match.getTeam1Id());
         teamIds.add(match.getTeam2Id());

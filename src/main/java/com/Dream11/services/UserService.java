@@ -1,18 +1,18 @@
 package com.Dream11.services;
 
-import com.Dream11.DTO.UserResponseDTO;
-import com.Dream11.DTO.UserRequestDTO;
+import com.Dream11.DTO.response.UserResponseDTO;
+import com.Dream11.DTO.request.UserRequestDTO;
 import com.Dream11.transformer.UserTransformer;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.User;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.repo.UserRepo;
-import com.mongodb.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,7 +25,7 @@ public class UserService {
     private UtilityService utilityService;
 
     //creating a user
-    public UserResponseDTO addUser(@NonNull UserRequestDTO requestDto) {
+    public UserResponseDTO addUser(UserRequestDTO requestDto) {
         User user = UserTransformer.requestDtoToUser(requestDto);
         userRepo.save(user);
         return UserTransformer.userToResponseDto(user);
@@ -34,7 +34,7 @@ public class UserService {
     //get all users from collection
     public List<User> getUsers() {
         return userRepo.findAll();
-    }
+    }//doubt should i use UserResponseDTO
     public User getUserById(String id) throws Exception{
         Optional<User> optionalUser = userRepo.findById(id);
         if(optionalUser.isEmpty()){
@@ -82,10 +82,17 @@ public class UserService {
             userIdList.add(matchUserStats.getUserId());
         }
         List<User> userList = findUserListByIdList(userIdList);
-        for(int userNumber = 0; userNumber<matchUserStatsList.size(); userNumber++){
-            int credits = userList.get(userNumber).getCredits();
-            credits+=matchUserStatsList.get(userNumber).getCreditChange();
-            userList.get(userNumber).setCredits(credits);
+        int userNumber = 0;
+        for(String userId: userIdList){
+            for(User user: userList){
+                if(Objects.equals(user.getId(), userId)){
+                    int credits = user.getCredits();
+                    credits+=matchUserStatsList.get(userNumber).getCreditChange();
+                    user.setCredits(credits);
+                    userNumber++;
+                    break;
+                }
+            }
         }
 
         userRepo.saveAll(userList);

@@ -1,16 +1,18 @@
-package com.Dream11.DTO;
+package com.Dream11.DTO.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchRequestDTO {
+public class TeamRequestDTO {
     @NonNull
-    private String team1Id;
+    private String name;
     @NonNull
-    private String team2Id;
+    private List<String> teamPlayerIds;
 }
