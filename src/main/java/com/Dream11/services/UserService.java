@@ -86,8 +86,12 @@ public class UserService {
         for(String userId: userIdList){
             for(User user: userList){
                 if(Objects.equals(user.getId(), userId)){
+                    if(matchUserStatsList.get(userNumber).getCreditChange()<0){
+                        userNumber++;
+                        break;
+                    }
                     int credits = user.getCredits();
-                    credits+=matchUserStatsList.get(userNumber).getCreditChange();
+                    credits+=matchUserStatsList.get(userNumber).getCreditChange()+matchUserStatsList.get(userNumber).getCreditsSpentByUser();
                     user.setCredits(credits);
                     userNumber++;
                     break;

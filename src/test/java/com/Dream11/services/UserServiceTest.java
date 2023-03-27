@@ -81,9 +81,11 @@ class UserServiceTest {
         MatchUserStats matchUserStats1 = new MatchUserStats();
         matchUserStats1.setUserId("1");
         matchUserStats1.setCreditChange(10);
+        matchUserStats1.setCreditsSpentByUser(12);
         MatchUserStats matchUserStats2 = new MatchUserStats();
         matchUserStats2.setUserId("2");
-        matchUserStats2.setCreditChange(20);
+        matchUserStats2.setCreditChange(-10);
+        matchUserStats2.setCreditsSpentByUser(13);
         matchUserStatsList.add(matchUserStats1);
         matchUserStatsList.add(matchUserStats2);
 
@@ -104,7 +106,7 @@ class UserServiceTest {
         verify(userRepo).saveAll(userList);
 
         // verify that the credits were updated correctly
-        assertEquals(20, user1.getCredits());
-        assertEquals(32, user2.getCredits());
+        assertEquals(32, user1.getCredits());
+        assertEquals(12, user2.getCredits());
     }
 }

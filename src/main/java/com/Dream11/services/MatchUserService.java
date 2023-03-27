@@ -158,7 +158,7 @@ public class MatchUserService {
                 if (numberOfWinners == 0) {
                     matchUserStats.setCreditChange(-matchUserStats.getCreditsSpentByUser());
                 } else {
-                    matchUserStats.setCreditChange(pointsToDistribute);
+                    matchUserStats.setCreditChange(pointsToDistribute-matchUserStats.getCreditsSpentByUser());
                     numberOfWinners--;
                 }
             }
