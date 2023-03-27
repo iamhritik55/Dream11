@@ -1,6 +1,6 @@
 package com.Dream11.utility;
 
-import com.Dream11.entity.PlayerTitle;
+import com.Dream11.helperClasses.PlayerTitle;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.Dream11.DTO;
 
-import com.Dream11.entity.PlayerTitle;
+import com.Dream11.helperClasses.PlayerTitle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

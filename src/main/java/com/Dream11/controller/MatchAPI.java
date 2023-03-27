@@ -65,17 +65,11 @@ public class MatchAPI {
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
     public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) throws Exception{//3
-//        try {
-//            return ResponseEntity.status(HttpStatus.ACCEPTED).body(matchService.getTeamDetails(matchId));
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
         return ResponseEntity.ok(matchService.getTeamDetails(matchId));
     }
 
     @GetMapping("/stats/{match_userId}")
-    public ResponseEntity<Object> displayMatchUserStats(
-            @PathVariable String match_userId) {// TODO: 16/03/23 take a generic name
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {// TODO: 16/03/23 take a generic name
         try {
             MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);
             return new ResponseEntity<>(matchUserStats, HttpStatus.OK);

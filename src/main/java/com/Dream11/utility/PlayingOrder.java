@@ -1,8 +1,7 @@
 package com.Dream11.utility;
 
 import com.Dream11.entity.Player;
-import com.Dream11.entity.PlayerTitle;
-import com.Dream11.entity.Team;
+import com.Dream11.helperClasses.PlayerTitle;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -9,11 +9,8 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatchResponseDTO {
-    @NonNull
     private String id;
-    @NonNull
     private String team1Id;
-    @NonNull
     private String team2Id;
     private long team1Score;// consider long
     private long team2Score;

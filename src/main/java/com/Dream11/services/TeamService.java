@@ -31,7 +31,7 @@ public class TeamService {
     @Autowired
     TeamValidation teamValidation ;
     public TeamResponseDTO addTeam(TeamRequestDTO teamRequestDTO) throws Exception{
-        teamValidation.teamValid(teamRequestDTO);
+        teamValidation.validateTeam(teamRequestDTO);
         Team team=requestDtoToTeam(teamRequestDTO);
         return teamToResponseDto(teamRepo.save(team));
     }

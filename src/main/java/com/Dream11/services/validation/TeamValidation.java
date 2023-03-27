@@ -2,9 +2,7 @@ package com.Dream11.services.validation;
 
 import com.Dream11.DTO.TeamRequestDTO;
 import com.Dream11.entity.Player;
-import com.Dream11.entity.Team;
 import com.Dream11.repo.PlayerRepo;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,7 @@ import static com.Dream11.utility.ApplicationUtils.TEAM_SIZE;
 public class TeamValidation {
     @Autowired
     public PlayerRepo playerRepo;
-    public void teamValid(TeamRequestDTO team) throws Exception {
+    public void validateTeam(TeamRequestDTO team) throws Exception {
         if(team.getTeamPlayerIds().size()!=TEAM_SIZE) throw new Exception("Team Size not valid");
         List<Player> players = playerRepo.findAllById(team.getTeamPlayerIds());//to check if all PlayerIds exits
         Set<String> playerIdSet = new HashSet<>(team.getTeamPlayerIds());//to check all playerIds are unique

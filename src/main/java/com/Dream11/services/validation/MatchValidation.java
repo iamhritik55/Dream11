@@ -30,10 +30,10 @@ public class MatchValidation {
         List<String> teamIds = new ArrayList<>();
         teamIds.add(match.getTeam1Id());
         teamIds.add(match.getTeam2Id());
-        if (teamRepo.findAllById(teamIds).size() != TWO_TEAMS) {
-            throw new Exception("Invalid TeamIDs provided");
-        } else if (match.getTeam1Id().equals(match.getTeam2Id())) {
+         if (match.getTeam1Id().equals(match.getTeam2Id())) {
             throw new Exception("Both teamIDs can't be same");
+        }else if (teamRepo.findAllById(teamIds).size() != TWO_TEAMS) {
+            throw new Exception("Invalid TeamIDs provided");
         }
     }
 

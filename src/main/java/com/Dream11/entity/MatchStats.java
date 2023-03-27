@@ -1,11 +1,12 @@
 package com.Dream11.entity;
 
+import com.Dream11.helperClasses.PlayerStats;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.HashMap;
+
 import java.util.List;
 
 @Document("matchStats")

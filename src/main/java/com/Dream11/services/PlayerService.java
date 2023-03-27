@@ -2,6 +2,7 @@ package com.Dream11.services;
 
 import com.Dream11.entity.Player;
 import com.Dream11.repo.PlayerRepo;
+import com.Dream11.services.validation.PlayerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Dream11.DTO.*;
@@ -32,8 +33,10 @@ public class PlayerService {
     public List<Player> getPlayerListFromIdList(List<String> playerIdList) {
         return playerRepo.findAllById(playerIdList);
     }
-
-    public PlayerResponseDTO addPlayer(PlayerRequestDTO playerRequestDTO) {
+    @Autowired
+    PlayerValidation playerValidation;
+    public PlayerResponseDTO addPlayer(PlayerRequestDTO playerRequestDTO) throws Exception{
+        playerValidation.validatePlayer(playerRequestDTO);
         Player player = requestDtoToPlayer(playerRequestDTO);
         return playerToResponseDto(playerRepo.save(player));
     }

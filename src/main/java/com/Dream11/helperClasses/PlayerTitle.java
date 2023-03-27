@@ -1,9 +1,4 @@
-package com.Dream11.entity;
-
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Service;
+package com.Dream11.helperClasses;
 
 public enum PlayerTitle {
     STRONG_BATSMAN,

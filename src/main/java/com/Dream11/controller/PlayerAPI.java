@@ -5,6 +5,7 @@ import com.Dream11.DTO.PlayerResponseDTO;
 import com.Dream11.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class PlayerAPI {
     public PlayerService playerService;
 
     @PostMapping()
-    public ResponseEntity<PlayerResponseDTO> addPlayer(@RequestBody PlayerRequestDTO playerRequestDTO)
+    public ResponseEntity<PlayerResponseDTO> addPlayer(@RequestBody @Validated PlayerRequestDTO playerRequestDTO)
             throws Exception {
         return ResponseEntity.ok(playerService.addPlayer(playerRequestDTO));
     }

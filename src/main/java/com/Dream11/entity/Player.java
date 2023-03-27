@@ -1,5 +1,6 @@
 package com.Dream11.entity;
 
+import com.Dream11.helperClasses.PlayerTitle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,6 +56,4 @@ public class Player {
         this.playerPoints += playerPoints;
     }
 
-//    @Transient
-//    boolean out = false;
 }

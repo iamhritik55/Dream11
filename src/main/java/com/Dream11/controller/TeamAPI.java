@@ -6,6 +6,7 @@ import com.Dream11.repo.TeamRepo;
 import com.Dream11.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class TeamAPI {
     public TeamRepo teamRepo;
 
     @PostMapping
-    public ResponseEntity<TeamResponseDTO> addTeam(@RequestBody TeamRequestDTO teamRequestDTO) throws Exception {
+    public ResponseEntity<TeamResponseDTO> addTeam(@RequestBody @Validated TeamRequestDTO teamRequestDTO) throws Exception {
         return ResponseEntity.ok(teamService.addTeam(teamRequestDTO));
     }
 
