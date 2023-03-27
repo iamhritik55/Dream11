@@ -1,5 +1,6 @@
 package com.Dream11.controller;
 
+import com.Dream11.DTO.MatchUserStatsResponseDTO;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 import com.Dream11.DTO.MatchDTO;
 import com.Dream11.entity.*;
 
@@ -24,7 +26,7 @@ import com.Dream11.services.MatchService;
 public class MatchAPI {
     @Autowired
     public MatchService matchService;
-//    @Autowired
+    //    @Autowired
 //    public TeamService teamService;
 //    @Autowired
 //    public PlayerService playerService;
@@ -40,16 +42,16 @@ public class MatchAPI {
         //add response Dto
         return matchToDTO(matchService.addMatch(DTOToMatch(matchDTO)));// add transformer in service
     }
-    @PostMapping("/stats")
-    public ResponseEntity<Object> addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
-        try {// TODO: 16/03/23 add matchUserStats DTO
-            // TODO: 16/03/23 add dto validation 
-            matchUserService.addMatchUserStats(matchUserStats);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping("/stats")
+//    public ResponseEntity<Object> addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
+//        try {// TODO: 16/03/23 add matchUserStats DTO
+//            // TODO: 16/03/23 add dto validation
+//            matchUserService.addMatchUserStats(matchUserStats);
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     // TODO: 06/03/23 Add a new API to get the live matches.-done
     @GetMapping
@@ -93,15 +95,14 @@ public class MatchAPI {
         }
     }
 
-    @GetMapping("/stats/{match_userId}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {// TODO: 16/03/23 take a genric name
-        try {
-            MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);
-            return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // TODO: 16/03/23  add try catch in service
-        }
+    @GetMapping("/stats/{id}")
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String id) throws Exception {// TODO: 16/03/23 take a genric name
+
+        MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(id);
+        return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
+
     }
+
     @GetMapping("/matchStats/{matchId}")
     public ResponseEntity<Object> getMatchStats(@PathVariable String matchId) {
         try {

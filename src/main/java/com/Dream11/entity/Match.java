@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Match {
 
     @Id
-    @Field("_id")
     private String matchId;// make it Id
     private String team1Id;
     private String team2Id;
