@@ -3,6 +3,7 @@ package com.Dream11.controller;
 import com.Dream11.DTO.MatchRequestDTO;
 import com.Dream11.DTO.MatchResponseDTO;
 import com.Dream11.entity.MatchStats;
+import com.Dream11.DTO.MatchUserStatsResponseDTO;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.services.MatchService;
 import com.Dream11.services.MatchStatsService;
@@ -18,6 +19,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.Dream11.entity.*;
+
+import java.util.ArrayList;
+
+
+import com.Dream11.services.MatchService;
 
 @RestController
 @RequestMapping("/match")
@@ -26,6 +33,10 @@ public class MatchAPI {
 
     @Autowired
     public MatchService matchService;
+    //    @Autowired
+//    public TeamService teamService;
+//    @Autowired
+//    public PlayerService playerService;
 
     @Autowired
     CricketControllerService cricketControllerService;
@@ -38,17 +49,6 @@ public class MatchAPI {
     @PostMapping
     public ResponseEntity<MatchResponseDTO> addMatch(@RequestBody @Validated MatchRequestDTO matchRequestDTO) throws Exception {
         return ResponseEntity.ok(matchService.addMatch(matchRequestDTO));
-    }
-
-    @PostMapping("/stats")
-    public ResponseEntity<Object> addMatchUserStats(@RequestBody MatchUserStats matchUserStats) { //2
-        try {// TODO: 16/03/23 add matchUserStats DTO
-            // TODO: 16/03/23 add dto validation 
-            matchUserService.addMatchUserStats(matchUserStats);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
     }
 
     // TODO: 06/03/23 Add a new API to get the live matches.-done
@@ -74,15 +74,12 @@ public class MatchAPI {
         return ResponseEntity.ok(matchService.getTeamDetails(matchId));
     }
 
-    @GetMapping("/stats/{match_userId}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String match_userId) {// TODO: 16/03/23 take a generic name
-        try {
-            MatchUserStats matchUserStats = matchUserService.getUserStats(match_userId);
-            return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),
-                    HttpStatus.NOT_FOUND); // TODO: 16/03/23  add try catch in service
-        }
+    @GetMapping("/stats/{id}")
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String id) throws Exception {// TODO: 16/03/23 take a genric name
+
+        MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(id);
+        return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
+
     }
 
     @GetMapping("/matchStats/{matchId}")

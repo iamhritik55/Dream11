@@ -1,9 +1,13 @@
 package com.Dream11.services;
 
+import com.Dream11.DTO.UserResponseDTO;
+import com.Dream11.DTO.UserRequestDTO;
+import com.Dream11.transformer.UserTransformer;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.User;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.repo.UserRepo;
+import com.mongodb.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +25,22 @@ public class UserService {
     private UtilityService utilityService;
 
     //creating a user
-    public User addUser(User user) {
-        //if there is a existing user with same id, throw error
-        Optional<User> existingUser = userRepo.findById(user.getId());
-        if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("User with given ID already exists, try with another ID.");
-        }
-        return userRepo.save(user);
+    public UserResponseDTO addUser(@NonNull UserRequestDTO requestDto) {
+        User user = UserTransformer.requestDtoToUser(requestDto);
+        userRepo.save(user);
+        return UserTransformer.userToResponseDto(user);
     }
 
     //get all users from collection
     public List<User> getUsers() {
         return userRepo.findAll();
+    }
+    public User getUserById(String id) throws Exception{
+        Optional<User> optionalUser = userRepo.findById(id);
+        if(optionalUser.isEmpty()){
+            throw new Exception("Not Present");
+        }
+        return optionalUser.get();
     }
 
     public void subtractUserCredits(String userId, int credits) throws Exception {
