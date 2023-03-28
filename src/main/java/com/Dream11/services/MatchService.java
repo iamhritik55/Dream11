@@ -8,7 +8,6 @@ import com.Dream11.enums.MatchStatus;
 import com.Dream11.repo.MatchRepo;
 import com.Dream11.repo.PlayerRepo;
 import com.Dream11.services.validation.MatchValidation;
-import com.Dream11.utility.MatchUtils;
 import com.Dream11.DTO.response.TeamDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,6 @@ public class MatchService {
     private MatchRepo matchRepo;
     @Autowired
     private TeamService teamService;
-    @Autowired
-    private MatchUtils matchUtils;
     @Autowired
     private MatchStatsService matchStatsService;
     @Autowired
