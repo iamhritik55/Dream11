@@ -31,7 +31,7 @@ public class TeamAPI {
     }
 
     @GetMapping("/{teamId}")
-    public ResponseEntity<TeamResponseDTO> getTeam(@PathVariable String teamId) throws Exception {
+    public ResponseEntity<TeamResponseDTO> getTeamById(@PathVariable String teamId) throws Exception {
         return ResponseEntity.ok(teamService.getTeam(teamId));
     }
 }

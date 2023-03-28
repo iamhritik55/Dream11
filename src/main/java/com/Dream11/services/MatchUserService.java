@@ -78,7 +78,7 @@ public class MatchUserService {
 
         matchUserValidation.validateMatchUserIds(matchId, userId);
         utilityService.validatePlayerIds(playerIds);
-        utilityService.validateTeamSize(playerIds);
+        utilityService.validateUserTeamSize(playerIds);
         int totalCost = utilityService.calculateTeamCost(playerIds);
         utilityService.restrictPlayerIds(playerIds);
 
@@ -90,7 +90,6 @@ public class MatchUserService {
         matchUserStats.setCreditsSpentByUser(totalCost);
         matchUserStats.setChosenPlayerIdList(playerIds);
         matchUserStatsRepo.save(matchUserStats);
-
 
     }
 

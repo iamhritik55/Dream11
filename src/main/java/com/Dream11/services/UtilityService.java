@@ -26,11 +26,9 @@ public class UtilityService {
     @Autowired
     private PlayerRepo playerRepo;
     @Autowired
-    private TeamService teamService;
-    @Autowired
     private TeamRepo teamRepo;
     //checking if user creates a team of at least 3 players and maximum 5 players
-    public void validateTeamSize(List<String> playerIds) throws Exception {
+    public void validateUserTeamSize(List<String> playerIds) throws Exception {
         if (playerIds.size() < ApplicationUtils.MIN_SIZE) {
             throw new Exception("You have to choose a team of at least 3 players.");
         }

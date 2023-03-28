@@ -21,15 +21,6 @@ public class PlayerService {
     private PlayerRepo playerRepo;
     @Autowired
     private UtilityService utilityService;
-    public Player getPlayerFromId(String playerId) {
-        Player playerValue = null;
-        Optional<Player> player = playerRepo.findById(playerId);
-        if (player.isPresent()) {
-            playerValue = player.get();
-        }
-        return playerValue;
-
-    }
 
     public List<Player> getPlayerListFromIdList(List<String> playerIdList) {
         return playerRepo.findAllById(playerIdList);

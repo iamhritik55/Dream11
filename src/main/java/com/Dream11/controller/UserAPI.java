@@ -13,30 +13,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserAPI {
     @Autowired
     public UserService userService;
     @Autowired
     public MatchUserService matchUserService;
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<UserResponseDTO> addUser(@RequestBody @Validated UserRequestDTO requestDto) {
         UserResponseDTO responseDto = userService.addUser(requestDto);
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<Object> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
-
     }
 
-    @PostMapping("/match/{matchId}/user/{userId}")
+    @PostMapping("/create-team/{matchId}/{userId}")
     public ResponseEntity<Object> createUserTeam(@PathVariable String matchId, @PathVariable String userId, @RequestBody @Validated List<String> playerIds) throws Exception {
 
         matchUserService.createUserTeam(matchId, userId, playerIds);

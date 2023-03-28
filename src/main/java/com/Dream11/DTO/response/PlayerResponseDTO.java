@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 public class PlayerResponseDTO {
     private String id;
     private String name;
-    private int battingRating,bowlingRating;
+    private int battingRating;
+    private int bowlingRating;
     private PlayerTitle title;
     private int creditCost;
 }

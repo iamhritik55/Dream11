@@ -28,8 +28,8 @@ public class PlayerAPI {
         return ResponseEntity.ok( playerService.getPlayers());
     }
 
-    @GetMapping("/getPlayer/{playerId}")
-    public ResponseEntity< PlayerResponseDTO> getPlayerById(@PathVariable String playerId) throws Exception {
-        return ResponseEntity.ok( playerService.getPlayer(playerId));
+    @GetMapping("/getPlayer/{id}")
+    public ResponseEntity< PlayerResponseDTO> getPlayerById(@PathVariable String id) throws Exception {
+        return ResponseEntity.ok( playerService.getPlayer(id));
     }
 }

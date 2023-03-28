@@ -25,11 +25,6 @@ public class MatchAPI {
 
     @Autowired
     public MatchService matchService;
-    //    @Autowired
-//    public TeamService teamService;
-//    @Autowired
-//    public PlayerService playerService;
-
     @Autowired
     CricketControllerService cricketControllerService;
     @Autowired
@@ -59,14 +54,14 @@ public class MatchAPI {
         return matchService.getPlayedMatches();
     }
 
-    @GetMapping("/getTeamDetails/{matchId}")//todo give meaningfull url-done
+    @GetMapping("/get-team-details/{id}")//todo give meaningfull url-done
     // TODO: 06/03/23 rename this var DispTeamDetResp-done
     // TODO: 06/03/23 Take string as input-done
-    public ResponseEntity<Object> getTeamDetails(@PathVariable String matchId) throws Exception{//3
-        return ResponseEntity.ok(matchService.getTeamDetails(matchId));
+    public ResponseEntity<Object> getTeamDetails(@PathVariable String id) throws Exception{//3
+        return ResponseEntity.ok(matchService.getTeamDetails(id));
     }
 
-    @GetMapping("/stats/{id}")
+    @GetMapping("/user-stats/{id}")
     public ResponseEntity<Object> displayMatchUserStats(@PathVariable String id) throws Exception {// TODO: 16/03/23 take a genric name
 
         MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(id);
@@ -74,7 +69,7 @@ public class MatchAPI {
 
     }
 
-    @GetMapping("/matchStats/{matchId}")
+    @GetMapping("/stats/{match-id}")
     public ResponseEntity<MatchStats> getMatchStats(@PathVariable String matchId) throws Exception {
         return ResponseEntity.ok(matchStatsService.findMatchStatsById(matchId));
     }
@@ -84,8 +79,8 @@ public class MatchAPI {
         return  ResponseEntity.accepted().body(cricketControllerService.startMatch(matchId));
     }
 
-    @GetMapping("/stats")
-    public List<MatchUserStats> getAllStats() {
+    @GetMapping("/user-stats")
+    public List<MatchUserStats> getAllMatchUserStats() {
         return matchUserService.getAllStats();
     }
 
