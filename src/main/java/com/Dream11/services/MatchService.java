@@ -30,8 +30,6 @@ public class MatchService {
     @Autowired
     private TeamService teamService;
     @Autowired
-    private MatchDetailsService matchDetailsService;
-    @Autowired
     private MatchUtils matchUtils;
     @Autowired
     private MatchStatsService matchStatsService;
@@ -88,5 +86,9 @@ public class MatchService {
         TeamDetailsResponse teamDetails = utilityService.createTeamDetails(match);
         return teamDetails;
     }
-
+    public void matchCompleted(String matchId){
+        Match match = matchRepo.findById(matchId).get();
+        match.setStatus(MatchStatus.PLAYED);
+        matchRepo.save(match);
+    }
 }

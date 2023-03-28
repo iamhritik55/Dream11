@@ -19,12 +19,9 @@ public class MatchStatsService {
 
     @Autowired
     MatchStatsRepo matchStatsRepo;
-    @Autowired
-    PlayerStatsService playerStatsService;
+
     @Autowired
     TeamService teamService;
-    @Autowired
-    MatchDetailsService matchDetailsService;
 
     private List<PlayerStats> createPlayerStatsList(List<Player> playerList){
         List<PlayerStats> playerStatsList = new ArrayList<>();
@@ -34,25 +31,6 @@ public class MatchStatsService {
         return playerStatsList;
     }
 
-    public List<PlayerStats> updatePlayerStatListForPlayer(List<PlayerStats> playerStatsList, Player player) {
-        for (PlayerStats playerStats : playerStatsList) {
-            if (Objects.equals(playerStats.getPlayerId(), player.getId())) {
-                int foursScored = player.getFoursScored() + playerStats.getFoursScored();
-                int sixesScored = player.getSixesScored() + playerStats.getSixesScored();
-                int battingRuns = player.getBattingRuns() + playerStats.getBattingRuns();
-                int bowlingWickets = player.getBowlingWickets() + playerStats.getBowlingWickets();
-                int playerPoints = player.getPlayerPoints() + playerStats.getPlayerPoints();
-
-                playerStats.setPlayerPoints(playerPoints);
-                playerStats.setBattingRuns(battingRuns);
-                playerStats.setBowlingWickets(bowlingWickets);
-                playerStats.setSixesScored(sixesScored);
-                playerStats.setFoursScored(foursScored);
-            }
-        }
-
-        return playerStatsList;
-    }
     private PlayerStats createPlayerStatsFromPlayer(Player player){
         PlayerStats playerStats= new PlayerStats();
         playerStats.setPlayerId(player.getId());

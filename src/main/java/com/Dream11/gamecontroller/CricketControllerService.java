@@ -5,7 +5,7 @@ import com.Dream11.context.CricketMatchContext;
 import com.Dream11.entity.MatchStats;
 import com.Dream11.entity.MatchUserStats;
 import com.Dream11.entity.Player;
-import com.Dream11.services.MatchDetailsService;
+import com.Dream11.services.MatchService;
 import com.Dream11.services.MatchStatsService;
 import com.Dream11.services.MatchUserService;
 import com.Dream11.utility.PlayingOrder;
@@ -20,6 +20,8 @@ import static com.Dream11.utility.ApplicationUtils.*;
 @Service
 public class CricketControllerService implements GameControllerService {
     @Autowired
+    private MatchService matchService;
+    @Autowired
     private CricketMatchContext matchContext;
     @Autowired
     private CricketInningContext inningContext;
@@ -27,8 +29,6 @@ public class CricketControllerService implements GameControllerService {
     private CricketUtility cricketUtility;
     @Autowired
     private MatchStatsService matchStatsService;
-    @Autowired
-    private MatchDetailsService matchDetailsService;
     @Autowired
     private MatchUserService matchUserService;
     @Override
@@ -42,7 +42,7 @@ public class CricketControllerService implements GameControllerService {
         playInning();
 
         //Update match completed status
-        matchDetailsService.matchCompleted(matchId);
+        matchService.matchCompleted(matchId);
 
         //Store match data in DB
         matchStatsService.storeAllMatchData(matchContext,inningContext);
