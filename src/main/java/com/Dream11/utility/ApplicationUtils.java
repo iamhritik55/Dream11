@@ -1,10 +1,12 @@
 package com.Dream11.utility;
 
+import lombok.experimental.UtilityClass;
+
 import javax.lang.model.util.AbstractElementVisitor14;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@UtilityClass
 public class ApplicationUtils {
 
     public final static int SIX_RUNS = 6;

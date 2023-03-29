@@ -1,6 +1,6 @@
 package com.Dream11.utility;
 
-import com.Dream11.enums.PlayerTitle;
+import com.Dream11.services.enums.PlayerTitle;
 
 import java.util.ArrayList;
 import java.util.List;

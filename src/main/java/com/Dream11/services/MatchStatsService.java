@@ -1,10 +1,11 @@
 package com.Dream11.services;
 
-import com.Dream11.context.CricketInningContext;
-import com.Dream11.context.CricketMatchContext;
-import com.Dream11.entity.*;
-import com.Dream11.entity.PlayerStats;
-import com.Dream11.repo.MatchStatsRepo;
+import com.Dream11.services.context.CricketInningContext;
+import com.Dream11.services.context.CricketMatchContext;
+import com.Dream11.services.models.MatchStats;
+import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
+import com.Dream11.services.repo.MatchStatsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,20 +1,18 @@
 package com.Dream11.services;
 
-import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.User;
-import com.Dream11.repo.UserRepo;
+import com.Dream11.services.models.MatchUserStats;
+import com.Dream11.services.models.User;
+import com.Dream11.services.repo.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,14 +1,14 @@
 package com.Dream11.services;
 
-import com.Dream11.DAO.MatchDAO;
+import com.Dream11.services.repo.DAO.MatchDAO;
 import com.Dream11.DTO.response.MatchResponseDTO;
 import com.Dream11.DTO.response.PlayerResponseDTO;
 import com.Dream11.DTO.response.TeamResponseDTO;
-import com.Dream11.entity.Match;
-import com.Dream11.entity.Player;
-import com.Dream11.entity.Team;
-import com.Dream11.repo.PlayerRepo;
-import com.Dream11.repo.TeamRepo;
+import com.Dream11.services.models.Match;
+import com.Dream11.services.models.Player;
+import com.Dream11.services.models.Team;
+import com.Dream11.services.repo.PlayerRepo;
+import com.Dream11.services.repo.TeamRepo;
 import com.Dream11.utility.ApplicationUtils;
 import com.Dream11.DTO.response.TeamDetailsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
-import static com.Dream11.transformer.MatchTransformer.generateMatchResponseDto;
-import static com.Dream11.transformer.PlayerTransformer.playerToResponseDto;
-import static com.Dream11.transformer.TeamTransformer.teamToResponseDto;
+import static com.Dream11.services.transformer.MatchTransformer.generateMatchResponseDto;
+import static com.Dream11.services.transformer.PlayerTransformer.playerToResponseDto;
+import static com.Dream11.services.transformer.TeamTransformer.teamToResponseDto;
 
 @Service
 public class UtilityService {
@@ -114,7 +114,6 @@ public class UtilityService {
 
         List<PlayerResponseDTO> team1PlayerDTOs = createListOfTeamPlayerResponseDTO(team1.getTeamPlayerIds(), players);
         List<PlayerResponseDTO> team2PlayerDTOs = createListOfTeamPlayerResponseDTO(team2.getTeamPlayerIds(), players);
-        // TODO: 16/03/23 make a separate method for these-done
         // TODO: 28/03/23 use match context to create teamDetails
         teamDetails.setTeam1Id(match.getTeam1Id());
         teamDetails.setTeam2Id(match.getTeam2Id());

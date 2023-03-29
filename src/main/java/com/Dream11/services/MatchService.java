@@ -1,14 +1,14 @@
 package com.Dream11.services;
 
-import com.Dream11.DAO.MatchDAO;
 import com.Dream11.DTO.request.MatchRequestDTO;
 import com.Dream11.DTO.response.MatchResponseDTO;
-import com.Dream11.entity.*;
-import com.Dream11.enums.MatchStatus;
-import com.Dream11.repo.MatchRepo;
-import com.Dream11.repo.PlayerRepo;
-import com.Dream11.services.validation.MatchValidation;
 import com.Dream11.DTO.response.TeamDetailsResponse;
+import com.Dream11.services.enums.MatchStatus;
+import com.Dream11.services.models.Match;
+import com.Dream11.services.repo.DAO.MatchDAO;
+import com.Dream11.services.repo.MatchRepo;
+import com.Dream11.services.repo.PlayerRepo;
+import com.Dream11.services.validation.MatchValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 
-import static com.Dream11.transformer.MatchTransformer.*;
+import static com.Dream11.services.transformer.MatchTransformer.*;
 
 
 @Service

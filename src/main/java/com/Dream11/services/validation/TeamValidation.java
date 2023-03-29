@@ -1,16 +1,10 @@
 package com.Dream11.services.validation;
 
 import com.Dream11.DTO.request.TeamRequestDTO;
-import com.Dream11.entity.Player;
-import com.Dream11.repo.PlayerRepo;
+import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.UtilityService;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static com.Dream11.utility.ApplicationUtils.TEAM_SIZE;
 
