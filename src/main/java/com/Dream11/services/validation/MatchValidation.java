@@ -21,18 +21,14 @@ public class MatchValidation {
     public MatchRepo matchRepo;
 
     public void validateMatch(MatchRequestDTO match) throws Exception {
-        Optional<String> team1Id = Optional.ofNullable(match.getTeam1Id());
-        Optional<String> team2Id = Optional.ofNullable(match.getTeam2Id());
-        if (team1Id.isEmpty() || team2Id.isEmpty()) {
-            throw new Exception("provided TeamId is null");
-        }
+        Optional<String> team1Id = Optional.of(match.getTeam1Id());
+        Optional<String> team2Id = Optional.of(match.getTeam2Id());
+
         List<String> teamIds = new ArrayList<>();
         teamIds.add(match.getTeam1Id());
         teamIds.add(match.getTeam2Id());
          if (match.getTeam1Id().equals(match.getTeam2Id())) {
             throw new Exception("Both teamIDs can't be same");
-        }else if (teamRepo.findAllById(teamIds).size() != TWO_TEAMS) {
-            throw new Exception("Invalid TeamIDs provided");
         }
     }
 

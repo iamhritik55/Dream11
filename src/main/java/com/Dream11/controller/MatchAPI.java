@@ -32,13 +32,11 @@ public class MatchAPI {
     @Autowired
     public MatchUserService matchUserService;
 
-    // TODO: 21/03/23 add requestDTO-done
     @PostMapping
     public ResponseEntity<MatchResponseDTO> addMatch(@RequestBody @Validated MatchRequestDTO matchRequestDTO) throws Exception {
         return ResponseEntity.ok(matchService.addMatch(matchRequestDTO));
     }
 
-    // TODO: 06/03/23 Add a new API to get the live matches.-done
     @GetMapping
     public List<MatchResponseDTO> getAllMatches() {
         return matchService.getMatches();
@@ -54,16 +52,14 @@ public class MatchAPI {
         return matchService.getPlayedMatches();
     }
 
-    @GetMapping("/get-team-details/{id}")//todo give meaningfull url-done
-    // TODO: 06/03/23 rename this var DispTeamDetResp-done
-    // TODO: 06/03/23 Take string as input-done
+    @GetMapping("/team-details/{id}")
     public ResponseEntity<Object> getTeamDetails(@PathVariable String id) throws Exception{//3
         return ResponseEntity.ok(matchService.getTeamDetails(id));
     }
 
     @GetMapping("/user-stats/{id}")
     public ResponseEntity<Object> displayMatchUserStats(@PathVariable String id) throws Exception {// TODO: 16/03/23 take a genric name
-
+        // TODO: 28/03/23 take matchId and userId
         MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(id);
         return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
 

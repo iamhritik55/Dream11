@@ -47,13 +47,13 @@ public class MatchUserService {
     public MatchUserStatsResponseDTO getUserStats(String id) throws Exception {
 
         Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(id);
-        MatchUserStats stats = new MatchUserStats();
         //making a list to store player names
-        List<String> players = new ArrayList<>();
-        //making a variable to store userName
-        String userName = "";
+        // TODO: 28/03/23 use ifPresent()
         if (optionalStats.isPresent()) {
-            stats = optionalStats.get();
+            List<String> players = new ArrayList<>();
+            //making a variable to store userName
+            String userName = "";
+            MatchUserStats stats = optionalStats.get();
             //get userName by using userId
             Optional<User> userId = userRepo.findById(stats.getUserId());
             if (userId.isPresent()) {
@@ -66,7 +66,7 @@ public class MatchUserService {
                 for (Player player : listOfPlayerIds) {
                     players.add(player.getName());
                 }
-            }
+            }// TODO: 28/03/23  don't give names is response
             return MatchUserStatsTransformer.matchUserToResponseDto(stats, players, userName);
         } else {
             throw new Exception("Data not found for this Id");
@@ -116,7 +116,7 @@ public class MatchUserService {
         matchUserStatsRepo.saveAll(matchUserStatsList1);
 
         //returning the leaderboard list
-        return  leaderboardTransformer.matchUserListToLeaderboardList(matchUserStatsList1);
+        return leaderboardTransformer.matchUserListToLeaderboardList(matchUserStatsList1);
 
     }
 
@@ -164,7 +164,7 @@ public class MatchUserService {
                 if (numberOfWinners == 0) {
                     matchUserStats.setCreditChange(-matchUserStats.getCreditsSpentByUser());
                 } else {
-                    matchUserStats.setCreditChange(pointsToDistribute-matchUserStats.getCreditsSpentByUser());
+                    matchUserStats.setCreditChange(pointsToDistribute - matchUserStats.getCreditsSpentByUser());
                     numberOfWinners--;
                 }
             }

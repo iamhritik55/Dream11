@@ -54,7 +54,10 @@ public class CricketControllerService implements GameControllerService {
 
     private void playInning() {
         inningContext = cricketUtility.assignPlayerListInningContext(matchContext, inningContext);
+        // TODO: 28/03/23 Null check whenever we use dot (.)
+
         //Now I have battingPlayerList and bowlingPlayerList
+        // TODO: 28/03/23 Never use postions in list, instead use enums (OnStrike, OffStrike etc)
         Player playerOnStrike = inningContext.getBattingPlayerList().get(0);
         Player playerOffStrike = inningContext.getBattingPlayerList().get(1);
         Player bowler = inningContext.getBowlingPlayerList().get(0);
