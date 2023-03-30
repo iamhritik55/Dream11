@@ -11,8 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "MatchUserStats")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @CompoundIndex(def = "{'userId': 1, 'matchId': 1}",unique = true)
 public class MatchUserStats {
     @Id

@@ -1,9 +1,9 @@
 package com.Dream11.services;
 
 import com.Dream11.DTO.response.LeaderboardResponseDTO;
+import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
 import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
-import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
 import com.Dream11.services.models.MatchUserStats;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.models.User;
@@ -11,9 +11,10 @@ import com.Dream11.services.repo.MatchRepo;
 import com.Dream11.services.repo.MatchUserStatsRepo;
 import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.repo.UserRepo;
-import com.Dream11.services.validation.MatchUserValidation;
 import com.Dream11.services.transformer.LeaderboardTransformer;
 import com.Dream11.services.transformer.MatchUserStatsTransformer;
+import com.Dream11.services.validation.MatchUserValidation;
+import com.Dream11.utility.MatchUserUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,21 +25,23 @@ import java.util.*;
 public class MatchUserService {
 
     @Autowired
-    PlayerRepo playerRepo;
+    private PlayerRepo playerRepo;
     @Autowired
-    MatchUserStatsRepo matchUserStatsRepo;
+    private MatchUserStatsRepo matchUserStatsRepo;
     @Autowired
-    MatchRepo matchRepo;
+    private MatchRepo matchRepo;
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
     @Autowired
-    UtilityService utilityService;
+    private UtilityService utilityService;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    MatchUserValidation matchUserValidation;
+    private MatchUserValidation matchUserValidation;
     @Autowired
-    LeaderboardTransformer leaderboardTransformer;
+    private LeaderboardTransformer leaderboardTransformer;
+    @Autowired
+    private MatchUserUtility matchUserUtility;
 
     public List<MatchUserStats> getAllStats() {
         return matchUserStatsRepo.findAll();
@@ -93,8 +96,7 @@ public class MatchUserService {
 
     }
 
-    public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext,
-                                                             CricketInningContext inningContext) throws Exception {
+    public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext, CricketInningContext inningContext) throws Exception {
 
         //first fetch matchUser from db, if it does not exist throw and exception.
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchContext.getMatch().getMatchId());
@@ -106,11 +108,11 @@ public class MatchUserService {
 
         //update team points
         for (MatchUserStats matchUserStats : matchUserStatsList) {
-            matchUserStatsList1.add(updateTeamPoints(matchUserStats, playerList));
+            matchUserStatsList1.add(MatchUserUtility.updateTeamPoints(matchUserStats, playerList));
         }
 
         //update credits
-        matchUserStatsList1 = distributeCredits(matchUserStatsList1);
+        matchUserStatsList1 = matchUserUtility.distributeCredits(matchUserStatsList1);
 
         //save the data
         matchUserStatsRepo.saveAll(matchUserStatsList1);
@@ -120,65 +122,12 @@ public class MatchUserService {
 
     }
 
-    private MatchUserStats updateTeamPoints(MatchUserStats matchUserStats, List<Player> playerList) {
-        List<String> userPlayerList = matchUserStats.getChosenPlayerIdList();
-        Collections.sort(userPlayerList);
 
-        for (String s : userPlayerList) {
-            for (Player player : playerList) {
-                if (Objects.equals(s, player.getId())) {
-                    int teamPoints = matchUserStats.getTeamPoints();
-                    teamPoints += player.getPlayerPoints();
-                    matchUserStats.setTeamPoints(teamPoints);
-                    break;
-                }
-            }
-        }
-        return matchUserStats;
-    }
-
-    private List<MatchUserStats> distributeCredits(List<MatchUserStats> matchUserStatsList) throws Exception {
-        //Sorting the array based on team points (Descending order)
-        matchUserStatsList.sort(new Comparator<MatchUserStats>() {
-
-            @Override
-            public int compare(MatchUserStats m1, MatchUserStats m2) {
-                return Integer.compare(m2.getTeamPoints(), m1.getTeamPoints());
-            }
-        });
-
-        int creditPool = 0;
-        int numberOfWinners = 0;
-        int winnerPoints = matchUserStatsList.get(0).getTeamPoints();
-        //Calculating pointsPool and number of winners.
-        for (MatchUserStats matchUserStats : matchUserStatsList) {
-            creditPool += matchUserStats.getCreditsSpentByUser();
-            if (winnerPoints == matchUserStats.getTeamPoints()) {
-                numberOfWinners++;
-            }
-        }
-        //distributing points equally to all the winners
-        int pointsToDistribute = creditPool / numberOfWinners;
-        if (numberOfWinners != 2 && matchUserStatsList.size() != 2) {
-            for (MatchUserStats matchUserStats : matchUserStatsList) {
-                if (numberOfWinners == 0) {
-                    matchUserStats.setCreditChange(-matchUserStats.getCreditsSpentByUser());
-                } else {
-                    matchUserStats.setCreditChange(pointsToDistribute - matchUserStats.getCreditsSpentByUser());
-                    numberOfWinners--;
-                }
-            }
-        }
-        userService.addCreditsUsingMatchUserStats(matchUserStatsList);
-        return matchUserStatsList;
-    }
 
     public List<MatchUserStats> findByMatchId(String matchId) throws Exception {
 
         List<MatchUserStats> matchUserStatsList = matchUserStatsRepo.findByMatchId(matchId);
-        if (matchUserStatsList == null) {
-            throw new Exception("No users registered for this match");
-        }
+        matchUserStatsList.stream().findFirst().orElseThrow(()->new Exception("No users registered for this match"));
         return matchUserStatsList;
     }
 }

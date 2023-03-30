@@ -126,11 +126,10 @@ public class UtilityService {
 
     public List<PlayerResponseDTO> createListOfTeamPlayerResponseDTO(List<String> teamPlayerIds, List<Player> players) {
         List<PlayerResponseDTO> playerResponseDTOS = new ArrayList<>();
-        for (Player player : players) {
-            if (teamPlayerIds.contains(player.getId())) {
-                playerResponseDTOS.add((playerToResponseDto(player)));
-            }
-        }
+        players.forEach(player -> {
+            if(teamPlayerIds.contains(player.getId()))
+                playerResponseDTOS.add(playerToResponseDto(player));
+        });
         return playerResponseDTOS;
     }
 

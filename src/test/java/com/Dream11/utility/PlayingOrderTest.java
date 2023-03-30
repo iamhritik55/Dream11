@@ -19,7 +19,7 @@ class PlayingOrderTest {
     private PlayingOrder playingOrder;
 
     @Test
-    public void testCase(){
+    public void testCase() throws Exception{
         List<Player> playerList = new ArrayList<>();
         Player player1 = new Player();
         player1.setTitle(PlayerTitle.STRONG_BOWLER);

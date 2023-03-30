@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class LeaderboardResponseDTO {
     private String userName;
     private List<String> userTeam;

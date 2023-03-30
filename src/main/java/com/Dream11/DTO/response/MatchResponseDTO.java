@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class MatchResponseDTO {
     private String id;
     private String team1Id;

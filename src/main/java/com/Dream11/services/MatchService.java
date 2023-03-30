@@ -45,25 +45,31 @@ public class MatchService {
 
     @Autowired
     private MatchValidation matchValidation;
+
     public MatchResponseDTO addMatch(MatchRequestDTO matchRequestDTO) throws Exception {
         matchValidation.validateMatch(matchRequestDTO);
         Match match = requestDtoToMatch(matchRequestDTO);
         match.setStatus(MatchStatus.UNPLAYED);
         return generateMatchResponseDto(matchRepo.save(match));
     }
+
     public List<MatchResponseDTO> getMatches() {
         List<Match> matches = matchRepo.findAll();
         return utilityService.createListOfMatchResponseDTO(matches);
     }
 
-    public Match getMatch(String matchId) throws Exception {
-        Optional<Match> match = matchRepo.findById(matchId); // TODO: 28/03/23 use ifPresent()
-        if (match.isPresent()) {
-            return match.get();
-        } else {
-            throw new Exception("Match with matchId - " + matchId + " doesn't exist");
-        }
-    }
+//    public Match getMatch(String matchId) throws Exception {
+//        Optional<Match> match = matchRepo.findById(matchId); // TODO: 28/03/23 use ifPresent()
+//        if (match.isPresent()) {
+//            return match.get();
+//        } else {
+//            throw new Exception("Match with matchId - " + matchId + " doesn't exist");
+//        }
+//    }
+public Match getMatch(String matchId) throws Exception {
+    return matchRepo.findById(matchId)
+            .orElseThrow(() -> new Exception("Match with matchId - " + matchId + " doesn't exist"));
+}
 
     public List<MatchResponseDTO> getUnplayedMatches() {
         List<Match> matches = matchRepo.findMatchesByStatus(MatchStatus.UNPLAYED);
@@ -79,7 +85,8 @@ public class MatchService {
         MatchDAO match = matchToDao(getMatch(matchId)); // TODO: 17/03/23 add matchDAO  instead of using match-done
         return utilityService.createTeamDetails(match);
     }
-    public void matchCompleted(String matchId){
+
+    public void matchCompleted(String matchId) {
         Match match = matchRepo.findById(matchId).get();
         match.setStatus(MatchStatus.PLAYED);
         matchRepo.save(match);

@@ -6,6 +6,7 @@ import com.Dream11.services.models.MatchStats;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.models.PlayerStats;
 import com.Dream11.services.repo.MatchStatsRepo;
+import com.Dream11.services.transformer.MatchStatsTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,39 +25,11 @@ public class MatchStatsService {
     @Autowired
     TeamService teamService;
 
-    private List<PlayerStats> createPlayerStatsList(List<Player> playerList){
-        List<PlayerStats> playerStatsList = new ArrayList<>();
-        for(Player player: playerList){
-            playerStatsList.add(createPlayerStatsFromPlayer(player));
-        }
-        return playerStatsList;
-    }
-
-    private PlayerStats createPlayerStatsFromPlayer(Player player){
-        PlayerStats playerStats= new PlayerStats();
-        playerStats.setPlayerId(player.getId());
-        playerStats.setPlayerName(player.getName());
-        playerStats.setPlayerPoints(player.getPlayerPoints());
-        playerStats.setFoursScored(player.getFoursScored());
-        playerStats.setBowlingWickets(player.getBowlingWickets());
-        playerStats.setSixesScored(player.getSixesScored());
-        playerStats.setBattingRuns(player.getBattingRuns());
-        return playerStats;
-    }
     private String getWinnerTeamName(CricketMatchContext matchContext){
         int team1Runs = matchContext.getTeam1().getTeamRuns();
         int team2Runs = matchContext.getTeam2().getTeamRuns();
 
-        if(team1Runs>team2Runs){
-            return matchContext.getTeam1().getName();
-        }
-        else if(team1Runs<team2Runs){
-            return matchContext.getTeam2().getName();
-        }
-        else {
-            return "Tied";
-        }
-
+        return team1Runs > team2Runs ? matchContext.getTeam1().getName() : team1Runs < team2Runs ? matchContext.getTeam2().getName() : "Tied";
     }
     public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext){
         MatchStats matchStats = new MatchStats();
@@ -70,12 +43,12 @@ public class MatchStatsService {
         matchStats.setTeam2Score(matchContext.getTeam2().getTeamRuns());
 
         if(Objects.equals(matchContext.getTeam1().getId(), inningContext.getBattingTeamId())){
-            matchStats.setTeam1PlayerStats(createPlayerStatsList(inningContext.getBattingPlayerList()));
-            matchStats.setTeam2PlayerStats(createPlayerStatsList(inningContext.getBowlingPlayerList()));
+            matchStats.setTeam1PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBattingPlayerList()));
+            matchStats.setTeam2PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBowlingPlayerList()));
         }
         else {
-            matchStats.setTeam1PlayerStats(createPlayerStatsList(inningContext.getBowlingPlayerList()));
-            matchStats.setTeam2PlayerStats(createPlayerStatsList(inningContext.getBattingPlayerList()));
+            matchStats.setTeam1PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBowlingPlayerList()));
+            matchStats.setTeam2PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBattingPlayerList()));
         }
         matchStats.setWinnerTeamName(getWinnerTeamName(matchContext));
         matchStatsRepo.save(matchStats);

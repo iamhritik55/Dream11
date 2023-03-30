@@ -2,7 +2,6 @@ package com.Dream11.utility;
 
 import lombok.experimental.UtilityClass;
 
-import javax.lang.model.util.AbstractElementVisitor14;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +20,6 @@ public class ApplicationUtils {
     public final static int FIVE_POINTS = 5;
     public final static int ZERO_RUNS = 5;
     public final static int TWO_TEAMS = 2;
-
-    public static int SIX = 6;
     public static int MAX_SIZE = 5;
     public static int MIN_SIZE = 3;
     public static int STRONG_PLAYER_COST = 10;

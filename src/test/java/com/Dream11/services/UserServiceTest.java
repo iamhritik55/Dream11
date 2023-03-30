@@ -31,7 +31,7 @@ class UserServiceTest {
     private UserService userService; //This annotation tells Mockito to inject the mocked UserRepo object into the userService field whenever a new instance of the test class is created. This ensures that the userService object in the test class uses the mocked UserRepo object instead of the actual implementation.
 
     @Test
-    void updateUserCreditsTest_ValidUserId() {
+    void updateUserCreditsTest_ValidUserId() throws Exception {
 
         //Arrange
         String userId = "testUser";
@@ -51,7 +51,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testUpdateUserCredits_invalidUserId() {
+    public void testUpdateUserCredits_invalidUserId() throws Exception{
         // Arrange
         String userId = "invaliduser";
         int creditsToAdd = 5;

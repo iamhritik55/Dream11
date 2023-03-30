@@ -1,5 +1,6 @@
 package com.Dream11.services.models;
 
+import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.enums.PlayerTitle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Player")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Player {
     @Id
     private String id;
@@ -56,5 +55,8 @@ public class Player {
     public void addPoints(int playerPoints) {
         this.playerPoints += playerPoints;
     }
+
+    @Transient
+    private PlayerStatus playerStatus;
 
 }

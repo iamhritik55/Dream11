@@ -4,6 +4,7 @@ import com.Dream11.DTO.request.PlayerRequestDTO;
 import com.Dream11.DTO.response.PlayerResponseDTO;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.repo.PlayerRepo;
+import com.Dream11.services.transformer.PlayerTransformer;
 import com.Dream11.services.validation.PlayerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,10 +51,7 @@ public class PlayerService {
 
     public List<String> playerIdListToNameList(List<String> playerIdList){
         List<Player> playerList=playerRepo.findAllById(playerIdList);
-        List<String> playerNameList = new ArrayList<>();
-        for(Player player: playerList){
-            playerNameList.add(player.getName());
-        }
+        List<String> playerNameList = PlayerTransformer.playerListToNameList(playerList);
         return playerNameList;
     }
 }

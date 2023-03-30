@@ -11,8 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Match")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Match {
 
     @Id

@@ -53,7 +53,7 @@ public class MatchAPI {
     }
 
     @GetMapping("/team-details/{id}")
-    public ResponseEntity<Object> getTeamDetails(@PathVariable String id) throws Exception{//3
+    public ResponseEntity<Object> getTeamDetails(@PathVariable String id) throws Exception {//3
         return ResponseEntity.ok(matchService.getTeamDetails(id));
     }
 
@@ -66,13 +66,13 @@ public class MatchAPI {
     }
 
     @GetMapping("/stats/{match-id}")
-    public ResponseEntity<MatchStats> getMatchStats(@PathVariable String matchId) throws Exception {
+    public ResponseEntity<MatchStats> getMatchStats(@PathVariable(value = "match-id") String matchId) throws Exception {
         return ResponseEntity.ok(matchStatsService.findMatchStatsById(matchId));
     }
 
     @PostMapping("/start/{matchId}")//5
     public ResponseEntity<Object> startMatch(@PathVariable(value = "matchId") String matchId) throws Exception {
-        return  ResponseEntity.accepted().body(cricketControllerService.startMatch(matchId));
+        return ResponseEntity.accepted().body(cricketControllerService.startMatch(matchId));
     }
 
     @GetMapping("/user-stats")

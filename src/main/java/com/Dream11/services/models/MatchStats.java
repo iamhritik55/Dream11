@@ -10,8 +10,6 @@ import java.util.List;
 
 @Document("matchStats")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class MatchStats {
     @Id
     private String id; //Equals matchId
