@@ -1,16 +1,14 @@
 package com.Dream11.services.validation;
 
 import com.Dream11.DTO.request.MatchRequestDTO;
-import com.Dream11.repo.MatchRepo;
-import com.Dream11.repo.TeamRepo;
+import com.Dream11.services.repo.MatchRepo;
+import com.Dream11.services.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.Dream11.utility.ApplicationUtils.TWO_TEAMS;
 
 @Service
 public class MatchValidation {

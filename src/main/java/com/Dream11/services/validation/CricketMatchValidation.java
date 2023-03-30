@@ -1,7 +1,7 @@
 package com.Dream11.services.validation;
 
-import com.Dream11.entity.Match;
-import com.Dream11.enums.MatchStatus;
+import com.Dream11.services.models.Match;
+import com.Dream11.services.enums.MatchStatus;
 import org.springframework.stereotype.Component;
 
 @Component

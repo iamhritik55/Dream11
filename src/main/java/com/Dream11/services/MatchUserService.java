@@ -1,19 +1,19 @@
 package com.Dream11.services;
 
 import com.Dream11.DTO.response.LeaderboardResponseDTO;
-import com.Dream11.context.CricketInningContext;
-import com.Dream11.context.CricketMatchContext;
+import com.Dream11.services.context.CricketInningContext;
+import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
-import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.Player;
-import com.Dream11.entity.User;
-import com.Dream11.repo.MatchRepo;
-import com.Dream11.repo.MatchUserStatsRepo;
-import com.Dream11.repo.PlayerRepo;
-import com.Dream11.repo.UserRepo;
+import com.Dream11.services.models.MatchUserStats;
+import com.Dream11.services.models.Player;
+import com.Dream11.services.models.User;
+import com.Dream11.services.repo.MatchRepo;
+import com.Dream11.services.repo.MatchUserStatsRepo;
+import com.Dream11.services.repo.PlayerRepo;
+import com.Dream11.services.repo.UserRepo;
 import com.Dream11.services.validation.MatchUserValidation;
-import com.Dream11.transformer.LeaderboardTransformer;
-import com.Dream11.transformer.MatchUserStatsTransformer;
+import com.Dream11.services.transformer.LeaderboardTransformer;
+import com.Dream11.services.transformer.MatchUserStatsTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -44,37 +44,12 @@ public class MatchUserService {
         return matchUserStatsRepo.findAll();
     }
 
-    public MatchUserStatsResponseDTO getUserStats(String id) throws Exception {
-
-        Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(id);
-        //making a list to store player names
-        // TODO: 28/03/23 use ifPresent()
-        if (optionalStats.isPresent()) {
-            List<String> players = new ArrayList<>();
-            //making a variable to store userName
-            String userName = "";
-            MatchUserStats stats = optionalStats.get();
-            //get userName by using userId
-            Optional<User> userId = userRepo.findById(stats.getUserId());
-            if (userId.isPresent()) {
-                User user = userId.get();
-                userName = user.getName();
-            }
-            //if player present then fetch player names by their ids
-            List<Player> listOfPlayerIds = playerRepo.findAllById(stats.getChosenPlayerIdList());
-            if (!CollectionUtils.isEmpty(listOfPlayerIds)) {
-                for (Player player : listOfPlayerIds) {
-                    players.add(player.getName());
-                }
-            }// TODO: 28/03/23  don't give names is response
-            return MatchUserStatsTransformer.matchUserToResponseDto(stats, players, userName);
-        } else {
-            throw new Exception("Data not found for this Id");
-        }
-
+    public MatchUserStatsResponseDTO getUserStats(String userId, String matchId) {
+        MatchUserStats matchUserStats = matchUserStatsRepo.findByUserIdAndMatchId(userId, matchId);
+        return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
 
-    public void createUserTeam(String matchId, String userId, List<String> playerIds) throws Exception {
+    public MatchUserStatsResponseDTO createUserTeam(String matchId, String userId, List<String> playerIds) throws Exception {
 
         matchUserValidation.validateMatchUserIds(matchId, userId);
         utilityService.validatePlayerIds(playerIds);
@@ -90,7 +65,7 @@ public class MatchUserService {
         matchUserStats.setCreditsSpentByUser(totalCost);
         matchUserStats.setChosenPlayerIdList(playerIds);
         matchUserStatsRepo.save(matchUserStats);
-
+        return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
 
     public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext,

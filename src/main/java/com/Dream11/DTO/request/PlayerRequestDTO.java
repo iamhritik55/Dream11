@@ -1,6 +1,6 @@
 package com.Dream11.DTO.request;
 
-import com.Dream11.enums.PlayerTitle;
+import com.Dream11.services.enums.PlayerTitle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -2,15 +2,15 @@ package com.Dream11.services;
 
 import com.Dream11.DTO.request.TeamRequestDTO;
 import com.Dream11.DTO.response.TeamResponseDTO;
-import com.Dream11.entity.Team;
-import com.Dream11.repo.TeamRepo;
+import com.Dream11.services.models.Team;
+import com.Dream11.services.repo.TeamRepo;
 import com.Dream11.services.validation.TeamValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.Dream11.transformer.TeamTransformer.*;
+import static com.Dream11.services.transformer.TeamTransformer.*;
 
 import java.util.ArrayList;
 import java.util.List;

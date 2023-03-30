@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class MatchUserStatsResponseDTO {
-    private String userName;
-    private List<String> playerNames;// TODO: 17/03/23  add this to response DTO
+    private List<String> chosenPlayerIdList;
     private int creditChange;
     private int teamPoints;
     private int creditsSpentByUser;

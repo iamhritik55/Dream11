@@ -1,10 +1,10 @@
 package com.Dream11.services.validation;
 
-import com.Dream11.entity.Match;
-import com.Dream11.entity.User;
-import com.Dream11.enums.MatchStatus;
-import com.Dream11.repo.MatchRepo;
-import com.Dream11.repo.UserRepo;
+import com.Dream11.services.models.Match;
+import com.Dream11.services.models.User;
+import com.Dream11.services.enums.MatchStatus;
+import com.Dream11.services.repo.MatchRepo;
+import com.Dream11.services.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class MatchUserValidation {
     @Autowired
     UserRepo userRepo;
 
-    public void validateMatchUserIds(String matchId, String userId) throws Exception{
+    public void validateMatchUserIds(String matchId, String userId) throws Exception {
         Optional<Match> optionalMatch = matchRepo.findById(matchId);
         Optional<User> optionalUser = userRepo.findById(userId);
         if(optionalMatch.isPresent() && optionalUser.isPresent()){

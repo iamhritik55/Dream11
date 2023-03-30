@@ -2,8 +2,8 @@ package com.Dream11.services;
 
 import com.Dream11.DTO.request.PlayerRequestDTO;
 import com.Dream11.DTO.response.PlayerResponseDTO;
-import com.Dream11.entity.Player;
-import com.Dream11.repo.PlayerRepo;
+import com.Dream11.services.models.Player;
+import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.validation.PlayerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.Dream11.transformer.PlayerTransformer.*;
+import static com.Dream11.services.transformer.PlayerTransformer.playerToResponseDto;
+import static com.Dream11.services.transformer.PlayerTransformer.requestDtoToPlayer;
 
 @Service
 public class PlayerService {

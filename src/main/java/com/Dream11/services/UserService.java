@@ -2,11 +2,11 @@ package com.Dream11.services;
 
 import com.Dream11.DTO.response.UserResponseDTO;
 import com.Dream11.DTO.request.UserRequestDTO;
-import com.Dream11.transformer.UserTransformer;
-import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.User;
-import com.Dream11.repo.PlayerRepo;
-import com.Dream11.repo.UserRepo;
+import com.Dream11.services.transformer.UserTransformer;
+import com.Dream11.services.models.MatchUserStats;
+import com.Dream11.services.models.User;
+import com.Dream11.services.repo.PlayerRepo;
+import com.Dream11.services.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,26 +35,20 @@ public class UserService {
     public List<User> getUsers() {
         return userRepo.findAll();
     }//doubt should i use UserResponseDTO
-    public User getUserById(String id) throws Exception{
-        Optional<User> optionalUser = userRepo.findById(id);
-        if(optionalUser.isEmpty()){
-            throw new Exception("Not Present");
-        }
-        return optionalUser.get();
+    public User getUserById(String id){
+        return userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void subtractUserCredits(String userId, int credits) throws Exception {
-        if (userRepo.findById(userId).isPresent()) {
-            User user = userRepo.findById(userId).get();
+        userRepo.findById(userId).ifPresent(user -> {
             if (credits > user.getCredits()) {
-                throw new Exception("You don't have enough credits to select this team.");
+                throw new RuntimeException("You don't have enough credits to select this team.");
             }
             int creditsToUpdate = user.getCredits() - credits;
             user.setCredits(creditsToUpdate);
             userRepo.save(user);
-        } else {
-            throw new Exception("User with this id does not exist.");
-        }
+        });
     }
 
     public void updateUserCredits(String userId, int credits) {
