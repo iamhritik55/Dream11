@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.Dream11.services.transformer.PlayerTransformer.*;
 
@@ -19,15 +18,15 @@ public class PlayerService {
 
     @Autowired
     private PlayerRepo playerRepo;
-    @Autowired
-    private UtilityService utilityService;
 
-    public List<Player> getPlayerListFromIdList(List<String> playerIdList) {
+    public List<Player> getPlayerListFromIdList(List<String> playerIdList) { // TODO: 30/03/23 refactor name
         return playerRepo.findAllById(playerIdList);
     }
+
     @Autowired
     PlayerValidation playerValidation;
-    public PlayerResponseDTO addPlayer(PlayerRequestDTO playerRequestDTO) throws Exception{
+
+    public PlayerResponseDTO addPlayer(PlayerRequestDTO playerRequestDTO) throws Exception {
         playerValidation.validatePlayer(playerRequestDTO);
         Player player = requestDtoToPlayer(playerRequestDTO);
         return playerToResponseDto(playerRepo.save(player));
@@ -35,23 +34,18 @@ public class PlayerService {
 
     public List<PlayerResponseDTO> getPlayers() {
         List<Player> players = playerRepo.findAll();
-        List<PlayerResponseDTO> playerResponseDTOS = utilityService.createListOfPlayerResponseDTO(players);
-        return playerResponseDTOS;
+        return createListOfPlayerResponse(players);
     }
 
     public PlayerResponseDTO getPlayer(String playerId) throws Exception {
-        Optional<Player> player = playerRepo.findById(playerId);
-        if (player.isPresent()) {
-            return playerToResponseDto(player.get());
-        } else {
-            throw new Exception("Player with playerID - " + playerId + "doesn't exist");
-        }
+        return playerToResponseDto(playerRepo.findById(playerId).orElseThrow(
+                () -> new Exception("Player with playerID " + "- " + playerId + " doesn't exist")));
     }
 
-    public List<String> playerIdListToNameList(List<String> playerIdList){
-        List<Player> playerList=playerRepo.findAllById(playerIdList);
+    public List<String> playerIdListToNameList(List<String> playerIdList) {
+        List<Player> playerList = playerRepo.findAllById(playerIdList);
         List<String> playerNameList = new ArrayList<>();
-        for(Player player: playerList){
+        for (Player player : playerList) {
             playerNameList.add(player.getName());
         }
         return playerNameList;

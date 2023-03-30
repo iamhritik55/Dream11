@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MatchValidation {
@@ -19,13 +18,7 @@ public class MatchValidation {
     public MatchRepo matchRepo;
 
     public void validateMatch(MatchRequestDTO match) throws Exception {
-        Optional<String> team1Id = Optional.of(match.getTeam1Id());
-        Optional<String> team2Id = Optional.of(match.getTeam2Id());
-
-        List<String> teamIds = new ArrayList<>();
-        teamIds.add(match.getTeam1Id());
-        teamIds.add(match.getTeam2Id());
-         if (match.getTeam1Id().equals(match.getTeam2Id())) {
+        if (match.getTeam1Id().equals(match.getTeam2Id())) {
             throw new Exception("Both teamIDs can't be same");
         }
     }

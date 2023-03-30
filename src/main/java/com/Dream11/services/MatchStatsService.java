@@ -21,19 +21,16 @@ public class MatchStatsService {
     @Autowired
     MatchStatsRepo matchStatsRepo;
 
-    @Autowired
-    TeamService teamService;
-
-    private List<PlayerStats> createPlayerStatsList(List<Player> playerList){
+    private List<PlayerStats> createPlayerStatsList(List<Player> playerList) {
         List<PlayerStats> playerStatsList = new ArrayList<>();
-        for(Player player: playerList){
+        for (Player player : playerList) {
             playerStatsList.add(createPlayerStatsFromPlayer(player));
         }
         return playerStatsList;
     }
 
-    private PlayerStats createPlayerStatsFromPlayer(Player player){
-        PlayerStats playerStats= new PlayerStats();
+    private PlayerStats createPlayerStatsFromPlayer(Player player) {
+        PlayerStats playerStats = new PlayerStats();
         playerStats.setPlayerId(player.getId());
         playerStats.setPlayerName(player.getName());
         playerStats.setPlayerPoints(player.getPlayerPoints());
@@ -43,22 +40,22 @@ public class MatchStatsService {
         playerStats.setBattingRuns(player.getBattingRuns());
         return playerStats;
     }
-    private String getWinnerTeamName(CricketMatchContext matchContext){
+
+    private String getWinnerTeamName(CricketMatchContext matchContext) {
         int team1Runs = matchContext.getTeam1().getTeamRuns();
         int team2Runs = matchContext.getTeam2().getTeamRuns();
 
-        if(team1Runs>team2Runs){
+        if (team1Runs > team2Runs) {
             return matchContext.getTeam1().getName();
-        }
-        else if(team1Runs<team2Runs){
+        } else if (team1Runs < team2Runs) {
             return matchContext.getTeam2().getName();
-        }
-        else {
+        } else {
             return "Tied";
         }
 
     }
-    public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext){
+
+    public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext) {
         MatchStats matchStats = new MatchStats();
 
         matchStats.setId(matchContext.getMatch().getMatchId());
@@ -69,11 +66,10 @@ public class MatchStatsService {
         matchStats.setTeam1Score(matchContext.getTeam1().getTeamRuns());
         matchStats.setTeam2Score(matchContext.getTeam2().getTeamRuns());
 
-        if(Objects.equals(matchContext.getTeam1().getId(), inningContext.getBattingTeamId())){
+        if (Objects.equals(matchContext.getTeam1().getId(), inningContext.getBattingTeamId())) {
             matchStats.setTeam1PlayerStats(createPlayerStatsList(inningContext.getBattingPlayerList()));
             matchStats.setTeam2PlayerStats(createPlayerStatsList(inningContext.getBowlingPlayerList()));
-        }
-        else {
+        } else {
             matchStats.setTeam1PlayerStats(createPlayerStatsList(inningContext.getBowlingPlayerList()));
             matchStats.setTeam2PlayerStats(createPlayerStatsList(inningContext.getBattingPlayerList()));
         }
@@ -84,9 +80,9 @@ public class MatchStatsService {
 
 
     public MatchStats findMatchStatsById(String id) throws Exception {
-        Optional<MatchStats> matchStats=matchStatsRepo.findById(id);
+        Optional<MatchStats> matchStats = matchStatsRepo.findById(id);
         if (matchStats.isPresent()) {
-            return matchStats.get(); // TODO: 16/03/23  make 1 repo call-done
+            return matchStats.get();
         } else {
             throw new Exception("MatchStats id not found!");
         }

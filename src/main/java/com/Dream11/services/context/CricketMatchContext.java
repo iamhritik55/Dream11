@@ -29,7 +29,7 @@ public class CricketMatchContext {
     // TODO: 29/03/23 take only fields in context (no autowired, no methods)
     // TODO: 29/03/23 create validateAndCreateContext
     public CricketMatchContext fetchCricketContext(String matchId) throws Exception{
-        this.match = matchService.getMatch(matchId);
+        this.match = matchService.getMatchById(matchId);
         matchValidation.matchCompletedValidation(match);
         this.team1 = teamService.getTeamById(match.getTeam1Id());
         this.team2 = teamService.getTeamById(match.getTeam2Id());
