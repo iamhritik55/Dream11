@@ -1,16 +1,13 @@
-package com.Dream11.gamecontroller;
+package com.Dream11.services.gamecontroller;
 import com.Dream11.DTO.response.LeaderboardResponseDTO;
-import com.Dream11.context.CricketInningContext;
-import com.Dream11.context.CricketMatchContext;
-import com.Dream11.entity.MatchUserStats;
-import com.Dream11.entity.Player;
+import com.Dream11.services.context.*;
+import com.Dream11.services.models.*;
 import com.Dream11.services.MatchService;
 import com.Dream11.services.MatchStatsService;
 import com.Dream11.services.MatchUserService;
 import com.Dream11.utility.ResultOnBall;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 import static com.Dream11.utility.ApplicationUtils.*;
