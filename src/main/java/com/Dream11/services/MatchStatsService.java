@@ -31,7 +31,8 @@ public class MatchStatsService {
 
         return team1Runs > team2Runs ? matchContext.getTeam1().getName() : team1Runs < team2Runs ? matchContext.getTeam2().getName() : "Tied";
     }
-    public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext){
+
+    public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext) {
         MatchStats matchStats = new MatchStats();
 
         matchStats.setId(matchContext.getMatch().getMatchId());
@@ -57,9 +58,9 @@ public class MatchStatsService {
 
 
     public MatchStats findMatchStatsById(String id) throws Exception {
-        Optional<MatchStats> matchStats=matchStatsRepo.findById(id);
+        Optional<MatchStats> matchStats = matchStatsRepo.findById(id);
         if (matchStats.isPresent()) {
-            return matchStats.get(); // TODO: 16/03/23  make 1 repo call-done
+            return matchStats.get();
         } else {
             throw new Exception("MatchStats id not found!");
         }

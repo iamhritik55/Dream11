@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerTransformer {
-    public static Player requestDtoToPlayer(PlayerRequestDTO playerRequestDTO){
-        Player player=new Player();
+
+    public static Player requestDtoToPlayer(PlayerRequestDTO playerRequestDTO) {
+        Player player = new Player();
         player.setName(playerRequestDTO.getName());
         player.setBattingRating(playerRequestDTO.getBattingRating());
         player.setBowlingRating(playerRequestDTO.getBowlingRating());
@@ -17,8 +18,9 @@ public class PlayerTransformer {
         player.setCreditCost(playerRequestDTO.getCreditCost());
         return player;
     }
-    public static PlayerResponseDTO playerToResponseDto(Player player){
-        PlayerResponseDTO playerResponseDTO=new PlayerResponseDTO();
+
+    public static PlayerResponseDTO playerToResponseDto(Player player) {
+        PlayerResponseDTO playerResponseDTO = new PlayerResponseDTO();
         playerResponseDTO.setId(player.getId());
         playerResponseDTO.setName(player.getName());
         playerResponseDTO.setBattingRating(player.getBattingRating());
@@ -32,5 +34,13 @@ public class PlayerTransformer {
         List<String> nameList = new ArrayList<>();
         playerList.forEach(player-> nameList.add(player.getName()));
         return nameList;
+    }
+
+    public static List<PlayerResponseDTO> createListOfPlayerResponse(List<Player> players) {
+        List<PlayerResponseDTO> playerResponseDTOS=new ArrayList<>();
+        for (Player player : players) {
+            playerResponseDTOS.add(playerToResponseDto(player));
+        }
+        return playerResponseDTOS;
     }
 }

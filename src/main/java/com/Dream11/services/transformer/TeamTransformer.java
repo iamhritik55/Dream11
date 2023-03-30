@@ -4,6 +4,9 @@ import com.Dream11.DTO.request.TeamRequestDTO;
 import com.Dream11.DTO.response.TeamResponseDTO;
 import com.Dream11.services.models.Team;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TeamTransformer {
     public static Team requestDtoToTeam(TeamRequestDTO teamRequestDTO){
         Team team=new Team();
@@ -17,5 +20,13 @@ public class TeamTransformer {
         teamResponseDTO.setName(team.getName());
         teamResponseDTO.setTeamPlayerIds(team.getTeamPlayerIds());
         return teamResponseDTO;
+    }
+    public static List<TeamResponseDTO> createListOfTeamResponseDto(List<Team> teams){
+        List<TeamResponseDTO> teamResponseDTOS=new ArrayList<>();
+        for (Team team:teams
+        ) {
+            teamResponseDTOS.add(teamToResponseDto(team));
+        }
+        return teamResponseDTOS;
     }
 }
