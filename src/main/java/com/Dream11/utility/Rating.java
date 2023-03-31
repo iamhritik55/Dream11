@@ -3,6 +3,7 @@ package com.Dream11.utility;
 import com.Dream11.services.enums.PlayerTitle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Rating {
@@ -65,7 +66,7 @@ public class Rating {
             return threeStarBowler;
         else {
             System.out.println("Player title not found!");
-            return null;
+            return Collections.emptyList();
         }
     }
 }

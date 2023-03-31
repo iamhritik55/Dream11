@@ -4,7 +4,6 @@ import com.Dream11.services.enums.PlayerTitle;
 
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ResultOnBall {
@@ -14,7 +13,9 @@ public class ResultOnBall {
         List<Integer> batsmanArray = Rating.playerBattingArray(batsmanTitle);
         List<Integer> bowlerArray = Rating.playerBowlingArray(bowlerTitle);
 
-        List<Integer> combinedArray = Stream.concat(batsmanArray.stream(), bowlerArray.stream()).collect(Collectors.toList());
+        assert batsmanArray != null;
+        assert bowlerArray != null;
+        List<Integer> combinedArray = Stream.concat(batsmanArray.stream(), bowlerArray.stream()).toList();
         return combinedArray.get(secureRandom.nextInt(combinedArray.size()));
     }
 }

@@ -2,9 +2,7 @@ package com.Dream11.services.models;
 
 import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.enums.PlayerTitle;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;

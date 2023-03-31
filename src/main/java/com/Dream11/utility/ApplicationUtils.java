@@ -25,6 +25,5 @@ public class ApplicationUtils {
     public static int STRONG_PLAYER_COST = 10;
     public static int ALL_ROUNDER_COST = 12;
     public static int TEAM_SIZE = 11;
-    public static List<String> playerTitles = new ArrayList<String>(
-            Arrays.asList("STRONG_BATSMAN", "STRONG_BOWLER", "ALL_ROUNDER", "AVERAGE_BATSMAN", "AVERAGE_BOWLER"));
+
 }

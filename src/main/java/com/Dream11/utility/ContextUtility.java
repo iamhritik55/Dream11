@@ -5,18 +5,13 @@ import com.Dream11.services.PlayerService;
 import com.Dream11.services.TeamService;
 import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
-import com.Dream11.services.context.TeamDetailsContext;
-import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.gamecontroller.CricketUtility;
 import com.Dream11.services.models.Match;
 import com.Dream11.services.models.Player;
-import com.Dream11.services.models.Team;
-import com.Dream11.services.repo.DAO.MatchDAO;
 import com.Dream11.services.validation.CricketMatchValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

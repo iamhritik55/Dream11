@@ -43,8 +43,7 @@ public class PlayerService {
 
     public List<String> playerIdListToNameList(List<String> playerIdList){
         List<Player> playerList=playerRepo.findAllById(playerIdList);
-        List<String> playerNameList = PlayerTransformer.playerListToNameList(playerList);
-        return playerNameList;
+        return PlayerTransformer.playerListToNameList(playerList);
     }
 }
 

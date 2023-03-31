@@ -7,7 +7,6 @@ import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.services.models.MatchUserStats;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.models.User;
-import com.Dream11.services.repo.MatchRepo;
 import com.Dream11.services.repo.MatchUserStatsRepo;
 import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.repo.UserRepo;
@@ -19,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MatchUserService {
@@ -28,8 +29,6 @@ public class MatchUserService {
     private PlayerRepo playerRepo;
     @Autowired
     private MatchUserStatsRepo matchUserStatsRepo;
-    @Autowired
-    private MatchRepo matchRepo;
     @Autowired
     private UserRepo userRepo;
     @Autowired

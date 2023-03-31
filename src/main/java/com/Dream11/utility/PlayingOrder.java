@@ -1,11 +1,9 @@
 package com.Dream11.utility;
 
 import com.Dream11.services.enums.PlayerStatus;
-import com.Dream11.services.enums.PlayerTitle;
 import com.Dream11.services.models.Player;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
