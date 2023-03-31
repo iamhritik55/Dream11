@@ -49,8 +49,9 @@ public class MatchUserService {
     }
 
 
-    public MatchUserStatsResponseDTO getUserStats(String userId, String matchId) {
-        MatchUserStats matchUserStats = matchUserStatsRepo.findByUserIdAndMatchId(userId, matchId);
+    public MatchUserStatsResponseDTO getUserStats(String userId, String matchId) throws Exception {
+        MatchUserStats matchUserStats =
+                matchUserStatsRepo.findByUserIdAndMatchId(userId, matchId).orElseThrow(()-> new Exception("Invalid matchId or UserId"));
         return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
 

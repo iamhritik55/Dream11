@@ -58,7 +58,7 @@ public class MatchAPI {
     }
 
     @GetMapping("/user-stats/{userId}/{matchId}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String userId, @PathVariable String matchId){
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String userId, @PathVariable String matchId) throws Exception{
         MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(userId, matchId);
         return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
 
