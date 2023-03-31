@@ -1,6 +1,8 @@
 package com.Dream11.services.context;
 
+import com.Dream11.services.PlayerService;
 import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -14,5 +16,6 @@ public class CricketInningContext {
     private List<Player> bowlingPlayerList;
     private String battingTeamId;
     private String bowlingTeamId;
+    private List<PlayerStats> playerStatsList;
 
 }

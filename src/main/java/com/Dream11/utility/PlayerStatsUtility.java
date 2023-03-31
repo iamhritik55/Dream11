@@ -5,26 +5,22 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class PlayerStatsUtility {
-    public PlayerStats addRuns(PlayerStats playerStats, int runs) {
+    public static void addRuns(PlayerStats playerStats, int runs) {
         playerStats.setBattingRuns(runs+ playerStats.getBattingRuns());
-        return playerStats;
     }
-    public PlayerStats addWicket(PlayerStats playerStats) {
+    public static void addWicket(PlayerStats playerStats) {
         playerStats.setBowlingWickets(playerStats.getBowlingWickets()+1);
-        return playerStats;
     }
 
-    public PlayerStats addFour(PlayerStats playerStats) {
+    public static void addFour(PlayerStats playerStats) {
         playerStats.setFoursScored(playerStats.getFoursScored()+1);
-        return playerStats;
     }
 
-    public PlayerStats addSix(PlayerStats playerStats) {
+    public static void addSix(PlayerStats playerStats) {
         playerStats.setSixesScored(playerStats.getSixesScored()+1);
-        return playerStats;
     }
-    public PlayerStats addPoints(PlayerStats playerStats, int points) {
+    public static void addPoints(PlayerStats playerStats, int points) {
         playerStats.setPlayerPoints(points+ playerStats.getPlayerPoints());
-        return playerStats;
     }
+
 }

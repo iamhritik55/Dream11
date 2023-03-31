@@ -1,37 +1,36 @@
 package com.Dream11.utility;
 
 import com.Dream11.services.enums.PlayerTitle;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Rating {
-    private static List<Integer> fiveStarBatting=new ArrayList<>(){{
+    private static final List<Integer> fiveStarBatting=new ArrayList<>(){{
         add(4);add(4);add(4);add(6);add(6);add(6);add(2);add(2);add(1);add(7);add(4);add(6);add(2);add(1);add(6);add(4);
-        add(4); add(4); add(6);
+        add(4); add(4); add(6);add(6);
     }};
-    private static List<Integer> fourStarBatting=new ArrayList<>(){{
-        add(4);add(4);add(6);add(6);add(2);add(2);add(2);add(1);add(1);add(7);add(4);add(2);add(1);add(4);
+    private static final List<Integer> fourStarBatting=new ArrayList<>(){{
+        add(4);add(4);add(6);add(6);add(2);add(2);add(2);add(1);add(1);add(7);add(4);add(2);add(1);add(4);add(4);
         add(6);add(4);
     }};
-    private static List<Integer> threeStarBatting=new ArrayList<>(){{
+    private static final List<Integer> threeStarBatting=new ArrayList<>(){{
         add(4);add(6);add(2);add(2);add(2);add(1);add(1);add(1);add(7);add(7);add(2);add(1);add(3);
-        add(4);
+        add(4);add(4);
     }};
 
-    private static List<Integer> twoStarBatting=new ArrayList<>(){{
-        add(4);add(2);add(2);add(1);add(1);add(7);add(2);add(2);add(7);add(7);add(1);add(1);
+    private static final List<Integer> twoStarBatting=new ArrayList<>(){{
+        add(4);add(2);add(2);add(1);add(1);add(7);add(2);add(2);add(7);add(7);add(1);add(1);add(2);
     }};
-    private static List<Integer> fiveStarBowler=new ArrayList<>(){{
-        add(0);add(0);add(0);add(7);add(7);
+    private static final List<Integer> fiveStarBowler=new ArrayList<>(){{
+        add(0);add(0);add(0);add(7);add(7);add(0);
     }};
-    private static List<Integer> fourStarBowler=new ArrayList<>(){{
+    private static final List<Integer> fourStarBowler=new ArrayList<>(){{
         add(0);add(0);add(0);add(7);
     }};
-    private static List<Integer> threeStarBowler=new ArrayList<>(){{
+    private static final List<Integer> threeStarBowler=new ArrayList<>(){{
         add(0);add(0);add(7);
     }};
-    private static List<Integer> twoStarBowler=new ArrayList<>(){{
+    private static final List<Integer> twoStarBowler=new ArrayList<>(){{
         add(0);add(0);
     }};
 

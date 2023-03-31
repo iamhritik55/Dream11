@@ -4,6 +4,7 @@ import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
 import com.Dream11.utility.PlayingOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class CricketUtility {
 
     @Autowired
     private PlayingOrder playingOrder;
-    private static SecureRandom random = new SecureRandom();
+    private static final SecureRandom random = new SecureRandom();
 
     public static CricketMatchContext cricketToss(CricketMatchContext matchContext) {
         int toss = random.nextInt(2);
@@ -74,11 +75,11 @@ public class CricketUtility {
         if (optional.isPresent()) {
             return optional.get();
         }
-        throw new Exception("No player OFF_STRIKE");
+        throw new Exception("No player BOWLING");
 
     }
 
-    public List<Player> swapOnStrikeOffStrike(List<Player> playerList) throws Exception {
+    public void swapOnStrikeOffStrike(List<Player> playerList) throws Exception {
         Player onStrike = playerList.stream()
                 .filter(player -> player.getPlayerStatus() == PlayerStatus.ON_STRIKE)
                 .findFirst()
@@ -93,17 +94,15 @@ public class CricketUtility {
             onStrike.setPlayerStatus(PlayerStatus.OFF_STRIKE);
             offStrike.setPlayerStatus(PlayerStatus.ON_STRIKE);
         }
-        return playerList;
     }
 
-    private List<Player> changeStatus(List<Player> playerList, PlayerStatus fromStatus, PlayerStatus toStatus) {
+    private void changeStatus(List<Player> playerList, PlayerStatus fromStatus, PlayerStatus toStatus) {
         playerList.stream().filter(player -> player.getPlayerStatus() == fromStatus).findFirst().ifPresent(player -> player.setPlayerStatus(toStatus));
-        return playerList;
     }
 
-    public List<Player> nextBowler(List<Player> playerList) throws Exception {
+    public void nextBowler(List<Player> playerList) throws Exception {
         //set bowling to played
-        playerList = changeStatus(playerList, PlayerStatus.BOWLING, PlayerStatus.PLAYED);
+        changeStatus(playerList, PlayerStatus.BOWLING, PlayerStatus.PLAYED);
         Optional<Player> first = playerList.stream()
                 .filter(player -> player.getPlayerStatus() == PlayerStatus.NOT_PLAYING)
                 .findFirst();
@@ -122,11 +121,10 @@ public class CricketUtility {
             }
 
         }
-        return playerList;
 
     }
 
-    public List<Player> nextBatsman(List<Player> playerList) throws Exception {
+    public void nextBatsman(List<Player> playerList) throws Exception {
         Player player = findPlayerOnStrike(playerList);
         player.setPlayerStatus(PlayerStatus.PLAYED);
         Optional<Player> nextPlayer = playerList.stream().filter(player1 -> player1.getPlayerStatus() == PlayerStatus.NOT_PLAYING).findFirst();
@@ -135,8 +133,14 @@ public class CricketUtility {
         } else {
             throw new Exception("No unplayed players found");
         }
+    }
 
-        return playerList;
-
+    public PlayerStats fetchPlayerStats(List<PlayerStats> playerStatsList, Player player) throws Exception{
+        for (PlayerStats playerStats: playerStatsList){
+            if(Objects.equals(playerStats.getPlayerId(), player.getId())){
+                return playerStats;
+            }
+        }
+        throw new Exception("No PlayerStat found corresponding to the give player");
     }
 }

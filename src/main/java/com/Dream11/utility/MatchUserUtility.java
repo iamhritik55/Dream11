@@ -2,7 +2,7 @@ package com.Dream11.utility;
 
 import com.Dream11.services.UserService;
 import com.Dream11.services.models.MatchUserStats;
-import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,15 +14,15 @@ import java.util.Objects;
 public class MatchUserUtility {
     @Autowired
     private UserService userService;
-    public static MatchUserStats updateTeamPoints(MatchUserStats matchUserStats, List<Player> playerList) {
+    public static MatchUserStats updateTeamPoints(MatchUserStats matchUserStats, List<PlayerStats> playerStatsList) {
         List<String> userPlayerList = matchUserStats.getChosenPlayerIdList();
         Collections.sort(userPlayerList);
 
         for (String s : userPlayerList) {
-            for (Player player : playerList) {
-                if (Objects.equals(s, player.getId())) {
+            for (PlayerStats playerStats : playerStatsList) {
+                if (Objects.equals(s, playerStats.getPlayerId())) {
                     int teamPoints = matchUserStats.getTeamPoints();
-                    teamPoints += player.getPlayerPoints();
+                    teamPoints += playerStats.getPlayerPoints();
                     matchUserStats.setTeamPoints(teamPoints);
                     break;
                 }

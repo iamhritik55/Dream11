@@ -10,8 +10,10 @@ import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.gamecontroller.CricketUtility;
 import com.Dream11.services.models.Match;
 import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
 import com.Dream11.services.models.Team;
 import com.Dream11.services.repo.DAO.MatchDAO;
+import com.Dream11.services.transformer.PlayerTransformer;
 import com.Dream11.services.validation.CricketMatchValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,6 +49,7 @@ public class ContextUtility {
     public CricketInningContext fetchInningContext(CricketMatchContext matchContext,
                                                    CricketInningContext inningContext) throws Exception {
         if (!matchContext.isSecondInning()) {
+
             if (Objects.equals(matchContext.getTossWinner(), matchContext.getTeam1().getId())) {
                 inningContext.setBattingPlayerList(playerService.getPlayerListFromIdList(matchContext.getTeam1().getTeamPlayerIds()));
                 inningContext.setBattingTeamId(matchContext.getTeam1().getId());
@@ -64,6 +67,9 @@ public class ContextUtility {
 
             inningContext.setBattingPlayerList(playingOrder.battingOrder(inningContext.getBattingPlayerList()));
             inningContext.setBowlingPlayerList(playingOrder.bowlingOrder(inningContext.getBowlingPlayerList()));
+            List<Player> combinedPlayerList = new ArrayList<>(inningContext.getBattingPlayerList());
+            combinedPlayerList.addAll(inningContext.getBowlingPlayerList());
+            inningContext.setPlayerStatsList(PlayerTransformer.createPlayerStatList(combinedPlayerList));
         } else {
             inningContext = swapInningContextTeams(inningContext);
         }

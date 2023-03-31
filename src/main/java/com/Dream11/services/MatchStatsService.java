@@ -3,16 +3,11 @@ package com.Dream11.services;
 import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.services.models.MatchStats;
-import com.Dream11.services.models.Player;
-import com.Dream11.services.models.PlayerStats;
 import com.Dream11.services.repo.MatchStatsRepo;
-import com.Dream11.services.transformer.MatchStatsTransformer;
+import com.Dream11.utility.MatchStatsUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -43,14 +38,10 @@ public class MatchStatsService {
         matchStats.setTeam1Score(matchContext.getTeam1().getTeamRuns());
         matchStats.setTeam2Score(matchContext.getTeam2().getTeamRuns());
 
-        if(Objects.equals(matchContext.getTeam1().getId(), inningContext.getBattingTeamId())){
-            matchStats.setTeam1PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBattingPlayerList()));
-            matchStats.setTeam2PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBowlingPlayerList()));
-        }
-        else {
-            matchStats.setTeam1PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBowlingPlayerList()));
-            matchStats.setTeam2PlayerStats(MatchStatsTransformer.createPlayerStatsList(inningContext.getBattingPlayerList()));
-        }
+
+        matchStats.setTeam1PlayerStats(MatchStatsUtility.segregateCombinedPlayerStatsList(inningContext.getPlayerStatsList(),matchContext.getTeam1().getTeamPlayerIds()));
+        matchStats.setTeam2PlayerStats(MatchStatsUtility.segregateCombinedPlayerStatsList(inningContext.getPlayerStatsList(),matchContext.getTeam2().getTeamPlayerIds()));
+
         matchStats.setWinnerTeamName(getWinnerTeamName(matchContext));
         matchStatsRepo.save(matchStats);
         return matchStats;

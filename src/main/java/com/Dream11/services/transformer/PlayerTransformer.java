@@ -3,6 +3,7 @@ package com.Dream11.services.transformer;
 import com.Dream11.DTO.request.PlayerRequestDTO;
 import com.Dream11.DTO.response.PlayerResponseDTO;
 import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +43,17 @@ public class PlayerTransformer {
             playerResponseDTOS.add(playerToResponseDto(player));
         }
         return playerResponseDTOS;
+    }
+
+    public static List<PlayerStats> createPlayerStatList(List<Player> players){
+        List<PlayerStats> playerStatsList = new ArrayList<>();
+        players.forEach(player -> {
+            PlayerStats playerStats = new PlayerStats();
+            playerStats.setPlayerId(player.getId());
+            playerStats.setPlayerName(player.getName());
+            playerStatsList.add(playerStats);
+        });
+
+        return playerStatsList;
     }
 }

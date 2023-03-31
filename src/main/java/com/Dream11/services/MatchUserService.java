@@ -6,6 +6,7 @@ import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.services.models.MatchUserStats;
 import com.Dream11.services.models.Player;
+import com.Dream11.services.models.PlayerStats;
 import com.Dream11.services.models.User;
 import com.Dream11.services.repo.MatchRepo;
 import com.Dream11.services.repo.MatchUserStatsRepo;
@@ -101,14 +102,12 @@ public class MatchUserService {
         //first fetch matchUser from db, if it does not exist throw and exception.
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchContext.getMatch().getMatchId());
 
-        List<Player> playerList = new ArrayList<>();
-        playerList.addAll(inningContext.getBattingPlayerList());
-        playerList.addAll(inningContext.getBowlingPlayerList());
         List<MatchUserStats> matchUserStatsList1 = new ArrayList<>();
 
         //update team points
         for (MatchUserStats matchUserStats : matchUserStatsList) {
-            matchUserStatsList1.add(MatchUserUtility.updateTeamPoints(matchUserStats, playerList));
+            matchUserStatsList1.add(MatchUserUtility.updateTeamPoints(matchUserStats,
+                    inningContext.getPlayerStatsList()));
         }
 
         //update credits
