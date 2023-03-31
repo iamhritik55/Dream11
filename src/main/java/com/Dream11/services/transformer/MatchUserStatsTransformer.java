@@ -7,12 +7,11 @@ import java.util.List;
 
 public class MatchUserStatsTransformer {
 
-    public static MatchUserStatsResponseDTO matchUserToResponseDto(MatchUserStats matchUserStats, List<String> players, String userName) {
+    public static MatchUserStatsResponseDTO generateResponseDto(MatchUserStats matchUserStats) {
         MatchUserStatsResponseDTO responseDto = new MatchUserStatsResponseDTO();
-        responseDto.setUserName(userName);
+        responseDto.setChosenPlayerIdList(matchUserStats.getChosenPlayerIdList());
         responseDto.setCreditChange(matchUserStats.getCreditChange());
         responseDto.setTeamPoints(matchUserStats.getTeamPoints());
-        responseDto.setPlayerNames(players);
         responseDto.setCreditsSpentByUser(matchUserStats.getCreditsSpentByUser());
         return responseDto;
     }

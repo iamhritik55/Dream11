@@ -46,16 +46,16 @@ public class UtilityService {
     }
 
     public void validatePlayerIds(List<String> playerIds) throws Exception {
-
+        Set<String> playerIdSet = new HashSet<>(playerIds);
+        if (playerIdSet.size() < playerIds.size()) {
+            throw new Exception("Duplicate player Ids found in team.");
+        }
         List<Player> listOfPlayerIds = playerRepo.findAllById(playerIds);    //.contains
         if (listOfPlayerIds.size() < playerIds.size()) {
             throw new Exception("One or more player Ids not found.");
         }
         //there should not any duplicate id provided by the user
-        Set<String> playerIdSet = new HashSet<>(playerIds);
-        if (playerIdSet.size() < playerIds.size()) {
-            throw new Exception("Duplicate player Ids found in team.");
-        }
+
     }
 
     public int calculateTeamCost(List<String> playerIds) {
@@ -81,13 +81,7 @@ public class UtilityService {
                 allRounderCount++;
             }
         }
-        //user can only choose either two strong players or 1 all-rounder
-        if (strongPlayerCount > 2 || allRounderCount > 1) {
-            throw new Exception(
-                    "Team can have at most 1 All-rounder with 1 strong player, or 2 strong players with no all rounders.");
-        }
-        //user can have at most 1 All-rounder with 1 strong player
-        else if (strongPlayerCount > 1 && allRounderCount >= 1) {
+        if ((strongPlayerCount > 1 && allRounderCount >= 1)||(strongPlayerCount > 2 || allRounderCount > 1)) {
             throw new Exception(
                     "Team can have at most 1 All-rounder with 1 strong player, or 2 strong players with no all rounders.");
         }

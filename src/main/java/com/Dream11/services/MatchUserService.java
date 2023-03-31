@@ -48,37 +48,13 @@ public class MatchUserService {
         return matchUserStatsRepo.findAll();
     }
 
-    public MatchUserStatsResponseDTO getUserStats(String id) throws Exception {
 
-        Optional<MatchUserStats> optionalStats = matchUserStatsRepo.findById(id);
-        //making a list to store player names
-        // TODO: 28/03/23 use ifPresent()
-        if (optionalStats.isPresent()) {
-            List<String> players = new ArrayList<>();
-            //making a variable to store userName
-            String userName = "";
-            MatchUserStats stats = optionalStats.get();
-            //get userName by using userId
-            Optional<User> userId = userRepo.findById(stats.getUserId());
-            if (userId.isPresent()) {
-                User user = userId.get();
-                userName = user.getName();
-            }
-            //if player present then fetch player names by their ids
-            List<Player> listOfPlayerIds = playerRepo.findAllById(stats.getChosenPlayerIdList());
-            if (!CollectionUtils.isEmpty(listOfPlayerIds)) {
-                for (Player player : listOfPlayerIds) {
-                    players.add(player.getName());
-                }
-            }// TODO: 28/03/23  don't give names is response
-            return MatchUserStatsTransformer.matchUserToResponseDto(stats, players, userName);
-        } else {
-            throw new Exception("Data not found for this Id");
-        }
-
+    public MatchUserStatsResponseDTO getUserStats(String userId, String matchId) {
+        MatchUserStats matchUserStats = matchUserStatsRepo.findByUserIdAndMatchId(userId, matchId);
+        return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
 
-    public void createUserTeam(String matchId, String userId, List<String> playerIds) throws Exception {
+    public MatchUserStatsResponseDTO createUserTeam(String matchId, String userId, List<String> playerIds) throws Exception {
 
         matchUserValidation.validateMatchUserIds(matchId, userId);
         utilityService.validatePlayerIds(playerIds);
@@ -94,9 +70,8 @@ public class MatchUserService {
         matchUserStats.setCreditsSpentByUser(totalCost);
         matchUserStats.setChosenPlayerIdList(playerIds);
         matchUserStatsRepo.save(matchUserStats);
-
+        return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
-
     public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext, CricketInningContext inningContext) throws Exception {
 
         //first fetch matchUser from db, if it does not exist throw and exception.

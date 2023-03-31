@@ -35,31 +35,20 @@ public class UserService {
     public List<User> getUsers() {
         return userRepo.findAll();
     }//doubt should i use UserResponseDTO
-    public User getUserById(String id) throws Exception{
-        return userRepo.findById(id).orElseThrow(()-> new Exception("Not Present"));
+    public User getUserById(String id){
+        return userRepo.findById(id)
+                       .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void subtractUserCredits(String userId, int credits) throws Exception {
-
-        User user = userRepo.findById(userId).orElseThrow(() -> new Exception("User with this id does not exist."));
-        if (credits > user.getCredits()) {
-            throw new Exception("You don't have enough credits to select this team.");
-        }
-        int creditsToUpdate = user.getCredits() - credits;
-        user.setCredits(creditsToUpdate);
-        userRepo.save(user);
-
-//        if (userRepo.findById(userId).isPresent()) {
-//            User user = userRepo.findById(userId).get();
-//            if (credits > user.getCredits()) {
-//                throw new Exception("You don't have enough credits to select this team.");
-//            }
-//            int creditsToUpdate = user.getCredits() - credits;
-//            user.setCredits(creditsToUpdate);
-//            userRepo.save(user);
-//        } else {
-//            throw new Exception("User with this id does not exist.");
-//        }
+        userRepo.findById(userId).ifPresent(user -> {
+            if (credits > user.getCredits()) {
+                throw new RuntimeException("You don't have enough credits to select this team.");
+            }
+            int creditsToUpdate = user.getCredits() - credits;
+            user.setCredits(creditsToUpdate);
+            userRepo.save(user);
+        });
     }
 
     public void updateUserCredits(String userId, int credits) throws Exception {

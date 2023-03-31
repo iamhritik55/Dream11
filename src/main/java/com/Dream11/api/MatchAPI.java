@@ -57,10 +57,9 @@ public class MatchAPI {
         return ResponseEntity.ok(matchService.getTeamDetails(id));
     }
 
-    @GetMapping("/user-stats/{id}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String id) throws Exception {// TODO: 16/03/23 take a genric name
-        // TODO: 28/03/23 take matchId and userId
-        MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(id);
+    @GetMapping("/user-stats/{userId}/{matchId}")
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String userId, @PathVariable String matchId){
+        MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(userId, matchId);
         return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
 
     }

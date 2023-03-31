@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface MatchUserStatsRepo extends MongoRepository <MatchUserStats, String>{
     List<MatchUserStats> findByMatchId(String matchId);
-    Optional<MatchUserStats> findById(String matchUserId);
+    MatchUserStats findByUserIdAndMatchId(String userId, String matchId);
 }

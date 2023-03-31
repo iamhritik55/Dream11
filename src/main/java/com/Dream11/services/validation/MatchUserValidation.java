@@ -17,17 +17,16 @@ public class MatchUserValidation {
     @Autowired
     UserRepo userRepo;
 
-    public void validateMatchUserIds(String matchId, String userId) throws Exception{
-        Optional<Match> optionalMatch = matchRepo.findById(matchId);
-        Optional<User> optionalUser = userRepo.findById(userId);
-        if(optionalMatch.isPresent() && optionalUser.isPresent()){
-            Match matchObj = optionalMatch.get();
-            if (matchObj.getStatus() == MatchStatus.PLAYED) {
-                throw new Exception("This match is already played please choose another one.");
-            }
-        }
-        else{
-            throw new RuntimeException("Ids not found");
-        }
+    public void validateMatchUserIds(String matchId, String userId) {
+
+        matchRepo.findById(matchId).ifPresentOrElse(match -> {
+            userRepo.findById(userId).ifPresentOrElse(user -> {
+                if(match.getStatus()==MatchStatus.PLAYED){
+                    throw new RuntimeException("This match is already played please choose another match");
+                }
+            }, ()->{throw new RuntimeException("User Id not found");});
+        }, ()-> {throw new RuntimeException("match Id not found");});
+
     }
+
 }

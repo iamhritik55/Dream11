@@ -1,5 +1,6 @@
 package com.Dream11.api;
 
+import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
 import com.Dream11.DTO.response.UserResponseDTO;
 import com.Dream11.DTO.request.UserRequestDTO;
 import com.Dream11.services.MatchUserService;
@@ -37,10 +38,9 @@ public class UserAPI {
     }
 
     @PostMapping("/create-team/{matchId}/{userId}")
-    public ResponseEntity<Object> createUserTeam(@PathVariable String matchId, @PathVariable String userId, @RequestBody @Validated List<String> playerIds) throws Exception {
+    public ResponseEntity<MatchUserStatsResponseDTO> createUserTeam(@PathVariable String matchId, @PathVariable String userId, @RequestBody @Validated List<String> playerIds) throws Exception {
 
-        matchUserService.createUserTeam(matchId, userId, playerIds);
-        return new ResponseEntity<>("Team Created Successfully.", HttpStatus.OK);
-
+        MatchUserStatsResponseDTO responseDto = matchUserService.createUserTeam(matchId, userId, playerIds);
+        return ResponseEntity.ok(responseDto);
     }
 }
