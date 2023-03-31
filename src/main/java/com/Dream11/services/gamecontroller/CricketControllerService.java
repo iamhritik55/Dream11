@@ -91,18 +91,16 @@ public class CricketControllerService implements GameControllerService {
                     if (wickets == 10) {
                         break loop;
                     }
-                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(),bowler);
+                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(), bowler);
                     PlayerStatsUtility.addWicket(playerToUpdate);
                     PlayerStatsUtility.addPoints(playerToUpdate, FIFTEEN_POINTS);
-//                    bowler.addWicket();
-//                    bowler.addPoints(FIFTEEN_POINTS);
+
                     cricketUtility.nextBatsman(inningContext.getBattingPlayerList());
                     playerOnStrike = cricketUtility.findPlayerOnStrike(inningContext.getBattingPlayerList());
                 }
                 case ZERO_RUNS, TWO_RUNS -> {
-                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(),playerOnStrike);
-                    PlayerStatsUtility.addRuns(playerToUpdate,resultOnBall);
-//                    playerOnStrike.addRuns(resultOnBall);
+                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(), playerOnStrike);
+                    PlayerStatsUtility.addRuns(playerToUpdate, resultOnBall);
                     battingTeamRuns += resultOnBall;
                     if (matchContext.isSecondInning()) {
                         if (battingTeamRuns > bowlingTeamRuns) {
@@ -111,9 +109,8 @@ public class CricketControllerService implements GameControllerService {
                     }
                 }
                 case ONE_RUN, THREE_RUNS -> {
-                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(),playerOnStrike);
-                    PlayerStatsUtility.addRuns(playerToUpdate,resultOnBall);
-//                    playerOnStrike.addRuns(resultOnBall);
+                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(), playerOnStrike);
+                    PlayerStatsUtility.addRuns(playerToUpdate, resultOnBall);
                     battingTeamRuns += resultOnBall;
                     Player temp = playerOnStrike;
                     playerOnStrike = playerOffStrike;
@@ -125,14 +122,11 @@ public class CricketControllerService implements GameControllerService {
                     }
                 }
                 case FOUR_RUNS -> {
-                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(),playerOnStrike);
-                    PlayerStatsUtility.addRuns(playerToUpdate,resultOnBall);
+                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(), playerOnStrike);
+                    PlayerStatsUtility.addRuns(playerToUpdate, resultOnBall);
                     PlayerStatsUtility.addFour(playerToUpdate);
-                    PlayerStatsUtility.addPoints(playerToUpdate,FIVE_POINTS);
-//                    playerOnStrike.addRuns(resultOnBall);
+                    PlayerStatsUtility.addPoints(playerToUpdate, FIVE_POINTS);
                     battingTeamRuns += resultOnBall;
-//                    playerOnStrike.addFour();
-//                    playerOnStrike.addPoints(FIVE_POINTS);
                     if (matchContext.isSecondInning()) {
                         if (battingTeamRuns > bowlingTeamRuns) {
                             break loop;
@@ -140,14 +134,11 @@ public class CricketControllerService implements GameControllerService {
                     }
                 }
                 case SIX_RUNS -> {
-                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(),playerOnStrike);
-                    PlayerStatsUtility.addRuns(playerToUpdate,resultOnBall);
+                    playerToUpdate = cricketUtility.fetchPlayerStats(inningContext.getPlayerStatsList(), playerOnStrike);
+                    PlayerStatsUtility.addRuns(playerToUpdate, resultOnBall);
                     PlayerStatsUtility.addSix(playerToUpdate);
-                    PlayerStatsUtility.addPoints(playerToUpdate,TEN_POINTS);
-//                    playerOnStrike.addRuns(resultOnBall);
+                    PlayerStatsUtility.addPoints(playerToUpdate, TEN_POINTS);
                     battingTeamRuns += resultOnBall;
-//                    playerOnStrike.addSix();
-//                    playerOnStrike.addPoints(TEN_POINTS);
                     if (matchContext.isSecondInning()) {
                         if (battingTeamRuns > bowlingTeamRuns) {
                             break loop;
@@ -165,7 +156,6 @@ public class CricketControllerService implements GameControllerService {
             matchContext.setSecondInning(true);
         }
 
-//        System.out.println(inningContext.getPlayerStatsList());
 
     }
 }
