@@ -3,8 +3,6 @@ package com.Dream11.services.transformer;
 import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
 import com.Dream11.services.models.MatchUserStats;
 
-import java.util.List;
-
 public class MatchUserStatsTransformer {
 
     public static MatchUserStatsResponseDTO generateResponseDto(MatchUserStats matchUserStats) {

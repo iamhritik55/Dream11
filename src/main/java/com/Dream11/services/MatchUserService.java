@@ -5,34 +5,25 @@ import com.Dream11.DTO.response.MatchUserStatsResponseDTO;
 import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.services.models.MatchUserStats;
-import com.Dream11.services.models.Player;
-import com.Dream11.services.models.PlayerStats;
-import com.Dream11.services.models.User;
-import com.Dream11.services.repo.MatchRepo;
 import com.Dream11.services.repo.MatchUserStatsRepo;
-import com.Dream11.services.repo.PlayerRepo;
-import com.Dream11.services.repo.UserRepo;
 import com.Dream11.services.transformer.LeaderboardTransformer;
 import com.Dream11.services.transformer.MatchUserStatsTransformer;
 import com.Dream11.services.validation.MatchUserValidation;
 import com.Dream11.utility.MatchUserUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MatchUserService {
 
-    @Autowired
-    private PlayerRepo playerRepo;
+
     @Autowired
     private MatchUserStatsRepo matchUserStatsRepo;
-    @Autowired
-    private MatchRepo matchRepo;
-    @Autowired
-    private UserRepo userRepo;
+
+
     @Autowired
     private UtilityService utilityService;
     @Autowired

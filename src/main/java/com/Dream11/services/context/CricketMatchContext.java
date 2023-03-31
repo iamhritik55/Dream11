@@ -16,7 +16,4 @@ public class CricketMatchContext {
     private String tossWinner;
     private boolean secondInning;
 
-    // TODO: 29/03/23 take only fields in context (no autowired, no methods) - done
-    // TODO: 29/03/23 create validateAndCreateContext - done
-
 }

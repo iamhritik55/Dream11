@@ -19,7 +19,7 @@ public class PlayerService {
     @Autowired
     private PlayerRepo playerRepo;
 
-    public List<Player> getPlayerListFromIdList(List<String> playerIdList) { // TODO: 30/03/23 refactor name
+    public List<Player> getPlayerListFromIdList(List<String> playerIdList) {
         return playerRepo.findAllById(playerIdList);
     }
     @Autowired
@@ -43,8 +43,7 @@ public class PlayerService {
 
     public List<String> playerIdListToNameList(List<String> playerIdList){
         List<Player> playerList=playerRepo.findAllById(playerIdList);
-        List<String> playerNameList = PlayerTransformer.playerListToNameList(playerList);
-        return playerNameList;
+        return PlayerTransformer.playerListToNameList(playerList);
     }
 }
 

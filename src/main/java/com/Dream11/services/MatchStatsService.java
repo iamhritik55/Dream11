@@ -17,9 +17,6 @@ public class MatchStatsService {
     @Autowired
     MatchStatsRepo matchStatsRepo;
 
-    @Autowired
-    TeamService teamService;
-
     private String getWinnerTeamName(CricketMatchContext matchContext){
         int team1Runs = matchContext.getTeam1().getTeamRuns();
         int team2Runs = matchContext.getTeam2().getTeamRuns();

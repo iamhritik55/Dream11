@@ -19,10 +19,6 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepo userRepo;
-    @Autowired
-    private PlayerRepo playerRepo;
-    @Autowired
-    private UtilityService utilityService;
 
     //creating a user
     public UserResponseDTO addUser(UserRequestDTO requestDto) {

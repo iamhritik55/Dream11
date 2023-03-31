@@ -1,14 +1,10 @@
 package com.Dream11.services.validation;
 
-import com.Dream11.services.models.Match;
-import com.Dream11.services.models.User;
 import com.Dream11.services.enums.MatchStatus;
 import com.Dream11.services.repo.MatchRepo;
 import com.Dream11.services.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class MatchUserValidation {

@@ -5,8 +5,6 @@ import com.Dream11.services.context.CricketMatchContext;
 import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.models.PlayerStats;
-import com.Dream11.utility.PlayingOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
@@ -17,8 +15,6 @@ import java.util.Optional;
 @Component
 public class CricketUtility {
 
-    @Autowired
-    private PlayingOrder playingOrder;
     private static final SecureRandom random = new SecureRandom();
 
     public static CricketMatchContext cricketToss(CricketMatchContext matchContext) {

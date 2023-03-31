@@ -7,7 +7,6 @@ import com.Dream11.services.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.Dream11.utility.ApplicationUtils.TWO_TEAMS;

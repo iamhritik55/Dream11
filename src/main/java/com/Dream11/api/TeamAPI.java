@@ -2,7 +2,6 @@ package com.Dream11.api;
 
 import com.Dream11.DTO.request.TeamRequestDTO;
 import com.Dream11.DTO.response.TeamResponseDTO;
-import com.Dream11.services.repo.TeamRepo;
 import com.Dream11.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,6 @@ public class TeamAPI {
 
     @Autowired
     public TeamService teamService;
-    @Autowired
-    public TeamRepo teamRepo;
 
     @PostMapping
     public ResponseEntity<TeamResponseDTO> addTeam(@RequestBody @Validated TeamRequestDTO teamRequestDTO) throws Exception {

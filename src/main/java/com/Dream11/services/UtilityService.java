@@ -11,7 +11,6 @@ import com.Dream11.services.repo.DAO.MatchDAO;
 import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.repo.TeamRepo;
 import com.Dream11.utility.ApplicationUtils;
-import com.Dream11.utility.ContextUtility;
 import com.Dream11.utility.TeamDetailsContextUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +30,6 @@ public class UtilityService {
 
     @Autowired
     private PlayerRepo playerRepo;
-    @Autowired
-    private TeamRepo teamRepo;
     @Autowired
     private TeamDetailsContextUtility teamDetailsContextUtility;
     //checking if user creates a team of at least 3 players and maximum 5 players
