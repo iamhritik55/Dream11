@@ -5,6 +5,7 @@ import com.Dream11.services.PlayerService;
 import com.Dream11.services.TeamService;
 import com.Dream11.services.context.CricketInningContext;
 import com.Dream11.services.context.CricketMatchContext;
+import com.Dream11.services.context.TeamDetailsContext;
 import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.gamecontroller.CricketUtility;
 import com.Dream11.services.models.Match;
@@ -34,7 +35,7 @@ public class ContextUtility {
 
     public CricketMatchContext createAndValidateCricketContext(String matchId) throws Exception {
         CricketMatchContext matchContext = new CricketMatchContext();
-        Match match = matchService.getMatch(matchId);
+        Match match = matchService.getMatchById(matchId);
         matchContext.setMatch(match);
         matchValidation.matchCompletedValidation(match);
         matchContext.setTeam1(teamService.getTeamById(match.getTeam1Id()));
@@ -84,18 +85,5 @@ public class ContextUtility {
         return inningContext;
 
     }
-    public TeamDetailsContext createTeamDetailsContext(MatchDAO match) {
-        TeamDetailsContext teamDetailsContext = new TeamDetailsContext();
-        List<String> teamIds = new ArrayList<>();
-        teamIds.add(match.getTeam1Id());
-        teamIds.add(match.getTeam2Id());
-        List<Team> teams= teamService.getTeamsById(teamIds);
-        teamDetailsContext.setTeam1(teams.stream().filter(team -> Objects.equals(team.getId(), match.getTeam1Id())).findFirst().get());
-        teamDetailsContext.setTeam2(teams.stream().filter(team -> Objects.equals(team.getId(), match.getTeam2Id())).findFirst().get());
-        List<String> playerIds = new ArrayList<>();
-        playerIds.addAll(teamDetailsContext.getTeam1().getTeamPlayerIds());
-        playerIds.addAll(teamDetailsContext.getTeam2().getTeamPlayerIds());
-        teamDetailsContext.setPlayers(playerService.getPlayerListFromIdList(playerIds));
-        return teamDetailsContext;
-    }
+
 }

@@ -7,6 +7,7 @@ import com.Dream11.services.enums.MatchStatus;
 import com.Dream11.services.models.Match;
 import com.Dream11.services.repo.DAO.MatchDAO;
 import com.Dream11.services.repo.MatchRepo;
+import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.validation.MatchValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,6 @@ public class MatchService {
 
     @Autowired
     private MatchRepo matchRepo;
-    @Autowired
-    private TeamService teamService;
-    @Autowired
-    private MatchStatsService matchStatsService;
-    @Autowired
-    private MatchUserService matchUserService;
-    @Autowired
-    public PlayerService playerService;
-    @Autowired
-    public PlayerRepo playerRepo;
     @Autowired
     public UtilityService utilityService;
     SecureRandom secureRandom = new SecureRandom();

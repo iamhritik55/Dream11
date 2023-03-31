@@ -12,6 +12,7 @@ import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.repo.TeamRepo;
 import com.Dream11.utility.ApplicationUtils;
 import com.Dream11.utility.ContextUtility;
+import com.Dream11.utility.TeamDetailsContextUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -32,7 +33,8 @@ public class UtilityService {
     private PlayerRepo playerRepo;
     @Autowired
     private TeamRepo teamRepo;
-
+    @Autowired
+    private TeamDetailsContextUtility teamDetailsContextUtility;
     //checking if user creates a team of at least 3 players and maximum 5 players
     public void validateUserTeamSize(List<String> playerIds) throws Exception {
         if (playerIds.size() < ApplicationUtils.MIN_SIZE) {
@@ -101,7 +103,7 @@ public class UtilityService {
 
     public TeamDetailsResponse createTeamDetails(MatchDAO match) throws Exception {
         TeamDetailsResponse teamDetails = new TeamDetailsResponse();
-        TeamDetailsContext teamDetailsContext = contextUtility.createTeamDetailsContext(match);
+        TeamDetailsContext teamDetailsContext = teamDetailsContextUtility.createTeamDetailsContext(match);
         TeamResponseDTO team1 = teamToResponseDto(teamDetailsContext.getTeam1());
         TeamResponseDTO team2 = teamToResponseDto(teamDetailsContext.getTeam2());
         List<Player> team1Players = teamDetailsContext.getPlayers().stream().filter(player -> team1.getTeamPlayerIds()

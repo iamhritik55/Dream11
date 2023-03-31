@@ -9,9 +9,7 @@ import com.Dream11.services.validation.PlayerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.Dream11.services.transformer.PlayerTransformer.*;
 
@@ -20,8 +18,6 @@ public class PlayerService {
 
     @Autowired
     private PlayerRepo playerRepo;
-    @Autowired
-    private UtilityService utilityService;
 
     public List<Player> getPlayerListFromIdList(List<String> playerIdList) { // TODO: 30/03/23 refactor name
         return playerRepo.findAllById(playerIdList);
