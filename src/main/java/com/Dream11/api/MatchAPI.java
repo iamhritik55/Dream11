@@ -64,8 +64,8 @@ public class MatchAPI {
 
     }
 
-    @GetMapping("/stats/{match-id}")
-    public ResponseEntity<MatchStats> getMatchStats(@PathVariable(value = "match-id") String matchId) throws Exception {
+    @GetMapping("/stats/{matchId}")
+    public ResponseEntity<MatchStats> getMatchStats(@PathVariable(value = "matchId") String matchId) throws Exception {
         return ResponseEntity.ok(matchStatsService.findMatchStatsById(matchId));
     }
 

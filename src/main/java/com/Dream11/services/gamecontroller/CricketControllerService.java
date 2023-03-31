@@ -25,8 +25,6 @@ public class CricketControllerService implements GameControllerService {
     @Autowired
     private ContextUtility contextUtility;
     @Autowired
-    private CricketMatchContext matchContext;
-    @Autowired
     private CricketInningContext inningContext;
     @Autowired
     private CricketUtility cricketUtility;
@@ -39,11 +37,11 @@ public class CricketControllerService implements GameControllerService {
     public List<LeaderboardResponseDTO> startMatch(String matchId) throws Exception {
 
         //Fetching matchContext and validating and toss
-        matchContext = contextUtility.createAndValidateCricketContext(matchId);
+        CricketMatchContext matchContext = contextUtility.createAndValidateCricketContext(matchId);
 
         //playing 2 innings
-        playInning();
-        playInning();
+        playInning(matchContext);
+        playInning(matchContext);
 
         //Update match completed status
         matchService.matchCompleted(matchId);
@@ -56,7 +54,7 @@ public class CricketControllerService implements GameControllerService {
 
     }
 
-    private void playInning() throws Exception {
+    private void playInning(CricketMatchContext matchContext) throws Exception {
         inningContext = contextUtility.fetchInningContext(matchContext, inningContext);
 
         Player playerOnStrike = cricketUtility.findPlayerOnStrike(inningContext.getBattingPlayerList());
