@@ -53,7 +53,7 @@ public class MatchUserUtility {
         }
         //distributing points equally to all the winners
         int pointsToDistribute = creditPool / numberOfWinners;
-        if (numberOfWinners != 2 && matchUserStatsList.size() != 2) {
+        if (!(numberOfWinners == 2 && matchUserStatsList.size()==2)) {
             for (MatchUserStats matchUserStats : matchUserStatsList) {
                 if (numberOfWinners == 0) {
                     matchUserStats.setCreditChange(-matchUserStats.getCreditsSpentByUser());
