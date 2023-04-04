@@ -22,12 +22,13 @@ public class MatchValidation {
     public void validateMatch(MatchRequestDTO match) throws Exception {
         List<String> teamIds = List.of(match.getTeam1Id(), match.getTeam2Id());
         List<Team> teams = teamRepo.findAllById(teamIds);
-        if (teams.size() != TWO_TEAMS) {
-            throw new Exception("invalid team Id");
-        }
         if (match.getTeam1Id().equals(match.getTeam2Id())) {
             throw new Exception("Both teamIDs can't be same");
         }
+        if (teams.size() != TWO_TEAMS) {
+            throw new Exception("invalid team Id");
+        }
+
     }
 
 }
