@@ -23,7 +23,8 @@ public class TeamValidation {
         if (playerIdSet.size() < team.getTeamPlayerIds().size()) {
             throw new Exception("Duplicate player Ids found in team.");
         }
-        List<Player> listOfPlayerIds = playerRepo.findAllById(team.getTeamPlayerIds());    //.contains
+        List<Player> listOfPlayerIds = playerRepo.findAllById(team.getTeamPlayerIds());//.contains
+//        listOfPlayerIds.forEach(System.out::println);
         if (listOfPlayerIds.size() < team.getTeamPlayerIds().size()) {
             throw new Exception("One or more player Ids not found.");
         }

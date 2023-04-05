@@ -2,11 +2,11 @@ package com.Dream11.services.models;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
-@Document("matchStats")
+@Document(indexName = "matchstats")
 @Data
 public class MatchStats {
     @Id

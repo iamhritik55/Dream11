@@ -5,9 +5,9 @@ import com.Dream11.services.enums.PlayerTitle;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(collection = "Player")
+@Document(indexName = "player")
 @Data
 public class Player {
     @Id

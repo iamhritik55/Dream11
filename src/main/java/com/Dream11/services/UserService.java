@@ -27,7 +27,7 @@ public class UserService {
         return UserTransformer.userToResponseDto(user);
     }
 
-    //get all users from collection
+//    get all users from collection
     public List<User> getUsers() {
         return userRepo.findAll();
     }//doubt should i use UserResponseDTO

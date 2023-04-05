@@ -5,11 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
-@Document(collection = "Team")
+@Document(indexName= "team")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

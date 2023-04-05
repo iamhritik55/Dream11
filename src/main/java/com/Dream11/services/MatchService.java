@@ -8,6 +8,7 @@ import com.Dream11.services.models.Match;
 import com.Dream11.services.repo.DAO.MatchDAO;
 import com.Dream11.services.repo.MatchRepo;
 import com.Dream11.services.validation.MatchValidation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,15 @@ import static com.Dream11.services.transformer.MatchTransformer.*;
 @Service
 @Slf4j
 public class MatchService {
-
     @Autowired
-    private MatchRepo matchRepo;
+    private  MatchRepo matchRepo;
     @Autowired
-    public UtilityService utilityService;
-    SecureRandom secureRandom = new SecureRandom();
+    private  UtilityService utilityService;
 
-    //validation and create context
-    //TODO create a MatchController service
-
+    public MatchService(MatchRepo matchRepo, UtilityService utilityService){
+        this.matchRepo = matchRepo;
+        this.utilityService = utilityService;
+    }
     @Autowired
     private MatchValidation matchValidation;
 
@@ -51,15 +51,15 @@ public class MatchService {
                         .orElseThrow(() -> new Exception("Match with matchId - " + matchId + " " + "doesn't exist"));
     }
 
-    public List<MatchResponseDTO> getUnplayedMatches() {
-        List<Match> matches = matchRepo.findMatchesByStatus(MatchStatus.UNPLAYED);
-        return utilityService.createListOfMatchResponseDTO(matches);
-    }
+//    public List<MatchResponseDTO> getUnplayedMatches() {
+//        List<Match> matches = matchRepo.findMatchByStatus(MatchStatus.UNPLAYED);
+//        return utilityService.createListOfMatchResponseDTO(matches);
+//    }
 
-    public List<MatchResponseDTO> getPlayedMatches() {
-        List<Match> matches = matchRepo.findMatchesByStatus(MatchStatus.PLAYED);
-        return utilityService.createListOfMatchResponseDTO(matches);
-    }
+//    public List<MatchResponseDTO> getPlayedMatches() {
+//        List<Match> matches = matchRepo.findMatchByStatus(MatchStatus.PLAYED);
+//        return utilityService.createListOfMatchResponseDTO(matches);
+//    }
 
     public TeamDetailsResponse getTeamDetails(String matchId) throws Exception {
         MatchDAO match = matchToDao(getMatchById(matchId));

@@ -42,15 +42,15 @@ public class MatchAPI {
         return matchService.getMatches();
     }
 
-    @GetMapping("/unplayed")
-    public List<MatchResponseDTO> getUnplayedMatches() {
-        return matchService.getUnplayedMatches();
-    }
+//    @GetMapping("/unplayed")
+//    public List<MatchResponseDTO> getUnplayedMatches() {
+//        return matchService.getUnplayedMatches();
+//    }
 
-    @GetMapping("/played")
-    public List<MatchResponseDTO> getPlayedMatches() {
-        return matchService.getPlayedMatches();
-    }
+//    @GetMapping("/played")
+//    public List<MatchResponseDTO> getPlayedMatches() {
+//        return matchService.getPlayedMatches();
+//    }
 
     @GetMapping("/team-details/{id}")
     public ResponseEntity<Object> getTeamDetails(@PathVariable String id) throws Exception {//3

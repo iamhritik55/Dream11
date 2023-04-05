@@ -2,14 +2,13 @@ package com.Dream11.services.models;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
-@Document(collection = "MatchUserStats")
+@Document(indexName = "matchuserstats")
 @Data
-@CompoundIndex(def = "{'userId': 1, 'matchId': 1}",unique = true)
+//@(def = "{'userId': 1, 'matchId': 1}",unique = true)
 public class MatchUserStats {
     @Id
     private String id;

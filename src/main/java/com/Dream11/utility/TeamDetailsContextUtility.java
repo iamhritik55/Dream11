@@ -18,12 +18,13 @@ public class TeamDetailsContextUtility {
     private TeamService teamService;
     @Autowired
     private PlayerService playerService;
+
     public TeamDetailsContext createTeamDetailsContext(MatchDAO match) {
         TeamDetailsContext teamDetailsContext = new TeamDetailsContext();
         List<String> teamIds = new ArrayList<>();
         teamIds.add(match.getTeam1Id());
         teamIds.add(match.getTeam2Id());
-        List<Team> teams= teamService.getTeamsById(teamIds);
+        List<Team> teams = teamService.getTeamsById(teamIds);
         teamDetailsContext.setTeam1(teams.stream().filter(team -> Objects.equals(team.getId(), match.getTeam1Id())).findFirst().get());
         teamDetailsContext.setTeam2(teams.stream().filter(team -> Objects.equals(team.getId(), match.getTeam2Id())).findFirst().get());
         List<String> playerIds = new ArrayList<>();
