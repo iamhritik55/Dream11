@@ -1,27 +1,22 @@
 package com.Dream11.services;
 
-import com.Dream11.DTO.response.MatchResponseDTO;
 import com.Dream11.DTO.response.PlayerResponseDTO;
 import com.Dream11.DTO.response.TeamDetailsResponse;
 import com.Dream11.DTO.response.TeamResponseDTO;
 import com.Dream11.services.context.TeamDetailsContext;
-import com.Dream11.services.models.Match;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.repo.DAO.MatchDAO;
 import com.Dream11.services.repo.PlayerRepo;
-import com.Dream11.services.repo.TeamRepo;
 import com.Dream11.utility.ApplicationUtils;
 import com.Dream11.utility.TeamDetailsContextUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.Dream11.services.transformer.MatchTransformer.generateMatchResponseDto;
 import static com.Dream11.services.transformer.PlayerTransformer.createListOfPlayerResponse;
 import static com.Dream11.services.transformer.TeamTransformer.teamToResponseDto;
 
@@ -51,7 +46,6 @@ public class UtilityService {
         if (listOfPlayerIds.size() < playerIds.size()) {
             throw new Exception("One or more player Ids not found.");
         }
-        //there should not any duplicate id provided by the user
 
     }
 
@@ -83,15 +77,6 @@ public class UtilityService {
                     "Team can have at most 1 All-rounder with 1 strong player, or 2 strong players with no all rounders.");
         }
     }
-
-    public List<MatchResponseDTO> createListOfMatchResponseDTO(List<Match> matches) {
-        List<MatchResponseDTO> matchResponseDTOS = new ArrayList<>();
-        for (Match match : matches) {
-            matchResponseDTOS.add(generateMatchResponseDto(match));
-        }
-        return matchResponseDTOS;
-    }// TODO: 28/03/23 add it to match transformer
-
     public TeamDetailsResponse createTeamDetails(MatchDAO match) throws Exception {
         TeamDetailsResponse teamDetails = new TeamDetailsResponse();
         TeamDetailsContext teamDetailsContext = teamDetailsContextUtility.createTeamDetailsContext(match);

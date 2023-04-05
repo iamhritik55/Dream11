@@ -26,10 +26,6 @@ public class MatchService {
     private MatchRepo matchRepo;
     @Autowired
     public UtilityService utilityService;
-    SecureRandom secureRandom = new SecureRandom();
-
-    //validation and create context
-    //TODO create a MatchController service
 
     @Autowired
     private MatchValidation matchValidation;
@@ -43,7 +39,7 @@ public class MatchService {
 
     public List<MatchResponseDTO> getMatches() {
         List<Match> matches = matchRepo.findAll();
-        return utilityService.createListOfMatchResponseDTO(matches);
+        return createListOfMatchResponseDTO(matches);
     }
 
     public Match getMatchById(String matchId) throws Exception {
@@ -53,12 +49,12 @@ public class MatchService {
 
     public List<MatchResponseDTO> getUnplayedMatches() {
         List<Match> matches = matchRepo.findMatchesByStatus(MatchStatus.UNPLAYED);
-        return utilityService.createListOfMatchResponseDTO(matches);
+        return createListOfMatchResponseDTO(matches);
     }
 
     public List<MatchResponseDTO> getPlayedMatches() {
         List<Match> matches = matchRepo.findMatchesByStatus(MatchStatus.PLAYED);
-        return utilityService.createListOfMatchResponseDTO(matches);
+        return createListOfMatchResponseDTO(matches);
     }
 
     public TeamDetailsResponse getTeamDetails(String matchId) throws Exception {

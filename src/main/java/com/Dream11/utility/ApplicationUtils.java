@@ -16,10 +16,10 @@ public class ApplicationUtils {
     public static final int FIVE_POINTS = 5;
     public static final int ZERO_RUNS = 5;
     public static final int TWO_TEAMS = 2;
-    public static int MAX_SIZE = 5;
-    public static int MIN_SIZE = 3;
-    public static int STRONG_PLAYER_COST = 10;
-    public static int ALL_ROUNDER_COST = 12;
-    public static int TEAM_SIZE = 11;
+    public static final int MAX_SIZE = 5;
+    public static final int MIN_SIZE = 3;
+    public static final int STRONG_PLAYER_COST = 10;
+    public static final int ALL_ROUNDER_COST = 12;
+    public static final int TEAM_SIZE = 11;
 
 }

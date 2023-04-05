@@ -1,19 +1,17 @@
 package com.Dream11.services;
 
-import com.Dream11.DTO.response.UserResponseDTO;
 import com.Dream11.DTO.request.UserRequestDTO;
-import com.Dream11.services.transformer.UserTransformer;
+import com.Dream11.DTO.response.UserResponseDTO;
 import com.Dream11.services.models.MatchUserStats;
 import com.Dream11.services.models.User;
-import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.repo.UserRepo;
+import com.Dream11.services.transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class UserService {

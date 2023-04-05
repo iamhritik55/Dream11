@@ -15,8 +15,7 @@ public class Player {
     private String name;
     private int battingRating;
     private int bowlingRating;
-    private PlayerTitle title;//strong , avg , allrounder
-    private String playerType;//batsman or bowler or allrounder
+    private PlayerTitle title;
     private int creditCost;
     @Transient
     private PlayerStatus playerStatus;

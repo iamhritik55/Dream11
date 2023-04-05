@@ -13,8 +13,8 @@ import java.util.List;
 public class MatchUserStats {
     @Id
     private String id;
-    private String matchId;//
-    private String userId;// TODO: 17/03/23 make these nonNull
+    private String matchId;
+    private String userId;
     private List<String> chosenPlayerIdList;
     private int creditChange;
     private int teamPoints;

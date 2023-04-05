@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class ResultOnBall {
     static SecureRandom secureRandom = new SecureRandom();
 
-    public static int resultOnBall(PlayerTitle batsmanTitle, PlayerTitle bowlerTitle) {
+    public static int resultOnBall(PlayerTitle batsmanTitle, PlayerTitle bowlerTitle) throws Exception{
         List<Integer> batsmanArray = Rating.playerBattingArray(batsmanTitle);
         List<Integer> bowlerArray = Rating.playerBowlingArray(bowlerTitle);
 

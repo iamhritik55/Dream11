@@ -1,6 +1,7 @@
 package com.Dream11.utility;
 
 import com.Dream11.services.enums.PlayerTitle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Rating {
         add(0);add(0);
     }};
 
-    public static List<Integer> playerBattingArray(PlayerTitle playerTitle){
+    public static List<Integer> playerBattingArray(PlayerTitle playerTitle) throws Exception{
         if(PlayerTitle.STRONG_BATSMAN == playerTitle)
             return fiveStarBatting;
         else if(PlayerTitle.STRONG_BOWLER == playerTitle)
@@ -46,12 +47,11 @@ public class Rating {
         else if(PlayerTitle.AVERAGE_BOWLER == playerTitle)
             return twoStarBatting;
         else {
-            System.out.println("Player title not found!");
-            return null;
+            throw new Exception("Player title not found!");
         }
     }
 
-    public static List<Integer> playerBowlingArray(PlayerTitle playerTitle){
+    public static List<Integer> playerBowlingArray(PlayerTitle playerTitle) throws Exception{
         if(PlayerTitle.STRONG_BATSMAN == playerTitle)
             return threeStarBowler;
         else if(PlayerTitle.STRONG_BOWLER == playerTitle)
@@ -63,8 +63,7 @@ public class Rating {
         else if(PlayerTitle.AVERAGE_BOWLER == playerTitle)
             return threeStarBowler;
         else {
-            System.out.println("Player title not found!");
-            return null;
+            throw new Exception("Player title not found!");
         }
     }
 }
