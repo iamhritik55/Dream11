@@ -26,7 +26,34 @@ class PlayerServiceTest {
     private PlayerValidation playerValidation;
 
     @Test
-    void addPlayerTest() throws Exception{
+    void addPlayerTest_playerTitleNull() throws Exception{
+        PlayerRequestDTO playerRequestDTO = new PlayerRequestDTO();
+        playerRequestDTO.setName("test");
+//        playerRequestDTO.setTitle(PlayerTitle.STRONG_BATSMAN);
+        playerRequestDTO.setBattingRating(5);
+        playerRequestDTO.setCreditCost(10);
+        playerRequestDTO.setBowlingRating(3);
+        PlayerResponseDTO playerResponseDTOexpected = new PlayerResponseDTO();
+        playerResponseDTOexpected.setName("test");
+        playerResponseDTOexpected.setTitle(PlayerTitle.STRONG_BATSMAN);
+        playerResponseDTOexpected.setBattingRating(5);
+        playerResponseDTOexpected.setCreditCost(10);
+        playerResponseDTOexpected.setBowlingRating(3);
+        Player player = new Player();
+        player.setName("test");
+        player.setTitle(PlayerTitle.STRONG_BATSMAN);
+        player.setBattingRating(5);
+        player.setCreditCost(10);
+        player.setBowlingRating(3);
+//      `  doNothing().when(playerValidation.validatePlayer(playerRequestDTO));
+        when(playerRepo.save(player)).thenReturn(player);
+        Throwable throwable = assertThrows(Exception.class, ()->playerService.addPlayer(playerRequestDTO));
+//        PlayerResponseDTO playerResponseDTO = playerService.addPlayer(playerRequestDTO);
+//        assertEquals(playerResponseDTOexpected,playerResponseDTO);
+//        verify(playerRepo).save(player);
+    }
+    @Test
+    void addPlayerTest_validCase() throws Exception{
         PlayerRequestDTO playerRequestDTO = new PlayerRequestDTO();
         playerRequestDTO.setName("test");
         playerRequestDTO.setTitle(PlayerTitle.STRONG_BATSMAN);
@@ -45,7 +72,7 @@ class PlayerServiceTest {
         player.setBattingRating(5);
         player.setCreditCost(10);
         player.setBowlingRating(3);
-//      `  doNothing().when(playerValidation.validatePlayer(playerRequestDTO));
+        //      `  doNothing().when(playerValidation.validatePlayer(playerRequestDTO));
         when(playerRepo.save(player)).thenReturn(player);
         PlayerResponseDTO playerResponseDTO = playerService.addPlayer(playerRequestDTO);
         assertEquals(playerResponseDTOexpected,playerResponseDTO);
