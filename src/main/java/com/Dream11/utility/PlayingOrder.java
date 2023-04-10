@@ -19,7 +19,7 @@ public class PlayingOrder {
 
         playerList.get(0).setPlayerStatus(PlayerStatus.ON_STRIKE);
         playerList.get(1).setPlayerStatus(PlayerStatus.OFF_STRIKE);
-//        playerList.forEach(player -> System.out.println(player.getPlayerStatus()));
+//      playerList.forEach(player -> System.out.println(player.getPlayerStatus()));
         return playerList;
     }
 

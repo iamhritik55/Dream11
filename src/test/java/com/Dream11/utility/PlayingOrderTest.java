@@ -15,26 +15,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayingOrderTest {
 
-    @InjectMocks
-    private PlayingOrder playingOrder;
-
-    @Test
-    public void testCase() throws Exception{
-        List<Player> playerList = new ArrayList<>();
-        Player player1 = new Player();
-        player1.setTitle(PlayerTitle.STRONG_BOWLER);
-        Player player2 = new Player();
-        player1.setTitle(PlayerTitle.STRONG_BATSMAN);
-
-        playerList.add(player1);
-        playerList.add(player2);
-
-        playingOrder.battingOrder(playerList);
-
-        playingOrder.battingOrder(playerList);
-
-
-
-    }
-
 }

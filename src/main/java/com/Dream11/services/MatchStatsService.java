@@ -14,10 +14,11 @@ import java.util.Optional;
 @Service
 public class MatchStatsService {
 
+
     @Autowired
     MatchStatsRepo matchStatsRepo;
 
-    private String getWinnerTeamName(CricketMatchContext matchContext){
+    public String getWinnerTeamName(CricketMatchContext matchContext){
         int team1Runs = matchContext.getTeam1().getTeamRuns();
         int team2Runs = matchContext.getTeam2().getTeamRuns();
 
@@ -46,12 +47,8 @@ public class MatchStatsService {
 
 
     public MatchStats findMatchStatsById(String id) throws Exception {
-        Optional<MatchStats> matchStats = matchStatsRepo.findById(id);
-        if (matchStats.isPresent()) {
-            return matchStats.get();
-        } else {
-            throw new Exception("MatchStats id not found!");
-        }
+        return matchStatsRepo.findById(id).orElseThrow(()-> new Exception("MatchStats id not found!"));
+
     }
 
 }
