@@ -104,13 +104,12 @@ public class UtilityService {
 
         TeamResponseDTO team1 = getTeamResponseByTeamList(match.getTeam1Id(), teams);
         TeamResponseDTO team2 = getTeamResponseByTeamList(match.getTeam2Id(), teams);
-        // TODO: 28/03/23 use streams
+
         List<String> playerIds = new ArrayList<>();
         playerIds.addAll(team1.getTeamPlayerIds());
         playerIds.addAll(team2.getTeamPlayerIds());
         List<Player> players = playerRepo.findAllById(playerIds);
-        // TODO: 16/03/23 only one repo call should be there-done
-        //todo make code cleaner
+
 
         List<PlayerResponseDTO> team1PlayerDTOs = createListOfTeamPlayerResponseDTO(team1.getTeamPlayerIds(), players);
         List<PlayerResponseDTO> team2PlayerDTOs = createListOfTeamPlayerResponseDTO(team2.getTeamPlayerIds(), players);
