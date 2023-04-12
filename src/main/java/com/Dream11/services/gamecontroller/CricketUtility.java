@@ -17,7 +17,7 @@ public class CricketUtility {
 
     private static final SecureRandom random = new SecureRandom();
 
-    public static CricketMatchContext cricketToss(CricketMatchContext matchContext) {
+    public static void cricketToss(CricketMatchContext matchContext) {
         int toss = random.nextInt(2);
         //at 0 team1 bats and at 1 team2 bats
         if (toss == 0) {
@@ -25,7 +25,6 @@ public class CricketUtility {
         } else {
             matchContext.setTossWinner(matchContext.getTeam2().getId());
         }
-        return matchContext;
     }
 
     public int getBowlingTeamRuns(CricketMatchContext matchContext, CricketInningContext inningContext) {

@@ -43,7 +43,8 @@ public class ContextUtility {
         matchContext.setTeam1(teamService.getTeamById(match.getTeam1Id()));
         matchContext.setTeam2(teamService.getTeamById(match.getTeam2Id()));
         matchContext.setSecondInning(false);
-        return CricketUtility.cricketToss(matchContext);
+        CricketUtility.cricketToss(matchContext);
+        return matchContext;
     }
 
     public CricketInningContext fetchInningContext(CricketMatchContext matchContext,

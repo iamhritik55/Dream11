@@ -31,6 +31,24 @@ public class MatchUserUtility {
         return matchUserStats;
     }
 
+    public MatchUserStats updateTeamPoints2(MatchUserStats matchUserStats, List<PlayerStats> playerStatsList) {
+        List<String> userPlayerList = matchUserStats.getChosenPlayerIdList();
+        Collections.sort(userPlayerList);
+
+        for (String s : userPlayerList) {
+            for (PlayerStats playerStats : playerStatsList) {
+                if (Objects.equals(s, playerStats.getPlayerId())) {
+                    int teamPoints = matchUserStats.getTeamPoints();
+                    teamPoints += playerStats.getPlayerPoints();
+                    matchUserStats.setTeamPoints(teamPoints);
+                    break;
+                }
+            }
+        }
+        return matchUserStats;
+    }
+
+
     public  List<MatchUserStats> distributeCredits(List<MatchUserStats> matchUserStatsList) throws Exception {
 
         //Sorting the array based on team points (Descending order)

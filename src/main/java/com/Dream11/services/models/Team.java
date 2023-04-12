@@ -20,7 +20,6 @@ public class Team {
     private List<String> teamPlayerIds;
     @Transient
     private int teamRuns = 0;
-
     public void addRuns(int runs) {
         this.teamRuns += runs;
     }
