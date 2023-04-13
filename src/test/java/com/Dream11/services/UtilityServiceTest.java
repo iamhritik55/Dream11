@@ -26,10 +26,10 @@ class UtilityServiceTest {
     TeamDetailsContext teamDetailsContext;
     @Test
     void createTeamDetailsTest() {
-        MatchDAO match=createMatchDao(TEST_TEAM1_ID,TEST_TEAM2_ID);
-        TeamDetailsResponse teamDetailsResponseExpected=createTeamDetailsResponse(TEST_TEAM1_ID,TEST_TEAM2_ID,
-                TEST_TEAM1_NAME
-                ,TEST_TEAM2_NAME,TEAM1_PLAYERS,TEAM2_PLAYERS);
+        MatchDAO match=createMatchDao("1","2");
+        TeamDetailsResponse teamDetailsResponseExpected=createTeamDetailsResponse("1","2",
+                "India"
+                ,"Australia",TEAM1_PLAYERS,TEAM2_PLAYERS);
         TeamDetailsContext teamDetailsContext= createTeamDetailsContextForTest(TEAM1,TEAM2,ALL_PLAYERS);
         when(teamDetailsContextUtility.createTeamDetailsContext(match)).thenReturn(teamDetailsContext);
         TeamDetailsResponse teamDetailsResponse=utilityService.createTeamDetails(match);
