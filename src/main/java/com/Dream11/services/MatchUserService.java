@@ -19,11 +19,8 @@ import java.util.List;
 @Service
 public class MatchUserService {
 
-
     @Autowired
     private MatchUserStatsRepo matchUserStatsRepo;
-
-
     @Autowired
     private UtilityService utilityService;
     @Autowired
@@ -41,12 +38,13 @@ public class MatchUserService {
 
 
     public MatchUserStatsResponseDTO getUserStats(String userId, String matchId) throws Exception {
-        MatchUserStats matchUserStats =
-                matchUserStatsRepo.findByUserIdAndMatchId(userId, matchId).orElseThrow(()-> new Exception("Invalid matchId or UserId"));
+        MatchUserStats matchUserStats = matchUserStatsRepo.findByUserIdAndMatchId(userId, matchId).orElseThrow(
+                () -> new Exception("Invalid matchId or UserId"));
         return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
 
-    public MatchUserStatsResponseDTO createUserTeam(String matchId, String userId, List<String> playerIds) throws Exception {
+    public MatchUserStatsResponseDTO createUserTeam(String matchId, String userId, List<String> playerIds)
+            throws Exception {
 
         matchUserValidation.validateMatchUserIds(matchId, userId);
         utilityService.validatePlayerIds(playerIds);
@@ -64,7 +62,9 @@ public class MatchUserService {
         matchUserStatsRepo.save(matchUserStats);
         return MatchUserStatsTransformer.generateResponseDto(matchUserStats);
     }
-    public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext, CricketInningContext inningContext) throws Exception {
+
+    public List<LeaderboardResponseDTO> updateMatchUserStats(CricketMatchContext matchContext,
+                                                             CricketInningContext inningContext) throws Exception {
 
         //first fetch matchUser from db, if it does not exist throw and exception.
         List<MatchUserStats> matchUserStatsList = findByMatchId(matchContext.getMatch().getMatchId());
@@ -73,8 +73,8 @@ public class MatchUserService {
 
         //update team points
         for (MatchUserStats matchUserStats : matchUserStatsList) {
-            matchUserStatsList1.add(MatchUserUtility.updateTeamPoints(matchUserStats,
-                    inningContext.getPlayerStatsList()));
+            matchUserStatsList1.add(
+                    MatchUserUtility.updateTeamPoints(matchUserStats, inningContext.getPlayerStatsList()));
         }
 
         //update credits
@@ -88,12 +88,9 @@ public class MatchUserService {
 
     }
 
-
-
     public List<MatchUserStats> findByMatchId(String matchId) throws Exception {
-
         List<MatchUserStats> matchUserStatsList = matchUserStatsRepo.findByMatchId(matchId);
-        matchUserStatsList.stream().findFirst().orElseThrow(()->new Exception("No users registered for this match"));
+        matchUserStatsList.stream().findFirst().orElseThrow(() -> new Exception("No users registered for this match"));
         return matchUserStatsList;
     }
 }

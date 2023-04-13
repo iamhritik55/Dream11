@@ -77,7 +77,7 @@ public class UtilityService {
                     "Team can have at most 1 All-rounder with 1 strong player, or 2 strong players with no all rounders.");
         }
     }
-    public TeamDetailsResponse createTeamDetails(MatchDAO match) throws Exception {
+    public TeamDetailsResponse createTeamDetails(MatchDAO match) {
         TeamDetailsResponse teamDetails = new TeamDetailsResponse();
         TeamDetailsContext teamDetailsContext = teamDetailsContextUtility.createTeamDetailsContext(match);
         TeamResponseDTO team1 = teamToResponseDto(teamDetailsContext.getTeam1());

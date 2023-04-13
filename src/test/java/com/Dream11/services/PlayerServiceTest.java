@@ -6,18 +6,19 @@ import com.Dream11.services.enums.PlayerTitle;
 import com.Dream11.services.models.Player;
 import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.validation.PlayerValidation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.Dream11.services.utils.PlayerUtils.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
+
 @SpringBootTest
 class PlayerServiceTest {
+
     @Mock
     private PlayerRepo playerRepo;
     @InjectMocks
@@ -25,57 +26,23 @@ class PlayerServiceTest {
     @Mock
     private PlayerValidation playerValidation;
 
+    /**
+     *
+     * INput
+     * Ouput
+     * Test Description
+     */
+
     @Test
-    void addPlayerTest_playerTitleNull() throws Exception{
-        PlayerRequestDTO playerRequestDTO = new PlayerRequestDTO();
-        playerRequestDTO.setName("test");
-//        playerRequestDTO.setTitle(PlayerTitle.STRONG_BATSMAN);
-        playerRequestDTO.setBattingRating(5);
-        playerRequestDTO.setCreditCost(10);
-        playerRequestDTO.setBowlingRating(3);
-        PlayerResponseDTO playerResponseDTOexpected = new PlayerResponseDTO();
-        playerResponseDTOexpected.setName("test");
-        playerResponseDTOexpected.setTitle(PlayerTitle.STRONG_BATSMAN);
-        playerResponseDTOexpected.setBattingRating(5);
-        playerResponseDTOexpected.setCreditCost(10);
-        playerResponseDTOexpected.setBowlingRating(3);
-        Player player = new Player();
-        player.setName("test");
-        player.setTitle(PlayerTitle.STRONG_BATSMAN);
-        player.setBattingRating(5);
-        player.setCreditCost(10);
-        player.setBowlingRating(3);
-//      `  doNothing().when(playerValidation.validatePlayer(playerRequestDTO));
-        when(playerRepo.save(player)).thenReturn(player);
-        Throwable throwable = assertThrows(Exception.class, ()->playerService.addPlayer(playerRequestDTO));
-//        PlayerResponseDTO playerResponseDTO = playerService.addPlayer(playerRequestDTO);
-//        assertEquals(playerResponseDTOexpected,playerResponseDTO);
-//        verify(playerRepo).save(player);
-    }
-    @Test
-    void addPlayerTest_validCase() throws Exception{
-        PlayerRequestDTO playerRequestDTO = new PlayerRequestDTO();
-        playerRequestDTO.setName("test");
-        playerRequestDTO.setTitle(PlayerTitle.STRONG_BATSMAN);
-        playerRequestDTO.setBattingRating(5);
-        playerRequestDTO.setCreditCost(10);
-        playerRequestDTO.setBowlingRating(3);
-        PlayerResponseDTO playerResponseDTOexpected = new PlayerResponseDTO();
-        playerResponseDTOexpected.setName("test");
-        playerResponseDTOexpected.setTitle(PlayerTitle.STRONG_BATSMAN);
-        playerResponseDTOexpected.setBattingRating(5);
-        playerResponseDTOexpected.setCreditCost(10);
-        playerResponseDTOexpected.setBowlingRating(3);
-        Player player = new Player();
-        player.setName("test");
-        player.setTitle(PlayerTitle.STRONG_BATSMAN);
-        player.setBattingRating(5);
-        player.setCreditCost(10);
-        player.setBowlingRating(3);
-        //      `  doNothing().when(playerValidation.validatePlayer(playerRequestDTO));
+    void addPlayerTest_validCase() throws Exception {
+        PlayerRequestDTO playerRequestDTO = createPlayerRequestDto("test", PlayerTitle.STRONG_BATSMAN, 5, 3, 10);
+        PlayerResponseDTO playerResponseDTOexpected = createPlayerResponseDto("id", "test", PlayerTitle.STRONG_BATSMAN,
+                5, 3, 10);
+        Player player = createPlayer("id", "test", PlayerTitle.STRONG_BATSMAN, 5, 3, 10);
+        doNothing().when(playerValidation).validatePlayer(playerRequestDTO);
         when(playerRepo.save(player)).thenReturn(player);
         PlayerResponseDTO playerResponseDTO = playerService.addPlayer(playerRequestDTO);
-        assertEquals(playerResponseDTOexpected,playerResponseDTO);
+        assertEquals(playerResponseDTOexpected, playerResponseDTO);
         verify(playerRepo).save(player);
     }
 }

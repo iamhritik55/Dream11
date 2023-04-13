@@ -8,8 +8,6 @@ import com.Dream11.utility.MatchStatsUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 
 @Service
 public class MatchStatsService {
@@ -17,11 +15,12 @@ public class MatchStatsService {
     @Autowired
     MatchStatsRepo matchStatsRepo;
 
-    private String getWinnerTeamName(CricketMatchContext matchContext){
+    private String getWinnerTeamName(CricketMatchContext matchContext) {
         int team1Runs = matchContext.getTeam1().getTeamRuns();
         int team2Runs = matchContext.getTeam2().getTeamRuns();
 
-        return team1Runs > team2Runs ? matchContext.getTeam1().getName() : team1Runs < team2Runs ? matchContext.getTeam2().getName() : "Tied";
+        return team1Runs > team2Runs ? matchContext.getTeam1().getName()
+                                     : team1Runs < team2Runs ? matchContext.getTeam2().getName() : "Tied";
     }
 
     public MatchStats storeAllMatchData(CricketMatchContext matchContext, CricketInningContext inningContext) {
@@ -36,8 +35,12 @@ public class MatchStatsService {
         matchStats.setTeam2Score(matchContext.getTeam2().getTeamRuns());
 
 
-        matchStats.setTeam1PlayerStats(MatchStatsUtility.segregateCombinedPlayerStatsList(inningContext.getPlayerStatsList(),matchContext.getTeam1().getTeamPlayerIds()));
-        matchStats.setTeam2PlayerStats(MatchStatsUtility.segregateCombinedPlayerStatsList(inningContext.getPlayerStatsList(),matchContext.getTeam2().getTeamPlayerIds()));
+        matchStats.setTeam1PlayerStats(
+                MatchStatsUtility.segregateCombinedPlayerStatsList(inningContext.getPlayerStatsList(),
+                        matchContext.getTeam1().getTeamPlayerIds()));
+        matchStats.setTeam2PlayerStats(
+                MatchStatsUtility.segregateCombinedPlayerStatsList(inningContext.getPlayerStatsList(),
+                        matchContext.getTeam2().getTeamPlayerIds()));
 
         matchStats.setWinnerTeamName(getWinnerTeamName(matchContext));
         matchStatsRepo.save(matchStats);
@@ -46,12 +49,7 @@ public class MatchStatsService {
 
 
     public MatchStats findMatchStatsById(String id) throws Exception {
-        Optional<MatchStats> matchStats = matchStatsRepo.findById(id);
-        if (matchStats.isPresent()) {
-            return matchStats.get();
-        } else {
-            throw new Exception("MatchStats id not found!");
-        }
+        return matchStatsRepo.findById(id).orElseThrow(() -> new Exception("MatchStats id not found!"));
     }
 
 }

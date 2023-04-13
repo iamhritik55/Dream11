@@ -15,10 +15,10 @@ class PlayerValidationTest {
     private PlayerValidation playerValidation;
 
     @Test
-    void validatePlayerTest() throws Exception {
+    void validatePlayerTest(){
         PlayerRequestDTO playerRequestDTO = new PlayerRequestDTO();
         playerRequestDTO.setName("");
         Throwable exception = assertThrows(Exception.class, () -> playerValidation.validatePlayer(playerRequestDTO));
-        assertEquals("Player name can't be empty", exception.getMessage());
+         assertEquals("Player name can't be empty", exception.getMessage());
     }
 }
