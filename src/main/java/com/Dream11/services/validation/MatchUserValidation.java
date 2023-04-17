@@ -13,9 +13,9 @@ import java.util.Optional;
 @Service
 public class MatchUserValidation {
     @Autowired
-    MatchRepo matchRepo;
+    private MatchRepo matchRepo;
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
 
     public void validateMatchUserIds(String matchId, String userId) {
         matchRepo.findById(matchId).ifPresentOrElse(match -> {

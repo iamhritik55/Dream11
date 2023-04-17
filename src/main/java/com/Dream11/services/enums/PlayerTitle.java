@@ -1,15 +1,22 @@
 package com.Dream11.services.enums;
 
-public enum PlayerTitle {
-    STRONG_BATSMAN,
-    STRONG_BOWLER,
-    ALL_ROUNDER,
-    AVERAGE_BATSMAN,
-    AVERAGE_BOWLER
-    //STRONG_BATSMAN(1), STRONG_BOWLER(2), ALL_ROUNDER(3), AVERAGE_BATSMAN(4), AVERAGE_BOWLER(5);
-//    private int preference;// TODO: 17/03/23 add preference
+import lombok.Getter;
 
-//    public PlayerTitle() {
-//        this.preference
-//    }
+@Getter
+public enum PlayerTitle {
+    STRONG_BATSMAN(1),
+    AVERAGE_BATSMAN(2),
+    ALL_ROUNDER(3),
+    AVERAGE_BOWLER(4),
+    STRONG_BOWLER(5);
+
+
+
+    private final int preference;
+
+    PlayerTitle(int preference) {
+        this.preference = preference;
+    }
+
+
 }

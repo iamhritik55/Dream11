@@ -5,6 +5,9 @@ import com.Dream11.DTO.request.MatchRequestDTO;
 import com.Dream11.DTO.response.MatchResponseDTO;
 import com.Dream11.services.models.Match;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MatchTransformer {
 
     public static Match requestDtoToMatch(MatchRequestDTO matchRequestDTO) {
@@ -28,5 +31,12 @@ public class MatchTransformer {
         matchDAO.setTeam1Id(match.getTeam1Id());
         matchDAO.setTeam2Id(match.getTeam2Id());
         return matchDAO;
+    }
+    public static List<MatchResponseDTO> createListOfMatchResponseDTO(List<Match> matches) {
+        List<MatchResponseDTO> matchResponseDTOS = new ArrayList<>();
+        for (Match match : matches) {
+            matchResponseDTOS.add(generateMatchResponseDto(match));
+        }
+        return matchResponseDTOS;
     }
 }

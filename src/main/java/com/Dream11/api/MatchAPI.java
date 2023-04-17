@@ -1,4 +1,4 @@
-package com.Dream11.api;
+package com.Dream11.controller;
 
 import com.Dream11.DTO.request.MatchRequestDTO;
 import com.Dream11.DTO.response.MatchResponseDTO;
@@ -58,7 +58,7 @@ public class MatchAPI {
     }
 
     @GetMapping("/user-stats/{userId}/{matchId}")
-    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String userId, @PathVariable String matchId){
+    public ResponseEntity<Object> displayMatchUserStats(@PathVariable String userId, @PathVariable String matchId) throws Exception{
         MatchUserStatsResponseDTO matchUserStats = matchUserService.getUserStats(userId, matchId);
         return new ResponseEntity<>(matchUserStats, HttpStatus.OK);
 

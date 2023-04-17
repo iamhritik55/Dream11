@@ -1,41 +1,36 @@
 package com.Dream11.utility;
 
+import com.Dream11.services.enums.PlayerStatus;
 import com.Dream11.services.models.Player;
-import com.Dream11.services.enums.PlayerTitle;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
 public class PlayingOrder {
-    private List<Player> playerOrder;
 
-    public List<Player> battingOrder(List<Player> playerList) {
-        playerOrder = new ArrayList<>();
-        addToList(PlayerTitle.STRONG_BATSMAN, playerList);
-        addToList(PlayerTitle.ALL_ROUNDER, playerList);
-        addToList(PlayerTitle.AVERAGE_BATSMAN, playerList);
-        addToList(PlayerTitle.STRONG_BOWLER, playerList);
-        addToList(PlayerTitle.AVERAGE_BOWLER, playerList);
-        return playerOrder;
+    public List<Player> battingOrder(List<Player> playerList) throws Exception {
+
+        playerList.sort(Comparator.comparingInt(player -> player.getTitle().getPreference()));
+        playerList.forEach(player -> player.setPlayerStatus(PlayerStatus.NOT_PLAYING));
+
+        if (playerList.size() < 2)
+            throw new Exception("playerList invalid!");
+
+        playerList.get(0).setPlayerStatus(PlayerStatus.ON_STRIKE);
+        playerList.get(1).setPlayerStatus(PlayerStatus.OFF_STRIKE);
+        return playerList;
     }
 
-    public List<Player> bowlingOrder(List<Player> playerList) {
-        playerOrder = new ArrayList<>();
-        addToList(PlayerTitle.STRONG_BOWLER, playerList);
-        addToList(PlayerTitle.ALL_ROUNDER, playerList);
-        addToList(PlayerTitle.AVERAGE_BOWLER, playerList);
-        addToList(PlayerTitle.AVERAGE_BATSMAN, playerList);
-        addToList(PlayerTitle.STRONG_BATSMAN, playerList);
-        return playerOrder;
-    }
+    public List<Player> bowlingOrder(List<Player> playerList) throws Exception {
+        playerList.sort((player1, player2) -> Integer.compare(player2.getTitle().getPreference(),
+                player1.getTitle().getPreference()));
+        playerList.forEach(player -> player.setPlayerStatus(PlayerStatus.NOT_PLAYING));
 
-    private void addToList(PlayerTitle playerTitle, List<Player> playerList) {
-        for (Player player : playerList) {
-            if (player.getTitle() == playerTitle) {
-                playerOrder.add(player);
-            }
-        }
+        if (playerList.isEmpty())
+            throw new Exception("playerList invalid!");
+        playerList.get(0).setPlayerStatus(PlayerStatus.BOWLING);
+        return playerList;
     }
 }

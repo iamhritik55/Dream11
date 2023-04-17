@@ -3,11 +3,11 @@ package com.Dream11.services.Utils;
 import com.Dream11.services.models.User;
 
 public class UserUtils {
-    public static User createUser(){
+    public static User createUser(String id, String name, int credits){
         User user = new User();
-        user.setId("1");
-        user.setName("test");
-        user.setCredits(100);
+        user.setId(id);
+        user.setName(name);
+        user.setCredits(credits);
         return user;
     }
 }

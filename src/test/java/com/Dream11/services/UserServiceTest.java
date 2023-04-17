@@ -71,8 +71,8 @@ class UserServiceTest {
     void testGetUsers(){
         //Arrange
         List<User> expectedUsers = new ArrayList<>();
-        User user1 = UserUtils.createUser();
-        User user2 = UserUtils.createUser();
+        User user1 = UserUtils.createUser("1","test1",100);
+        User user2 = UserUtils.createUser("2","test2",200);
         expectedUsers.add(user1);
         expectedUsers.add(user2);
         when(userRepo.findAll()).thenReturn(expectedUsers);
@@ -94,10 +94,7 @@ class UserServiceTest {
         //Arrange
        // User expectedUser = UserUtils.createUser();
         String id = "1";
-        User expectedUser = new User();
-        expectedUser.setId(id);
-        expectedUser.setName("test_user");
-        expectedUser.setCredits(100);
+        User expectedUser = new User(id,"test_user",100);
         when(userRepo.findById(id)).thenReturn(Optional.of(expectedUser));
 
         //Act
@@ -120,7 +117,7 @@ class UserServiceTest {
     void subtractUserCredits() throws Exception{
         //Arrange
         int credits = 50;
-        User user = UserUtils.createUser();
+        User user = UserUtils.createUser("1","test_user",100);
         when(userRepo.findById(user.getId())).thenReturn(Optional.of(user));
 
         //Act
@@ -133,7 +130,7 @@ class UserServiceTest {
     }
     @Test
     void testSubtractUserCreditsNotEnoughCredits(){
-        User user = UserUtils.createUser();
+        User user = UserUtils.createUser("1","test_user",100);
         when(userRepo.findById(user.getId())).thenReturn(Optional.of(user));
 
         assertThrows(RuntimeException.class, ()->{
@@ -142,7 +139,7 @@ class UserServiceTest {
         verify(userRepo, times(0)).save(user);
     }
     @Test
-    void updateUserCreditsTest_ValidUserId() {
+    void updateUserCreditsTest_ValidUserId() throws Exception {
 
         //Arrange
         String userId = "testUser";
@@ -162,9 +159,9 @@ class UserServiceTest {
     }
 
     @Test
-    public void testUpdateUserCredits_invalidUserId() {
+    public void testUpdateUserCredits_invalidUserId() throws Exception{
         // Arrange
-        String userId = "invaliduser";
+        String userId = "invalidUser";
         int creditsToAdd = 5;
         when(userRepo.findById(userId)).thenReturn(Optional.empty());
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -218,6 +215,4 @@ class UserServiceTest {
         assertEquals(32, user1.getCredits());
         assertEquals(12, user2.getCredits());
     }
-
-
 }

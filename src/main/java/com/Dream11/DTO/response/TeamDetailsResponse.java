@@ -1,14 +1,10 @@
 package com.Dream11.DTO.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TeamDetailsResponse {
     private String team1Id;
     private String team2Id;

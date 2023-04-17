@@ -1,19 +1,18 @@
 package com.Dream11.services;
 
-import com.Dream11.DTO.response.UserResponseDTO;
 import com.Dream11.DTO.request.UserRequestDTO;
-import com.Dream11.services.transformer.UserTransformer;
+import com.Dream11.DTO.response.UserResponseDTO;
 import com.Dream11.services.models.MatchUserStats;
 import com.Dream11.services.models.User;
-import com.Dream11.services.repo.PlayerRepo;
 import com.Dream11.services.repo.UserRepo;
+import com.Dream11.services.repo.PlayerRepo;
+import com.Dream11.services.transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -37,7 +36,7 @@ public class UserService {
     }//doubt should i use UserResponseDTO
     public User getUserById(String id){
         return userRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                       .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void subtractUserCredits(String userId, int credits) throws Exception {
@@ -51,30 +50,24 @@ public class UserService {
         });
     }
 
-    public void updateUserCredits(String userId, int credits) {
-        Optional<User> optional = userRepo.findById(userId);
-        if (optional.isPresent()) {
-            User user = optional.get();
-            int creditsToUpdate = credits + user.getCredits();
-            user.setCredits(creditsToUpdate);
-            userRepo.save(user);
-        } else {
-            System.out.println("Invalid userId");
-        }
+    public void updateUserCredits(String userId, int credits) throws Exception {
+        User user = userRepo.findById(userId).orElseThrow(() -> new Exception("User with this id does not exist."));
+
+        int creditsToUpdate = credits + user.getCredits();
+        user.setCredits(creditsToUpdate);
+        userRepo.save(user);
+
     }
     public List<User> findUserListByIdList(List<String> userIdList) throws Exception{
         List<User> userList = userRepo.findAllById(userIdList);
-        if(userList.isEmpty()){
-            throw new Exception("No users found!");
-        }
+        userList.stream().findFirst().orElseThrow(()-> new Exception("No users found!"));
         return userList;
     }
 
     public void addCreditsUsingMatchUserStats(List<MatchUserStats> matchUserStatsList) throws Exception{
         List<String> userIdList = new ArrayList<>();
-        for (MatchUserStats matchUserStats: matchUserStatsList){
-            userIdList.add(matchUserStats.getUserId());
-        }
+        matchUserStatsList.forEach(matchUserStats -> userIdList.add(matchUserStats.getUserId()));
+
         List<User> userList = findUserListByIdList(userIdList);
         int userNumber = 0;
         for(String userId: userIdList){
@@ -97,13 +90,7 @@ public class UserService {
     }
 
     public String findUserNameById(String userId) throws Exception{
-        Optional<User> optional = userRepo.findById(userId);
-        if (optional.isPresent()){
-            return optional.get().getName();
-        }
-        else {
-            throw new Exception("userId not found!");
-        }
+        return userRepo.findById(userId).orElseThrow(()-> new Exception("userId not found")).getName();
     }
 
 }
